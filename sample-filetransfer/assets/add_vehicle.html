@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Vehicle</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	
+<script type="text/javascript" src="../js/acc.js"></script>
+    <link href="../css/codiqa.ext.min.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jqm-neue.css" rel="stylesheet" type="text/css" />
+
+    <script src="../js/jquery-1.9.1.min.js"></script>
+    <script src="../js/jquery.mobile-1.3.1.min.js"></script>
+    <script src="../js/codiqa.ext.min.js"></script>
+    <script src="../js/bp-training.js"></script>
+    
+    <style type="text/css">
+	/* Swipe works with mouse as well but often causes text selection. */
+/* We'll deny text selecton on everything but INPUTs and TEXTAREAs. */
+#main-page :not(INPUT):not(TEXTAREA) {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+        .showAnother{
+            display:block;
+        }
+        .hideAnother{
+            display:none;
+        }
+
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+</style>
+</head>
+<body class="ui-mobile-viewport ui-overlay-b">
+<div data-role="page" class="ui-page ui-page-theme-b">
+        <div data-role="header" data-theme="b" style="background-color: #2976b8;">
+            <h1>Add Vehicle to Application</h1>
+            <a href="#" data-icon="carat-l" data-rel="back" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        </div><!-- /header -->
+        <div role="main" class="ui-content">
+           
+
+<script type="text/javascript">
+$(document).ready(function (e){
+$("#frmVehicleload").on('submit',(function(e){
+	e.preventDefault();
+	$('#loader-icon').show();
+	var valid;
+	valid = validateContact();
+	if(valid) {
+		$.ajax({
+		url: "http://sandbox1.co.za/n3tc/myacc/addvehicle_mail.php",
+		type: "POST",
+		data:  new FormData(this),
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data){
+		$("#mail-status").html(data);
+		$('#loader-icon').hide();
+		},
+		error: function(){}
+
+		});
+	}
+}));
+
+function validateContact() {
+	var valid = true;
+
+
+	return valid;
+}
+
+});
+</script>  
+ <p>Add a vehicle to and existing N3TC Discount Application. Would you like to proceed?</p>
+<div data-role="collapsible" id="inboxHolderns" data-collapsed="true" class="ui-icon-mail ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-themed-content ">
+    <h2 id="inbxHeadna" onclick="getUrsDetailsUploadDoc();">Yes, I would like to add a Vehicle</h2>
+        
+               <h3>Vehicle Details</h3>
+<p>Please select the application that you would like to add this vehicle to.
+</p>        
+        <select name="selectac" id="selectAppVeh" onchange="setCurrentApp()">
+<option value="none">Application ID</option>
+            <option value="Select">Select</option>
+            <option value="4">38</option>
+</select>
+
+<form id="frmVehicleload" action="" method="post">
+<div>
+<input type="hidden" style="border:none" name="appiddn" class="demoInputBox"  id="appid" value="" /> 
+</div>
+
+<div>
+<input type="hidden" style="border:none" name="subject" readonly="readonly"   id="subject" class="" value="Add Vehicle to Application" /> 
+</div>
+
+<div>
+<input type="hidden" style="border:none" name="useridn" readonly="readonly"  id="useriddc"  value="" /> 
+</div>
+
+<div>
+<input type="text" name="userEmail" id="userEmail"  class="demoInputBox" value="" />
+</div>
+<div>
+<input type="text" name="v1Registration" id="v1Registrationid" placeholder="Vehicle Registration Number" class="demoInputBox" value="" />
+</div>
+<div>
+
+
+<input type="text" name="v1make" id="v1makeid" placeholder="Make/Model" class="demoInputBox" value="" />
+</div>
+<div>
+
+
+<input type="text" name="v1col" id="v1colid" placeholder="Vehicle Colour" class="demoInputBox" value="" />
+</div>
+<div>
+
+
+<select name="v1class" size="1" id="v1classid" value="" >
+<option value="c">Vehicle Class</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+</select>
+</div>
+
+
+<div>
+
+
+<input type="text" name="v1link" id="v1linkid" placeholder="Tag ID Number" class="demoInputBox" value="" />
+</div>
+
+<hr />
+<label><strong>Documentation</strong></label>
+<div>
+  <p>NB: All copies must be certified or accompanied by the original document</p> </div>
+<p>The following documentation is required for this application </p>
+<div>
+<label><strong>Vehicle Licence Certificate</strong></label>
+<p>A copy of the current Motor Vehicle Licence Certificate for each vehicle specified above, in the name of the applicant</p>
+<input type="file" name="attachmentFile" id="attachmentFile" class="demoBrowseBox" />
+</div><hr />
+<div><br/>
+         
+<div>
+
+
+<textarea  name="content" style="display:none"  id="content" class="demoInputBox" value="" cols="60" rows="6">XX</textarea>
+</div>
+<div>
+<label style="padding-top:20px;">Application Status</label>
+<select name="appConfirm" size="1" id="appConfirm" onchange="appStatus()" >
+<option value="Select">Select</option>
+  <option value="Complete">I have Completed My Application</option>
+  <option value="Incomplete">I will be adding additional vehicles</option>
+</select>
+</div> 
+<div>
+<input type="hidden" style="border:none" name="appStat" id="appStat" class="demoInputBox" value="Incomplete" /> 
+</div>        
+<div><br/>
+<input type="submit" value="Send" class="btnAction" />
+</div> 
+</div>
+<div id="mail-status" class="mailStatus"></div>
+</form>
+<a id='addanother' href='#' style='display:none;'  data-shadow='false' data-iconshadow='false' class='ui-btn ui-btn-icon-left ui-icon-check' onclick='locReload()'>Add Another Vehicle?</a>
+<div id="loader-icon" style="display:none; text-align:center;"><img src="sending.gif" /></div><br/>
+
+<a href="applications.html"  data-shadow="false" data-iconshadow="false" class="ui-btn ui-btn-icon-left ui-icon-arrow-l">Back to Menu</a>
+  </div>
+            
+        </div><!-- /content -->
+    </div><!-- /page -->
+</body>
+</html>

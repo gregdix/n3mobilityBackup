@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../css/codiqa.ext.min.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jqm-neue.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="../js/acc.js"></script>
+    <script src="../js/jquery-1.9.1.min.js"></script>
+    <script src="../js/jquery.mobile-1.3.1.min.js"></script>
+    <script src="../js/codiqa.ext.min.js"></script>
+    <script src="../js/bp-training.js"></script>
+   
+    <style type="text/css">
+	/* Swipe works with mouse as well but often causes text selection. */
+/* We'll deny text selecton on everything but INPUTs and TEXTAREAs. */
+#main-page :not(INPUT):not(TEXTAREA) {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+
+.showform{
+	display:block;
+}
+.hideform{
+display:none;	
+}
+</style>
+</head>
+<body class="ui-mobile-viewport ui-overlay-b" > 
+ <script type="text/javascript">
+	
+	</script>
+<div data-role="page" class="ui-page ui-page-theme-b">
+        <div data-role="header" data-theme="b" style="background-color: #2976b8;">
+            <h1>New Account</h1>
+            <a href="#" data-icon="carat-l" data-rel="back" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        </div><!-- /header -->
+        <div role="main" class="ui-content">
+        <div style="color:#252525; font-size:10px; float: right; margin-top: -12px;" id="usridHeadna" onclick="">id</div>
+        <p>Add an existing N3TC Account to this user account? Would you like to proceed?</p>
+        
+        <div data-role="collapsible" id="inboxHolderns" data-collapsed="true" class="ui-icon-mail ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-themed-content ">
+    <h2 id="inbxHeadna" onclick="getUrsDetailsNa();">Yes, I would like to add a new account</h2>
+        
+               <h3>Account Details</h3>
+           <form action="http://sandbox1.co.za/n3tc/myacc/mail/mail_handler_newacc.php" method="post">
+First Name: <input type="text" name="first_name" readonly="readonly" id="fname" value=""  />
+Last Name: <input type="text" name="last_name" readonly="readonly" id="lname" value="" />
+Email: <input type="text" name="email" id="emailn"  value="" />
+Account No: <input type="text" name="newaccno" id="accNo" placeholder="Your Account number.." value=""  />
+<input type="hidden" name="conf_pass" id="userID" />
+<input type="hidden" name="token" id="tokennna" value="" />
+<input type="submit" name="submit" value="Submit" />
+</form>
+<a href="applications.html"  data-shadow="false" data-iconshadow="false" class="ui-btn ui-btn-icon-left ui-icon-arrow-l">Back to Menu</a></div>
+ 
+        </div><!-- /content -->
+    </div><!-- /page -->
+
+</body>
+</html>

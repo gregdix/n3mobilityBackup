@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="../css/codiqa.ext.min.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jqm-neue.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="../js/acc.js"></script>
+    <script src="../js/jquery-1.9.1.min.js"></script>
+    <script src="../js/jquery.mobile-1.3.1.min.js"></script>
+    <script src="../js/codiqa.ext.min.js"></script>
+    <script src="../js/bp-training.js"></script>
+    <style type="text/css">
+	/* Swipe works with mouse as well but often causes text selection. */
+/* We'll deny text selecton on everything but INPUTs and TEXTAREAs. */
+#main-page :not(INPUT):not(TEXTAREA) {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+</style>
+</head>
+<body class="ui-mobile-viewport ui-overlay-b">
+<div data-role="page" class="ui-page ui-page-theme-b">
+        <div data-role="header" data-theme="b" style="background-color: #2976b8;">
+            <h1>Contact</h1>
+            <a href="#" data-icon="carat-l" data-rel="back" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        </div><!-- /header -->
+        <div role="main" class="ui-content">
+           
+<div class="ui-corner-all custom-corners">
+<div class="ui-body ui-body-b">
+<p style="text-align:center">24/7 Customer Careline: <br /> 0800 N3 HELP | 0800 63 4357</p>
+<form action="http://sandbox1.co.za/n3tc/myacc/mail/mail_handler_feedback.php" id="cntfrm" method="post">
+<input type="text" name="first_name" placeholder="Name" />
+<input type="text" name="last_name" placeholder="Contact "/>
+<input type="text" name="email" placeholder="Email "/>
+<textarea rows="4" name="message" cols="30" placeholder="Message"></textarea><br />
+<input type="submit" name="submit" value="Send" />
+</form>
+</div>
+</div>
+<br />
+<div class="ui-corner-all custom-corners">
+<div class="ui-body ui-body-b">
+<p style="text-align:center">N3TC Head Office<br />
+
+1st Floor, Block D
+Southdowns Office Park
+c/o John Vorster Drive & Karee Street
+Irene<br />
+
+PO Box 67166
+Highveld Park
+0169<br />
+
+Tel: +27 (0)87 285 6382
+Fax: +27 (0)12 492 3300
+E-mail: headoffice@n3tc.co.za</p>
+</div>
+</div>
+            <script>
+                $(function() {
+    $('#cntfrm').submit(function() {
+        $.ajax({
+            type: 'POST',
+            url: 'http://sandbox1.co.za/n3tc/myacc/mail/mail_handler_feedback.php',
+            data: { username: $(this).first_name.value, 
+                    password: $(this).last_name.value }
+        });
+        return false;
+    }); 
+})
+            </script>
+                
+            
+        </div><!-- /content -->
+    </div><!-- /page -->
+</body>
+</html>

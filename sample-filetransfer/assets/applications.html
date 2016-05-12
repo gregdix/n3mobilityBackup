@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/acc3025d3f53c7ce737507c31dce3cad3676f316b56a4925a628fd29cf2548df.js"></script>
+<script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/cda3025d3f53c7ce737507c31dce3cad3676f316b56a4925a628fd29cf6324df.js"></script>
+   
+
+    <script type="text/javascript" src="../js/acc.js"></script>
+    <link rel="stylesheet" href="./Multi-page_files/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./Multi-page_files/jqm-demos.css" />
+	
+	<script src="./Multi-page_files/jquery.js"></script>
+	<script src="./Multi-page_files/index.js"></script>
+	<script src="./Multi-page_files/jquery.mobile-1.4.5.min.js"></script>
+    <style type="text/css">
+	/* Swipe works with mouse as well but often causes text selection. */
+/* We'll deny text selecton on everything but INPUTs and TEXTAREAs. */
+#main-page :not(INPUT):not(TEXTAREA) {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+</style>
+</head>
+<body class="ui-mobile-viewport ui-overlay-b">
+<div data-role="page" class="ui-page ui-page-theme-b">
+        <div data-role="header" data-theme="b" style="background-color: #2976b8;">
+            <h1>Account Management</h1>
+            <a href="myaccount.html" data-icon="carat-l"  data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        </div><!-- /header -->
+        <div role="main" class="ui-content">
+           
+<a href="cda_mag.html" class="ui-btn ui-btn-icon-right ui-icon-bullets" data-rel="" onclick="populateAccDelay()" >New Application</a>  
+
+<a href="add_vehicle.html" class="ui-btn ui-btn-icon-right ui-icon-plus" data-rel="dialog" data-transition="pop" onclick="populateAppDelay()">Add  Vehicles to Application</a>
+
+<a href="doc_upload.html" class="ui-btn ui-btn-icon-right ui-icon-arrow-u" data-rel="dialog" data-transition="pop" onclick="populateAppDelay()">Upload Documents</a><br />
+<hr />
+<a href="cda_mag_renew.html" class="ui-btn ui-btn-icon-right ui-icon-bullets" data-rel="" onclick="populateAccDelay()">Renewal Application</a> 
+<hr />
+<a href="newaccount.html" class="ui-btn ui-btn-icon-right ui-icon-user" data-rel="dialog" data-transition="pop">Link Existing Account</a>
+<hr />
+<a href="add_vehicletoaccount.html" class="ui-btn ui-btn-icon-right ui-icon-plus" data-rel="dialog" data-transition="pop" onclick="populateAccDelay()">Add Vehicle to existing Account</a>
+<br />
+<!--<a href="newcard.html" class="ui-btn ui-btn-icon-right ui-icon-tag" data-rel="dialog" data-transition="pop">Add Tag/Card</a><br />-->
+
+               
+            
+        </div><!-- /content -->
+    </div><!-- /page -->
+</body>
+</html>

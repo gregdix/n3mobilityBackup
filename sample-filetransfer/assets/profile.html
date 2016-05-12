@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../js/acc.js"></script>
+    <link rel="stylesheet" href="./Multi-page_files/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./Multi-page_files/jqm-demos.css" />
+	
+	<script src="./Multi-page_files/jquery.js"></script>
+	<script src="./Multi-page_files/index.js"></script>
+	<script src="./Multi-page_files/jquery.mobile-1.4.5.min.js"></script>
+    
+    
+   
+    <style type="text/css">
+	/* Swipe works with mouse as well but often causes text selection. */
+/* We'll deny text selecton on everything but INPUTs and TEXTAREAs. */
+#main-page :not(INPUT):not(TEXTAREA) {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+
+.showform{
+	display:block;
+}
+.hideform{
+display:none;	
+}
+</style>
+</head>
+<body class="ui-mobile-viewport ui-overlay-b" > 
+ <script type="text/javascript">
+ 
+ window.onload = function() {
+	 
+	// getUserDetails();
+	//AccFeed();
+	PopulateProfile();
+	 
+		
+	 }
+	
+
+	
+	</script>
+<div data-role="page" class="ui-page ui-page-theme-b">
+        <div data-role="header" data-theme="b" style="background-color: #2976b8;">
+            <h1>Profile</h1>
+            <a href="#" data-icon="carat-l" data-rel="back" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        </div><!-- /header -->
+        <div role="main" class="ui-content">
+              
+<hr />  
+ 
+<div class="ui-field-contain">
+<form action="http://sandbox1.co.za/n3tc/myacc/mail/mail_handler_updateprofile.php" method="post" >
+<label for="UserName">UserName</label>       
+<input type="text" name="UserName" readonly="readonly" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-none" id="UserName" /><br />
+<label for="Name">Name</label>
+<input type="text" name="Name" readonly="readonly" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-none"  id="Name" /><br />
+<label for="Sname">Sname</label>
+<input type="text" name="Sname" readonly="readonly" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-none"  id="Sname" /><br />
+<label for="Email">Email</label>
+<input type="text" name="Email" id="Email" /><br />
+<hr /><br />
+<input type="hidden" name="UserID" id="UserID" />
+<input type="hidden" name="N3tcToken" id="N3tcToken" />
+<input type="hidden" name="Password" id="Password" />
+<label for="CompanyName">CompanyName</label>
+<input type="text" name="CompanyName" id="CompanyName" /><br />
+<label for="CompanyReg">CompanyReg</label>
+<input type="text" name="CompanyReg" id="CompanyReg" /><br />
+<label for="Cell">Cell</label>
+<input type="text" name="Cell" id="Cell" /><br />
+<label for="HomeTel">HomeTel</label>
+<input type="text" name="HomeTel" id="HomeTel" /><br />
+<label for="WorkTel">WorkTel</label>
+<input type="text" name="WorkTel" id="WorkTel" /><br />
+<label for="Fax">Fax</label>
+<input type="text" name="Fax" id="Fax" /><br />
+<label for="IdentityNo">IdentityNo</label>
+<input type="text" name="IdentityNo" id="IdentityNo" /><br />
+<label for="District">District</label>
+<input type="text" name="District" id="District" /><br />
+<label for="Phyadd">Phyadd</label>
+<textarea rows="4" name="Phyadd" id="Phyadd"></textarea><br />
+<label for="Postal">Postal</label>
+<input type="text" name="Postal" id="Postal" />
+<input type="submit" name="submit" value="Submit" onclick="updateProfile()" />
+</form>
+
+</div>
+ 
+<!--<a href="#" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-check ui-btn-icon-right" onclick="updateProfile()">Update Profile</a>-->
+        </div><!-- /content -->
+    </div><!-- /page -->
+
+</body>
+</html>

@@ -1,39 +1,3125 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="format-detection" content="telephone=no" />
-		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-		<link href="styles/main.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="cordova.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
-		<title>File Transfer</title>
-	</head>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="v001"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>N3TC Mobility</title>
+    <link rel="stylesheet" type="text/css" href="css/tomtom.map.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/tomtom.controls.min.css" />
+    <link rel="stylesheet" href="css/circle-menu.min.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="../css/tomtom.map.ie.min.css" /><![endif]-->
+    <script type="text/javascript" src="js/twitter2.js"></script>
+    <script type="text/javascript" src="http://sandbox1.co.za/n3tc/1/js/tweets.js"></script>
+    <script type="text/javascript" src="js/leaflet.js"></script>
+    <!--<script type="text/javascript" src="js/leaflet.markercluster.js"></script>-->
+    <script type="text/javascript" src="js/tomtom.map.js"></script>
+    <script type="text/javascript" src="js/tomtom.controls.js"></script>
+    <script type="text/javascript" src="js/points.js"></script>
+    <script type="text/javascript" src="js/routemarkers.js"></script>
+    <script type="text/javascript" src="js/apikey.js"></script>
 
-	<body>
-		<header class="header">
-			<h1>File Transfer</h1>
-		</header>
-		<div class="content">
-			<div class="action-area ch30">
-				<button class="button dh" id="download">Download</button>
-				<button class="button dh" id="upload">Upload</button>
-			</div>
-			<div class="result-area ch70">
-				<div class="results">
-					<div id="result" class="desc">
-						<ul class="left">
-							<li>Clicking the Dowload button downloads an image from the AppBuilder site and saves it on the device.</li>
-							<li>Clicking the Upload button allows you to pick an image and upload it to http://www.filedropper.com/.</li>
-						</ul>
-					</div>
-					<img id="downloadedImage"/>
-				</div>
-				<div class="separator"></div>
-			</div>
-		</div>
-		<footer class="footer">
-			<div>Cordova API Samples</div>
-		</footer>
-	</body>
+    <link rel="stylesheet" href="assets/Multi-page_files/jquery.mobile-1.4.5.min.css" />
+    <script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    
+    
+
+    <link rel="stylesheet" href="css/normalize.css" />
+
+
+
+    <script type="text/javascript">
+        
+         var x = document.getElementById("demo");
+        var mylat, mylon, MyMarker, prox, events, accomodation, marker, tour, activities, restaurant, retail, eventsCnt, accomodationCnt, tourCnt, activitiesCnt, restaurantCnt, retailCnt, zoomMap, pnlside, pinHolder, trackingState, myVar, trackimgcheck, mm, petrol, petrolCnt, content, contentAdd, markerCnt, tabsState, contentM, isStart, tripCount, storageId, trip1Info, trip2Info, trip3Info, tripShow, closestPoint, closestDesc, map, markerMe, trackingGif, checkStor, getmm, poiLoaded;
+        var pointIndex;
+        var point;
+        var points;
+        var StartPoint1 = "";
+        var EndPoint1 = "";
+        var tripDist = 0;
+        var flowOn = "no";
+        
+        var mm2 ;
+		var pinType = '';
+		var twtCategory = '';
+		var morebtn = '';
+        var btState = 'closed';
+
+        //initialise poi vars
+        eventsCnt = 0;
+        accomodationCnt = 0;
+        petrolCnt = 0;
+        tourCnt = 0;
+        activitiesCnt = 0;
+        restaurantCnt = 0;
+        retailCnt = 0;
+        zoomMap = 8;
+        poiLoaded = "no";
+
+        tabsState = 0;
+        isStart = 0;
+
+        trackingState = "OFF";
+        trackimgcheck = 1;
+        closestPoint = 0;
+        tripShow = 0;
+        
+        function showlist() {
+          //  document.getElementById("search_list").className = "plistShow";
+
+
+
+            //document.getElementById("as").className = "tophead tHide";
+
+            var txtval = document.getElementById("search_input").value;
+
+            if (txtval == ""){
+                document.getElementById("search_list").className = "plistHide";
+                document.getElementById("srch").className = "dispNorm";}
+            if (txtval != ""){
+                document.getElementById("as").className = "tophead tHide";
+                document.getElementById("srch").className = "dispNone";
+            } else document.getElementById("as").className = "tophead";
+
+            if (txtval == "accomodation" || txtval == "acc" || txtval == "b&b"){
+                accomodation = "false";
+                poiAcc();}
+
+            if (txtval == "event" || txtval == "venue" || txtval == "confere"){
+                events = "false";
+                poiEve();}
+
+            if (txtval == "activities" || txtval == "activ"){
+                activities = "false";
+                poiAct();}
+
+            if (txtval == "toll" || txtval == "plaza" ){
+                tour = "false";
+                poiTour();}
+
+            if (txtval == "restaurants" || txtval == "rest" || txtval == "food"){
+                restaurant = "false";
+                poiRest();}
+
+
+        }
+
+function n3(){
+        
+        map.displayRoute(["Johannesburg, South Africa", "Durban, South Africa"]);}
+        
+        function showCalcBtn() {
+            document.getElementById("geocode").style.display = "inline";
+        }
+    </script>
+
+
+    <script>
+        //start script
+        function showN3() {
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPositionN3, errorGettingPosition);
+
+
+            } else {
+                document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+                alert("Please enable your GPS on your device");
+            }
+
+            function showPositionN3(position) {
+
+                mylat = position.coords.latitude;
+                mylon = position.coords.longitude;
+
+
+                document.getElementById("longlat").innerHTML = ("LAT: " + mylat +"&nbsp;&nbsp;&nbsp;&nbsp;"+ " LNG: " + mylon);
+                prox = document.getElementById("kmCounter").innerHTML;
+
+                // set the base image path used by tomtom.Marker
+                tomtom.setImagePath("images/pins/");
+
+                // get points is defined in points.js
+                // due to security restrictions in Chrome, AJAX requests cannot be made against local files
+                // which is why the data is being loaded as a JavaScript file
+
+
+                // create the map
+                window.map = new tomtom.Map({
+                    domNode: "map",
+                    cookie: false,
+                    name: "mapsave1",
+                    expirationDays: 5,
+                    displayTraffic: true,
+                    scale: true,
+                    center: [mylat, mylon],
+                    zoom: zoomMap,
+                    routeStyle: {
+                        color: "#447095",
+                        weight: 5,
+
+                    }
+
+                });
+
+
+                map.displayRoute(["Johannesburg, South Africa", "Durban, South Africa"]);
+				 weatherCounter = 1;
+		         crashCounter = 1;
+                loadTwitterPoint();
+                //map.displayRoute(["Johannesburg, South Africa", "Oos Street, Heidelberg Suburbs, ZA"]);
+                isStart = 1;
+            }
+        }
+
+    </script>
+
+    <script>
+       
+
+        //poi initialise
+        events= "false"; accomodation= "false"; tour= "false"; activities= "false"; restaurant= "false"; retail= "false"; petrol= "false";
+
+        window.onload = function() {
+
+            showN3();
+           // createList();
+        
+        $( ".c-mask" ).click(function() {
+  showTrips();
+});
+
+        }
+
+        function repeatmiConvert(){
+            myVarMi = setInterval(miConvert, 3000);
+
+        }
+
+        //clearInterval(myVarMi);
+
+        //setTimeout(function(){
+        //runpoi();
+        //}, 2000);
+
+
+        function runTrack(){
+            myVar = setInterval(runpoi, 10000);
+        }
+        //clearInterval(myVar);
+
+        function runpoi() {
+            pointIndex = 0;
+            //alert(trackingState);
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, errorGettingPosition);
+
+
+            } else {
+                document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+                alert("Please enable your GPS on your device");
+            }
+
+            function showPosition(position) {
+
+                mylat = position.coords.latitude;
+                mylon = position.coords.longitude;
+                //alert(mylat + mylon + "tracking onm");
+
+                //zoomMap = 8;
+                if (trackingState == "ON" && trackimgcheck == 0){
+                    document.getElementById("trackBtnimg").src = "images/pins/mymarker/markerTracking.gif";
+                    trackimgcheck = 1;
+
+
+
+                }
+                else if (trackingState == "ON"){{document.getElementById("trackBtnimg").src = "images/pins/trackbtn.png"; trackimgcheck = 0;}
+                    document.getElementById("sidePnl").innerHTML = " ";
+                    getmm = mm.getMarkerById("marker_me");
+                  //ttt  getmm.setLatLng([mylat,mylon]);
+                    mm.update();
+
+                    //alert("mm update");
+
+                   // document.getElementById("kmCounter").innerHTML = 5;
+                    document.getElementById("kmCnt").innerHTML = "Kms Tracking";
+                    //document.getElementById("mapholder").className = "mapholderon";
+                    //document.getElementById("mapholder").className = "map70";
+
+                    //document.getElementById("kmBar").className = "kmPnlon";
+                    //document.getElementById("srch").className = "dispNone";
+
+                    //zoomMap = 14;
+
+
+                    // center the map on the current point
+
+                    //	map.setView([mylat,mylon], zoomMap);
+                    //map.center([mylat, mylon]);
+
+                }
+
+
+
+
+                document.getElementById("longlat").innerHTML = ("LAT: " + mylat +"&nbsp;&nbsp;&nbsp;&nbsp;"+ " LNG: " + mylon);
+                prox = document.getElementById("kmCounter").innerHTML;
+
+                //>>>>>>>>>>>>>>> events= "true"; accomodation= "true"; tour= "true"; activities= "true"; restaurant= "true"; retail= "true";
+                //tomtom.LocaleManager.setLocale("af_ZA");
+
+
+
+                // set the base image path used by tomtom.Marker
+                tomtom.setImagePath("images/pins/");
+
+                // get points is defined in points.js
+                // due to security restrictions in Chrome, AJAX requests cannot be made against local files
+                // which is why the data is being loaded as a JavaScript file
+                points = getPoints();
+                if(isStart == 0){
+                    // create the map
+                    window.map = new tomtom.Map({
+                        domNode: "map",
+                        cookie: false,
+                        name: "mapsave1",
+                        expirationDays: 5,
+                        displayTraffic: true,
+                        scale: true,
+                        center: [mylat, mylon],
+                        zoom: zoomMap,
+                        routeStyle: {
+                            color: "#2976b8",
+                            weight: 5,
+                            dashArray: "20"
+                        }
+
+                    });
+
+
+                    map.displayRoute(["Johannesburg, South Africa", "Durban, South Africa"]);
+                    isStart = 1;
+                }
+
+                if (tripShow == 1) {
+
+                    var p1 = document.getElementById("strtlbl").innerHTML;
+                    var p2 = document.getElementById("endlbl").innerHTML;
+                    //map.displayRoute([p1, p2]);
+                }
+
+                if (tripShow == 2) {
+                    var p1 = document.getElementById("strtlbl2").innerHTML;
+                    var p2 = document.getElementById("endlbl2").innerHTML;
+                    map.displayRoute([p1, p2]);}
+
+                if (tripShow == 3) {
+                    var p1 = document.getElementById("strtlbl3").innerHTML;
+                    var p2 = document.getElementById("endlbl3").innerHTML;
+                    map.displayRoute([p1, p2]);}
+
+
+
+
+
+                mm = new tomtom.MarkerManager({ map: map, animation: { effect: "drop", duration: 1000, delay: 50 } });
+
+
+                for (pointIndex = 0; pointIndex < points.length && pointIndex < 1154; pointIndex++) {
+                    point = points[pointIndex];
+                    MyMarker = new tomtom.Marker([point.lat, point.lon], null, { draggable: true });
+                    marker = new tomtom.Marker([point.lat, point.lon]);
+                    var mrk =  point.cat;
+                    var morebtn ="<img style='text-align:center' src='images/more-icons.png' width='60' height='18' onClick='listShow()' >";
+                    pnlside = "<div></div>";
+
+
+
+                    //distance calculation
+                    var lat1 = mylat;
+                    var lon1 = mylon;
+                    var lat2 = point.lat;
+                    var lon2 = point.lon;
+
+
+                    var radlat1 = Math.PI * lat1/180;
+                    var radlat2 = Math.PI * lat2/180;
+                    var radlon1 = Math.PI * lon1/180;
+                    var radlon2 = Math.PI * lon2/180;
+                    var theta = lon1-lon2;
+                    var radtheta = Math.PI * theta/180;
+                    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                    dist = Math.acos(dist);
+                    dist = dist * 180/Math.PI;
+                    dist = dist * 60 * 1.1515;
+                    dist = dist * 1.609344
+                    //if (unit=="N") { dist = dist * 0.8684 }
+                    //return dist;
+                    var resultcalc = prox - dist;
+
+                    //dist calc end ////////////////////////
+
+                    //assign content to desc var//
+                    var desc = "<strong>" + point.name + "</strong>" + " - " + mrk + "<br>" + "Distance: " + dist.toFixed(2) + " kms<br>" + "Tel: " + point.cnt + "<br>"+ "Address: " + point.adr + "<br>" + "Co-ords: " + point.lat + ", " + point.lon + "<br>" + "Website: " + "<a href='" + point.web + "'>" + point.web + "</a>" + "<br>" ;
+                    //alert(dist);
+
+
+                    //for tracking popup slider cotent//
+                    var descpop = "<strong>" + point.name + "</strong>" + " - " + mrk + "<br>" + "Distance: " + dist.toFixed(2) + " kms<br>" ;
+
+
+                    //add map marker layers for each poi//
+                    if (mrk == "Events " && events == "true" && prox > dist){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "eventspin.png",
+                        iconSize: [35, 35],
+                        iconAnchor: [ 17, 12 ]}; eventsCnt = eventsCnt + 1; marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+
+                        map.addLayer(marker);
+                        pnlside = "<div style='padding-left: 10px; background-color: #fff; border-bottom:1px solid #b0aeae; border-left: 5px solid #8554a3;  display:block;'><br>" + "<img src='images/pins/eventsbtn.png' style='max-width:35px; height:auto; float: right; '>" + desc + "<br>" + "<img src='images/back-icons.png' style='max-width:35px;  height:auto; padding:3px;' onClick='listHide()'>" + "</div>";
+                    }
+
+
+                    if (mrk == "Activities " && activities == "true" && prox > dist){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "activitypin.png",
+                        iconSize: [35, 35],
+                        iconAnchor: [ 17, 12 ]}; activitiesCnt = activitiesCnt +1; marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+                        map.addLayer(marker);
+                        pnlside = "<div style='padding-left: 10px; background-color: #fff; border-bottom:1px solid #b0aeae; border-left: 5px solid #41b89d;  display:block;'><br>" + "<img src='images/pins/activitybtn.png' style='max-width:35px; height:auto; float: right; ' >" + desc + "<br>" + "<img src='images/back-icons.png' style='max-width:35px;  height:auto; padding:3px;' onClick='listHide()'>" + "</div>";
+                    }
+
+
+                    if (mrk == "Restaurants " && restaurant == "true" && prox > dist){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "restpin.png",
+                        iconSize: [35, 35],
+                        iconAnchor: [ 17, 12 ]}; restaurantCnt = restaurantCnt + 1; marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+                        map.addLayer(marker);
+                        pnlside = "<div style='padding-left: 10px; background-color: #fff; border-bottom:1px solid #b0aeae; border-left: 5px solid #e2ab26; display:block;'><br>" + "<img src='images/pins/restbtn.png' style='max-width:35px; height:auto; float: right; ' >" + desc + "<br>" + "<img src='images/back-icons.png' style='max-width:35px;  height:auto; padding:3px;' onClick='listHide()'>" + "</div>";
+                    }
+
+                    if (mrk == "Toll Plaza " && tour == "true" && prox > dist){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "tollpin.png",
+                        iconSize: [50, 63],
+                        iconAnchor: [ 17, 12 ]}; tourCnt = tourCnt + 1; marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+
+                        map.addLayer(marker);
+                        pnlside = "<div style='padding-left: 10px; background-color: #fff; border-bottom:1px solid #b0aeae; border-left: 5px solid #28a8e9; display:block;'><br>" + "<img src='images/pins/tollbtn.png' style='max-width:35px; height:auto; float: right; ' >" + desc + "<br>" + "<img src='images/back-icons.png' style='max-width:35px;  height:auto; padding:3px;' onClick='listHide()'>" + "</div>";
+                    }
+
+                    if (mrk == "Accomodation " && accomodation == "true" && prox > dist){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "accomodationpin.png",
+                        iconSize: [35, 35],
+                        iconAnchor: [ 17, 12 ]}; accomodationCnt = accomodationCnt + 1; marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+                        map.addLayer(marker);
+                        pnlside = "<div style='padding-left: 10px; background-color: #fff; border-bottom:1px solid #b0aeae; border-left: 5px solid #542500; display:block;'><br>" + "<img src='images/pins/accbtn.png' style='max-width:35px; height:auto; float: right;  ' >" + desc + "<br>" + "<img src='images/back-icons.png' style='max-width:35px; height:auto; padding:3px;' onClick='listHide()'>" + "</div>";
+                    }
+
+                    if (mrk == "Petrol" && petrol == "true" && prox > dist){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "petrolpin.png",
+                        iconSize: [35, 35],
+                        iconAnchor: [ 17, 12 ]}; petrolCnt = petrolCnt + 1; marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+                        map.addLayer(marker);
+                        //alert("Petrol " + petrol);
+                        pnlside = "<div style='padding-left: 10px; background-color: #fff; border-bottom:1px solid #b0aeae; border-left: 5px solid #ffc20f; display:block;'><br>" + "<img src='images/pins/petrolbtn.png' style='max-width:35px; height:auto; float: right;  ' >" + desc + "<br>" + "<img src='images/back-icons.png' style='max-width:35px;  height:auto; padding:3px;' onClick='listHide()'>" + "</div>";
+                    }
+
+                    if (mrk == "Retail " && retail == "true" && prox > dist){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "retailpin.png",
+                        iconSize: [35, 35],
+                        iconAnchor: [ 17, 12 ]}; retailCnt = retailCnt + 1; marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+
+                        map.addLayer(marker);
+                    }
+
+                    if (mrk == "My Location " && trackingState == "OFF" && markerMe != "added"){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "mymarker/markerme.png",
+                        iconSize: [70, 70],
+                        iconAnchor: [ 40, 15 ]};
+
+                        markerMe = "added";
+
+                        //old geocoder service place
+
+                        //MyMarker.bindPopup( content + "11<br>" + morebtn,{ showOnMouseOver: true });
+
+                        //map.addLayer(MyMarker);
+
+
+                    }
+
+                    if (mrk == "My Location " && trackingState == "ON" && trackingGif !="added"){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "mymarker/markerTracking.gif",
+                        iconSize: [65, 65],
+                        iconAnchor: [ 35, 35 ]}; MyMarker.bindPopup( content + "<br>" + morebtn,{ showOnMouseOver: true });
+
+                        map.addLayer(MyMarker);
+                        trackingGif ="added";
+
+
+                        //map.setView([mylat,mylon], zoomMap);
+                        mm.addMarker(new tomtom.Marker([point.lat, point.lon]), "marker_me");
+
+                        mm.update();
+                        //mm.removeMarker("marker_me");
+                        //mm.update();
+
+                        //alert("deletes");
+                        //var getmmr = mm.getMarkerById("marker_me");
+
+
+                        tomtom.Marker.DEFAULT_MARKER_OPTIONS = {iconUrl: pinHolder , iconSize: [60, 60], iconAnchor: [ 17, 12 ]};
+                    }
+
+
+
+                    if (prox > dist){
+                        document.getElementById("sidePnl").innerHTML += pnlside;
+                        document.getElementById("kmCnt").innerHTML ="<< SEARCH >>";
+                        map.setView([mylat,mylon], zoomMap);
+                        //document.getElementById("as").className= "topheadOn";
+                        //document.getElementById("srch").className = "dispNone";
+
+
+                    }
+
+
+
+                    document.getElementById("accbtn").innerHTML = "<span id='accs' class='counthide'>" + accomodationCnt +"</span>" +  "<img src='images/pins/accbtn.png' class='poiIcons' >" + "<div class='labelvert' style=''>Accomodation</div>";
+
+
+                    document.getElementById("evebtn").innerHTML = "<span id='eves' class='counthide'>" +  eventsCnt +"</span>" +  "<img src='images/pins/eventsbtn.png' class='poiIcons' >"  + "<div class='labelvert' style=' '>Events</div>";
+
+
+
+                    document.getElementById("petbtn").innerHTML = "<span id='petrols' class='counthide'>" +  petrolCnt +"</span>" +   "<img src='images/pins/petrolbtn.png' class='poiIcons' >" + "<div class='labelvert' style=' '>Petrol</div>";
+
+
+
+
+                    document.getElementById("tourbtn").innerHTML = "<span id='tours' class='counthide'>" +  tourCnt +"</span>" +   "<img src='images/pins/tollbtn.png' class='poiIcons' >"  +  "<div class='labelvert' style=' '>Tolls</div>";
+
+
+                    document.getElementById("activebtn").innerHTML = "<span id='activs' class='counthide'>" +  activitiesCnt +"</span>" +  "<img src='images/pins/activitybtn.png' class='poiIcons' >"  + "<div class='labelvert' style=' '>Activities</div>";
+
+
+                    document.getElementById("restbtn").innerHTML = "<span id='rests' class='counthide'>" +  restaurantCnt +"</span>" +  "<img src='images/pins/restbtn.png' class='poiIcons' >"  + "<div class='labelvert' style=' '>Restaurants</div>"   ;
+
+                    //map.setView([mylat,mylon], zoomMap);
+
+
+                }
+
+
+            }
+
+        }
+                   
+        
+    
+                    
+                    
+
+
+
+        </script>
+
+        <script>
+        function ClosestPoint(){
+            myVarClose = setInterval(GetClosestPoint, 5000);
+        }
+
+        //clearInterval(myVarClose);
+
+        function GetClosestPoint(){
+
+            points = getPoints();
+
+            for (pointIndex = 0; pointIndex < points.length && pointIndex < 1154; pointIndex++) {
+                point = points[pointIndex];
+                //MyMarker = new tomtom.Marker([point.lat, point.lon], null, { draggable: true });
+                //marker = new tomtom.Marker([point.lat, point.lon]);
+                var mrk =  point.cat;
+                //var morebtn ="<img style='text-align:center' src='images/more-icons.png' width='60' height='18' onClick='listShow()' >";
+                //pnlside = "<div></div>";
+
+
+
+                //distance calculation
+                var lat1 = mylat;
+                var lon1 = mylon;
+                var lat2 = point.lat;
+                var lon2 = point.lon;
+
+
+                var radlat1 = Math.PI * lat1/180;
+                var radlat2 = Math.PI * lat2/180;
+                var radlon1 = Math.PI * lon1/180;
+                var radlon2 = Math.PI * lon2/180;
+                var theta = lon1-lon2;
+                var radtheta = Math.PI * theta/180;
+                var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                dist = Math.acos(dist);
+                dist = dist * 180/Math.PI;
+                dist = dist * 60 * 1.1515;
+                dist = dist * 1.609344
+                //if (unit=="N") { dist = dist * 0.8684 }
+                //return dist;
+                var resultcalc = prox - dist;
+
+                //dist calc end ////////////////////////
+
+
+                //closest point
+                if(mrk == "My Location "){dist = 100;}
+                if (closestPoint == 0 ){closestPoint = dist;}
+                else
+                    if (closestPoint > dist &&  trackingState == "ON" && tripShow != 0){
+                        closestPoint = dist;
+
+                        closestDesc = ("<div id='nextBarTop' class='nextBar'><span style='font-size: 1.2rem;'>" + point.name + " - " + mrk + " in " + dist.toFixed(2) + " kms</span></div>") ;
+
+                        //closestDesc = ("<div id='nextBarTop' class='nextBar'><div>" + "MY LAT: " + mylat.toFixed(2)  + "    MY LON: " + mylon.toFixed(2) + "</div><h3>" + point.name + " - " + mrk + " in " + dist.toFixed(2) + " kms</h3>" + "Tel: " + point.cnt + "<br>"+ "Address: " + point.adr + "<br>" + "Co-ords: " + point.lat + ", " + point.lon + "<br>" + "Website: " + "<a href='" + point.web + "'>" + point.web + "</a>" + "<br>" + "</div><div id='btnbar'> <div class='label'>TRACKING ON</div><img id='trackBtnimg' src='images/pins/mymarker/markerTracking.gif' style='max-width:35px; height:auto; padding-top:0px;' onclick='setProx()'></div>") ;
+
+                        //document.getElementById("acc").style.top = "-100px";
+                        //document.getElementById("acc").style.height = "290px";
+                        document.getElementById("nextHolder").className = "boxNext boxShow";
+                        document.getElementById("nextHolder").innerHTML = closestDesc;
+
+                        document.getElementById("tabsBar").style.backgroundImage = "url(images/hideIconTrip.png)";
+                        document.getElementById("tabsBar").innerHTML = "<div id='endTripBtn'><img id='tglon' src='images/trckToggleOn.png' width='auto' height='30px' style='max-width:200px; float:left; padding:3px' onclick='endTrip()'></div> <div id='tr'> <img id='trackBtnimg' src='images/pins/mymarker/markerTracking.gif' style='max-width:35px; height:33px; padding-top:0px; float:right;' onclick='meDelete()'><div> ";
+                        //document.getElementById("nextBarTop").style.backgroundColor = "#0031d0";
+
+                    }
+            }
+        }
+        </script>
+
+        <script>
+        function hideCompass(){
+            if (document.getElementById("compass").style.display =="none"){
+                document.getElementById("compass").style.display ="block";}
+            else
+                document.getElementById("compass").style.display ="none";
+        };
+        </script>
+
+        <script>
+        function meDelete(){
+            mm.removeMarker("marker_me");
+            mm.update();
+        }
+        </script>
+
+        <script>
+        function maptoggle() {
+            var image = document.getElementById('expandimg');
+            if (image.src.match("expandmap")) {
+                image.src = "images/splitmap.png";
+                document.getElementById("map2Holder").className ="map2Full";
+                //alert("You have gone to full screen map");
+                //document.getElementById("Location").value = "Loction Off";
+            } else {
+                image.src = "images/expandmap.png";
+                document.getElementById("map2Holder").className ="map2Split";
+                //alert("You have gone to split screen map");
+
+            }
+        }
+
+
+        </script>
+
+        <script>
+        function tabsHide(){
+
+            document.getElementById("poptabs").className ="PopupTabs tabsHide";
+            // document.getElementById("as").className ="tophead";
+            //document.getElementById("kmBar").className = "kmPnloff";
+
+
+        }
+        </script>
+
+
+
+        <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color:#3d3d3c;
+            background-image: url(images/loadingmetal5.gif);
+            background-size:contain;
+            background-repeat:no-repeat;
+        }
+
+			#tabs {
+			    //float: left;
+            width: 100%;
+            height: 100%;
+			    //min-height:500px;
+			    //padding-top: 55px;
+			    //background-color: #fff;
+			    font-family: arial, helvetica, sans-serif;
+			    font-size: 14px;
+			    //color:#333;
+			    z-index: 5;
+			    position: absolute;
+			    top: 0px;
+			    left: -400px;
+			    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.65);
+
+			}
+
+#tabs.showtbs{    position: fixed;
+    background-color: #fff;
+    transition: transform 0.3s ease-out 0s;
+    -webkit-transform: translatex(25rem);}
+
+#tabs.hideTabs {
+            position: fixed;
+    background-color: #fff;
+    transition: transform 0.3s ease-out 0s;
+
+}
+
+#map {
+            float: left;
+            width: 100%;
+            height: 100%;
+    z-index:0;
+	//background: transparent;
+}
+
+        .topheadOn{
+            position: fixed;
+            display: inline-table;
+            //top: 0px;
+            height: 280px;
+            right: 0px;
+            z-index: 500;
+            font-family: Muli, sans-serif;
+            font-size: 0.6rem;
+            right: 0px;
+            //background-color: rgba(22, 106, 180, 0.50);
+            background-color: rgba(12, 12, 12, 0.65);
+            bottom: -270px;
+            width: 100%;
+            transition: -webkit-transform 0.3s ease-out 0s;
+            transition: transform 0.3s ease-out 0s;
+            transform: translatey(7rem);
+            -webkit-transform: translatey(7rem);
+        }
+
+        .topheadHide{
+            display: none;
+        }
+
+        .tophead{
+            position: fixed;
+            //top: 0px;
+            height: 100%;
+            z-index: 500;
+            font-family: Muli, sans-serif;
+            font-size: 0.6rem;
+
+            display: inline-table;
+            right: 0px;
+            width: 100%;
+
+            background-color: rgba(41, 142, 199, 0.72);
+            bottom: 0px;
+            transition: -webkit-transform 0.3s ease-out 0s;
+            transition: transform 0.3s ease-out 0s;
+            transform: translatey(0.1rem);
+            -webkit-transform: translatey(0.1rem);
+        }
+
+        .tophead.tHide{
+            height: 100%;
+            top: 0px;
+            //overflow: auto;
+        }
+		
+		.tripboxMask{
+			border-bottom: 1px dashed rgba(255, 255, 255, 0.49);
+    margin-bottom: 10px;
+    padding: 5px;
+    overflow: hidden;
+    color: #FFFFFF;
+    background-color: rgba(0, 0, 0, 0);
+    /* border-radius: 10px; */
+    height: 60px;
+    font-size: x-small;
+	
+   }
+		
+		.tripboxMaskExpand{
+			
+         height: 100%;
+	   //font-size: small;}
+
+        .tripbox{
+            border: 3px solid rgb(211, 213, 214);
+            margin-bottom: 20px;
+            padding: 3px;
+            overflow: hidden;
+            color: #545151;
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+        }
+        .tb240{
+            height:125px;
+        }
+        .tripbar{
+            background-color: #D3D5D6;
+            color: #fff;
+            padding: 8px;
+            height: 17px;
+            margin-bottom: 10px;
+            border-radius: 4px 4px 0px 0px;
+        }
+
+        .inlinechk{
+            position: relative;
+            display: inline-block;
+            padding-left: 10px;
+            margin-bottom: 0;
+            font-weight: 400;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+        .box {
+
+           
+            font-size: 1rem;
+            
+            height: 45px;
+            
+            margin: 5px;
+            border-radius: 4px;
+            padding: 2px;
+            width:85%;
+
+        }
+        .poiIcons{
+            max-width: 40px;
+            height: auto;
+            float: left;
+            padding: 2px;
+        }
+
+        .nextBar{
+            //background-image: url(images/trackbck.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            min-height: 50px;
+
+        }
+
+        ul {
+            list-style-image:  url('images/poilist.png');
+        }
+        .poiLi{
+            border-bottom: 1px solid rgba(255, 255, 255, 0.63);
+            font-size: 0.9rem;
+            padding: 0px 5px 5px 5px;
+            margin-left: -12px;
+
+        }
+        .column-33{
+            width: 33.33333%;
+            display: inline-block;
+            text-align: center;
+            font-family: Muli, sans-serif;
+            color: white;
+            //border-bottom: thin solid rgba(255, 255, 255, 0.67);
+            padding-top: 5px;
+        }
+
+        .column-20{
+            width: 20%;
+            display: inline-block;
+            text-align: center;
+            font-family: Muli, sans-serif;
+            color: white;
+           //background-color: rgba(22, 106, 180, 0.78);
+            padding-top: 5px;
+        }
+
+
+
+        .label{
+            font-size: 0.5rem;
+            text-shadow: 1px 1px rgba(0, 0, 0, 0.40);
+            padding: 2px;
+        }
+
+        .labelvert{
+            font-size: 1.2rem;
+            margin-top: 5px;
+            color: #fff;
+            text-shadow: 1px 1px rgba(0, 0, 0, 0.93);
+            padding: 4px;
+            margin-left: 60px;
+        }
+
+        .topBtns{
+            background-color: #4B80AC;
+            color: #fff;
+            padding-top:10px;
+            padding-bottom:5px;
+            text-align: center;
+            display: inline-block;
+            width: 19%;
+        }
+
+        .srch-text{
+            width: 70%;
+            border-radius: 4px;
+            height: 30px;
+            padding: 5px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 0, 0, 0);
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.66);
+            margin-left: 5px;
+        }
+        .srch-box{
+            //position: absolute;
+            //display: inherit;
+            //top: 75px;
+            width: 100%;
+
+
+        }
+
+        .plistHide{
+            display:none;
+        }
+        .plistShow{
+            display:block;
+            margin-bottom: 200px;
+        }
+        .go-btn{
+            color: rgba(255, 255, 255, 0.71);
+            font-size: large;
+            display: inline-block;
+            font-weight: bold;
+            margin-left: -39px;
+            padding: 10px;
+            width: 10px;
+            height: 15px;
+        }
+
+        .kmPnloff{
+            left: 0;
+            bottom: -100px;
+            right: 0;
+            //background: red;
+            //background-color: rgba(22, 106, 180, 0.8);
+            //background-image: url(images/barbck2.png);
+            position: fixed;
+            z-index: 500;
+			background-color: rgba(22, 106, 180, 0.78);
+          //height: 10%;
+            padding-top: 3px;
+            transition: -webkit-transform 0.3s ease-out 0s;
+            transition: transform 0.3s ease-out 0s;
+            transform: translateY(-4rem);
+            -webkit-transform: translateY(-6rem);
+        }
+
+        .kmPnlon{
+            left: 0;
+            bottom: -100px;
+            right: 0;
+
+            //background: red;
+
+            //background-color: rgba(22, 106, 180, 0.8);
+            position: fixed;
+           background-color: rgba(22, 106, 180, 0.78);
+height: 10%;
+padding-top: 3px;
+            transition: -webkit-transform 0.3s ease-out 0s;
+            transition: transform 0.3s ease-out 0s;
+            transform: translateY(4rem);
+            -webkit-transform: translateY(6rem);
+        }
+
+        .mapholderoff{
+            width: 100%;
+            height: 100%;
+            top:0px;
+            position:fixed;
+			background: transparent;
+        }
+
+        .mapholderon{
+            width: 100%;
+            height: 100%;
+            top:0px;
+            position:fixed;
+			background: transparent;
+        }
+        .map70{
+            width: 100%;
+            height: 70%;
+            top:0px;
+            position:fixed;
+        }
+
+        .poiPopShow{
+            left: 0;
+            top: 300px;
+            right: 0;
+            height: 20%;
+            padding: 5px;
+            display: block;
+            z-index: 50;
+            text-align: center;
+            color: #FFFFFF;
+            transition: -webkit-transform 0.5s ease-out 0s;
+            transition: transform 0.5s ease-out 1s;
+            transform: translatey(-38rem);
+            -webkit-transform: translatey(-38rem);
+
+        }
+
+        .poiPopShow.poi1{
+            background-color: rgb(32, 104, 208);
+            height: 25%;
+
+            margin-right: 20px;
+            margin-left: 20px;
+
+            text-align: centre;
+            background-color: rgb(32, 104, 208);
+
+            padding: 20px;
+
+            border: 5px #fff solid;
+            border-radius: 30px 30px 30px 30px;
+            transition: -webkit-transform 0.5s ease-out 0s;
+            transition: transform 0.7s ease-out 1s;
+            transform: translatey(32rem);
+            -webkit-transform: translatey(35rem);
+
+
+        }
+        .poiPopShow.poi2{
+            background-color: #28A8E9;
+            height: 25%;
+            top: -150px;
+
+            text-align: left;
+            transition: -webkit-transform 0.5s ease-out 0s;
+            transition: transform 0.7s ease-out 1s;
+            transform: translatey(32rem);
+            -webkit-transform: translatey(35rem);
+
+
+        }
+        .poiPopShow.poi3{
+            background-color: #8655A4;
+            height: 20%;
+            top: -110px;
+
+            text-align: left;
+            transition: -webkit-transform 0.5s ease-out 0s;
+            transition: transform 0.8s ease-out 1s;
+            transform: translatey(7rem);
+            -webkit-transform: translatey(24rem);
+
+        }
+        .poiPopShow.poi4{
+            background-color: #E5AD26;
+            height: 15%;
+            top: -100px;
+
+            text-align: left;
+            transition: -webkit-transform 0.5s ease-out 0s;
+            transition: transform 0.9s ease-out 1s;
+            transform: translatey(17rem);
+            -webkit-transform: translatey(17rem);
+
+        }
+        .poiPopShow.poi5{
+            background-color: #43BEA2;
+            height: 10%;
+            top: -110px;
+
+            text-align: left;
+            transition: -webkit-transform 0.5s ease-out 0s;
+            transition: transform 1s ease-out 1s;
+            transform: translatey(2rem);
+            -webkit-transform: translatey(13rem);
+
+        }
+
+        .poiPopOff{
+            display:none;
+        }
+
+        .dirHide{
+            display:none;
+        }
+        .dirShow{
+            display:block;
+        }
+
+
+        .boxroute {
+            top: 0px;
+            height: 100%;
+            background-color:#4B80AC;
+            color: white;
+            text-align: center;
+            font-size: 1.1rem;
+            z-index: 5999;
+            position: fixed;
+            //background-image: url(images/bch.png);
+            //background-size: contain;
+
+        }
+
+        .togflow{
+            -ms-transform: rotate(1800deg); /* IE 9 */
+            -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+            transform: rotate(180deg);
+        }
+
+        .boxNext {
+            top: 0px;
+
+            background-color: rgb(75, 128, 172);
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+            z-index: 5999;
+            padding-top: 10px;
+            width: 100%;
+            background-image: url(images/barbck3.png);
+            background-size: contain;
+            display: none;
+        }
+        .boxNext.boxShow {
+            display:block;
+        }
+
+        .boxroute.hidebox{
+            display:none;
+        }
+
+        .hmbtn{
+            max-width: 20%;
+
+            margin-bottom: 15px;
+            height: auto;
+            padding: 10px;
+            display: inline-block;
+        }
+        .trackingBtnHide{
+            color:#FFF;
+            max-width: 30px;
+            display: none;
+
+        }
+        .dispNone{
+            display:none;
+        }
+        .dispNorm{
+            display:block;
+        }
+
+        .trackingBtnShow{
+
+            color: #FFF;
+            max-width: 30px;
+
+            align-content: center;
+            bottom: 200px;
+            z-index: 5999;
+            position: absolute;
+            text-align: center;
+
+        }
+		.frmFilter{
+			width: 100%;
+            height: 95%;
+            overflow: auto;
+            border: none;
+			
+			}
+
+        .poiPopHide{
+            left: 0;
+            top: 300px;
+            right: 0;
+
+
+            height: 20%;
+            padding: 5px;
+
+            display: block;
+            z-index: 50;
+            text-align: center;
+            color: #FFFFFF;
+
+            transition: -webkit-transform 0.5s ease-out 0s;
+            transition: transform 1s ease-out 1s;
+        }
+
+        .poiPopHide.poi1{
+            background-color: rgb(32, 104, 208);
+            height: 25%;
+            //top: -150px;
+            margin-right: 20px;
+            margin-left: 20px;
+            background-color: rgb(32, 104, 208);
+
+            padding: 20px;
+
+            border: 5px #fff solid;
+            border-radius: 30px 30px 30px 30px;
+            text-align: centre;
+            transition: -webkit-transform 0.8s ease-out 0s;
+            transition: transform 1s ease-out 1s;
+        }
+
+        .poiPopHide.poi2{
+            background-color: #28A8E9;
+            height: 25%;
+            top: -150px;
+
+            text-align: left;
+            transition: -webkit-transform 0.8s ease-out 0s;
+            transition: transform 1s ease-out 1s;
+        }
+        .poiPopHide.poi3{
+            background-color: #8655A4;
+            height: 20%;
+            top: -110px;
+
+            text-align: left;
+            transition: -webkit-transform 0.6s ease-out 0s;
+            transition: transform 1s ease-out 1s;
+        }
+        .poiPopHide.poi4{
+            background-color: #E5AD26;
+            height: 15%;
+            top: -100px;
+
+            text-align: left;
+            transition: -webkit-transform 0.4s ease-out 0s;
+            transition: transform 1s ease-out 1s;
+        }
+        .poiPopHide.poi5{
+            background-color: #43BEA2;
+            height: 10%;
+            top: -110px;
+            text-align: left;
+            transition: -webkit-transform 0.2s ease-out 0s;
+            transition: transform 1s ease-out 1s;
+        }
+
+        .PopupTabs{
+            left: 0;
+            top: 0px;
+            right: 0;
+            background-color: rgb(75, 128, 172);
+            position: fixed;
+            height: 100%;
+
+            display: block;
+
+            z-index: 5999;
+
+            color: #4B80AC;
+
+            display: block;
+            transition: -webkit-transform 0.3s ease-out 0s;
+            transition: transform 0.3s ease-out 0s;
+            transform: translateX(-25rem);
+            -webkit-transform: translateX(0rem);
+
+        }
+        .PopupTabs.tabsHide{
+            transition: -webkit-transform 0.3s ease-out 0s;
+            transition: transform 0.4s ease-out 0s;
+            transform: translateX(-60rem);
+            -webkit-transform: translateX(-60rem);
+        }
+
+        .PopupTabs.tabsmin{
+            height: 35%;
+            bottom: -10px;
+        }
+
+        .map2Split{
+            height:40%;
+            width:100%;
+            overflow: hidden;
+        }
+        .map2Full{
+            height:70%;
+            width:100%;
+            overflow: hidden;
+        }
+        .countshow{
+            color:#fff;
+        }
+
+
+        .counthide{
+            color:#fff;
+            float: right;
+            margin-right: 20px;
+            padding: 6px;
+            font-size: x-large;
+        }
+
+        .accHide{
+            position: absolute;
+            height: 100%;
+            top: 1px;
+            width: 100%;
+
+            display: none;
+
+        }
+        .accShow{
+            position: absolute;
+            height: 100%;
+            top: 50px;
+            width: 100%;
+            display: block;
+            z-index: 5000;
+            background-color:#FFF;
+
+        }
+
+        </style>
+</head>
+
+        <script type="text/javascript">
+        var newImg = '';
+        var imgCount = 1;
+      
+
+function getImgDetails() {
+            imgCount = 1;
+            $('.leaflet-tile-container').children('img').each(function () {
+
+                getid = ($(this).attr('id'));
+                getSrc = ($(this).attr('src')); 
+
+                replaceSrc = getSrc.replace('https://a.api.tomtom.com/lbs/map/3/basic/1/', 'https://api.tomtom.com/traffic/map/4/tile/flow/absolute/');
+                replaceSrcB = replaceSrc.replace('https://b.api.tomtom.com/lbs/map/3/basic/1/', 'https://api.tomtom.com/traffic/map/4/tile/flow/absolute/');
+                replaceSrcC = replaceSrcB.replace('https://c.api.tomtom.com/lbs/map/3/basic/1/', 'https://api.tomtom.com/traffic/map/4/tile/flow/absolute/');
+
+                var inputString = replaceSrcC;
+                var findme = "absolute";
+
+                if (inputString.indexOf(findme) > -1) { 
+
+                replaceKey = replaceSrcC.replace('tg84gkhf7ywnqscmf95nepsp', 'txz67kr3yad8tnzh8xrqrhud');
+                getSty = ($(this).attr('style')) + " z-index:1; ";
+                newImg = $('<img id="' + imgCount + "flw" + '" class="tfTile" >'); //Equivalent: $(document.createElement('img'))
+                newImg.attr('src', replaceKey);
+                newImg.attr('style', getSty);
+                imgCount = ++imgCount; 
+
+                $(".leaflet-tile-container").prepend(newImg); }
+            else {  }
+               
+            });
+            $('.leaflet-tile-container').children('img').css("position", "absolute");
+       
+            if(imgCount > 30){$('.tfTile').remove(); imgCount = 1;      }
+        }
+
+
+
+function toggleFlow(){
+    if(flowOn === "yes"){
+      //  alert("Traffic Flow Off");
+        $('.tfTile').remove();
+        flowOn = "no";
+       // $('#togflow').css("-webkit-transform", "rotateZ(130deg)"); 
+        $('#togflow').attr('src', 'img/flwOff.png'); 
+    }    else
+    {flowOn = "yes";
+    $('#togflow').attr('src', 'img/flw.png');
+        getImgDetails();
+     //   $('#togflow').css("-webkit-transform", "rotateZ(-130deg)");
+   //  alert("Traffic Flow On");  
+    }
+
+    
+        }
+            
+ 
+
+        </script>
+    
+
+
+        <script>
+
+
+
+        function route(){
+$("#c-circle-nav").css("z-index", "-1");
+            document.getElementById("myAcc").className ="accHide";
+            document.getElementById("as").className ="topheadOn";
+            document.getElementById("srch").className = "dispNone";
+            //document.getElementById("kmBar").className = "kmPnlon";
+            document.getElementById("acc").className ="hidebox";
+            document.getElementById("tabs").className ="#tabs showtbs";
+            if(tabsState == 0){
+
+                tabsState = 1
+                //address1="Johannesburg, South Africa";
+                //address2="Durban, South Africa";
+                repeatmiConvert();
+
+
+
+                //document.getElementById("poptabs").className ="PopupTabs";
+
+                //map.setShowGPSLocation(true);
+                var points = getTolls();
+
+
+
+                tomtom.setImagePath("images/");
+
+
+
+
+
+                var routePlanner = new tomtom.controls.RoutePlannerControl({
+                    map: map,
+                    domNode: "tabs"
+                });
+                //map.displayRoute([address1, address2]);
+                // create a draggable marker over amsterdam
+                var marker = new tomtom.Marker([mylat, mylon], null, { draggable: true });
+                marker.on("dragend", function(e) {
+
+                    // create the geocoding service
+                    var geocoder = new tomtom.services.GeocodingService();
+
+                    // execute the reverse geocoding call
+                    geocoder.reverseGeocode(marker.getLatLng(), function(response) {
+
+                        var content = "No address found.";
+
+                        if (response && response.reverseGeoResponse && response.reverseGeoResponse.reverseGeoResult
+        						&& response.reverseGeoResponse.reverseGeoResult[0]
+        						&& response.reverseGeoResponse.reverseGeoResult[0].formattedAddress)
+                            content = response.reverseGeoResponse.reverseGeoResult[0].formattedAddress;
+
+                        // bind the popup content and open the popup on the marker
+                        marker.bindPopup("<span id='add'>" + content + "</span>" + "<br>" + "<img src='images/endIcon.png' width='35' height='auto' style='display:inline-block; padding-top:10px;     margin-right: 10%;' onclick='setStart()' /><img src='images/stratIcon.png' width='35' height='auto' style='display:inline-block; padding-top:10px; margin-right: 15%; ' onclick='setEnd()' /><img src='images/poiSetBtn.png' width='60' height='auto' style='display:inline-block; padding-top:10px;float: right;' onclick='poiSrch()' /><div id='ltlng'></div>");
+                        marker.openPopup();
+                        //alert (marker.getLatLng());
+
+                        var obj1 = JSON.stringify(response);
+                        var json = JSON.parse(obj1);
+                        dropLat = (json["reverseGeoResponse"].reverseGeoResult[0].latitude);
+                        dropLon = (json["reverseGeoResponse"].reverseGeoResult[0].longitude);
+
+                        document.getElementById("ltlng").innerHTML = (dropLat + " " + dropLon);
+                        //test = (splits[1]);
+
+
+                    });
+
+                });
+
+                // add the marker to the map
+                map.addLayer(marker);
+
+
+
+                var geocoder = new tomtom.services.GeocodingService();
+
+
+                //var container = document.getElementById("geocodeOutput");
+
+                // forward geocode on Calculate route button
+                document.getElementById("geocode").onclick = function() {
+                    address1 = document.getElementById("point1").value;
+                    // var address2 = document.getElementById("point2").value;
+                    // this is the one line that executes the geocode query
+                    geocoder.geocode(address1, function(response) {
+                        //container.innerHTML = JSON.stringify(response, null, 4);
+                        var obj1 = JSON.stringify(response);
+                        var json = JSON.parse(obj1);
+                        startLat = (json["geoResponse"].geoResult[0].latitude);
+                        startLon = (json["geoResponse"].geoResult[0].longitude);
+
+
+                        //var tmp = document.getElementById("dist").value;
+                        //alert(startLat);
+
+                    });
+
+
+
+                    address2 = document.getElementById("point2").value;
+                    geocoder.geocode(address2, function(response) {
+                        //container.innerHTML = JSON.stringify(response, null, 4);
+                        var obj2 = JSON.stringify(response);
+                        var json2 = JSON.parse(obj2);
+                        endLat = (json2["geoResponse"].geoResult[0].latitude);
+                        endLon = (json2["geoResponse"].geoResult[0].longitude);
+
+                        //var tmp = document.getElementById("dist").value;
+                        vClass = document.getElementById("vclass").value;
+                        calTolls();
+
+
+                    });
+
+                    ///toll points start
+                    //	map.displayRoute([address1, address2]);
+                    // add a new marker for each address
+                    //alert("route loop");
+                    for (var pointIndex = 0; pointIndex < points.length && pointIndex < 269; pointIndex++) {
+                        var point = points[pointIndex];
+                        var marker = new tomtom.Marker([point.lat, point.lon], null, { draggable: true });
+
+                        //var markup = point.lat + ", " + point.lon;
+                        var mrk =  point.name;
+                        var morebtn ="<img style='text-align:center' src='images/more-icons.png' width='60' height='18' onclick='listShow()' >";
+                        var desc = "Plaza: " + point.name + " "  ;
+
+                        var pnlside = "<div style='border-bottom:3px dashed #b0aeae; display:block;'><br>" + desc + "<br></div>";
+                        //document.getElementById("sidePnl").innerHTML += pnlside;
+                        tomtom.Marker.DEFAULT_MARKER_OPTIONS = {iconUrl: "pins/tollpin.png", iconSize: [50, 63], iconAnchor: [ 17, 8]}
+                        if (mrk != 'My Location '){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                            iconUrl: "pins/tollpin.png",
+                            iconSize: [50, 63],
+                            iconAnchor: [ 17, 8]} ;marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });		}
+                        // else {tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        //		iconUrl: "Marker.png",
+                        // 			iconSize: [32, 49],
+                        //  			iconAnchor: [ 17, 34 ]} }
+
+
+                        // specify that the popup should be displayed on mouse over rather than click
+
+                        //marker.bindPopup(mrk,{ showOnMouseOver: true });
+                        map.addLayer(marker);
+
+
+                    }
+                    ///toll points end
+
+
+                };
+
+
+
+                storageId = localStorage.getItem("trip1");
+
+                //alert("sTrp1 " + storageId);
+                if ( storageId == null){
+                    document.getElementById("tripsave").innerHTML = "No Saved Trips";
+
+                }
+                else{
+
+                    trip1Info = "<div id='savedtrip1' class='tripbox tb240'><div id='cntbar1' class='tripbar'> ... <img src='images/moreBtn.png' width='20' height='20' style='float:right' onclick='expandBox()' /> </div>\r\n <img src='images/startTripbtn.png' width='25%' height='auto' style=' float: left; margin-right: 10px; ' onclick='startTrip1();'>\r\n  <label>Start: </label><label id='strtlbl'></label><br> \r\n  <label>End: </label><label id='endlbl'></label><br> \r\n  <label>Date: </label><label id='datelbl'></label><br>\r\n <br>\r\n  <form style='display:none'>\r\n     <label class='inlinechk' ><input type='checkbox' name='poi' id='poichk' checked>POI\r\n  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='trackingchk' id='trackingchk' value='' checked>\r\n Tracking </label>\r\n   <label class='inlinechk'> <input type='checkbox' name='trafficchk' id='trafficchk' value=''checked>\r\n Traffic   </label>\r\n  <label class='inlinechk'>  <input type='checkbox' name='alertschk' id='alertschk' value='' checked>\r\nAlerts  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='directionschk' id='directionschk' value='' onclick='dirShow();' checked>\r\nDirections  </label>\r\n   </form>\r\n <br>\r\n   <label id='infolbl'></label>\r\n    <label style='font-weight: bold'>Directions</label><hr size='1'>\r\n  <div id='poiHold' class='tt-route-control-instructions'>Points of Interest on route </div> \r\n  <hr size='1'>\r\n  <label id='costlbl' class='dirShow'></label><br>\r\n <hr size='1'><br> <div class='tt-control-buttons'>\r\n <input type='button' id='delete1' class='tt-control-btn' value='Delete Trip' style='background-color: #E62020; width: 50%;' onclick='deleteTrip1();'>\r\n </div>  </div>\r\n";
+
+                    document.getElementById("tripsave").innerHTML = trip1Info;
+					 
+					
+                    var poiTemp = document.getElementById("directionsR").innerHTML;
+                    document.getElementById("poiHold").innerHTML = poiTemp;
+
+                    var mystring = localStorage.getItem("trip1");
+
+                    var splits = mystring.split(";");
+
+                    document.getElementById("strtlbl").innerHTML=(splits[0]);
+                    document.getElementById("endlbl").innerHTML=(splits[1]);
+                    document.getElementById("datelbl").innerHTML=(splits[2]);
+                    document.getElementById("infolbl").innerHTML=(splits[3]);
+                    document.getElementById("costlbl").innerHTML= poiTemp;
+					
+					document.getElementById("strtlblx").innerHTML=(splits[0]);
+                    document.getElementById("endlblx").innerHTML=(splits[1]);
+                    document.getElementById("datelblx").innerHTML=(splits[2]);
+                    document.getElementById("infolblx").innerHTML=(splits[3]);
+					document.getElementById("costlblx").innerHTML= poiTemp;
+                    //document.getElementById("directionslbl").innerHTML=(splits[5]);
+
+                }
+                storageId = localStorage.getItem("trip2");
+                if ( storageId != null){
+                    trip2Info = "<div id='savedtrip2' class='tripbox tb240'><div id='cntbar2' class='tripbar'> ... <img src='images/moreBtn.png' width='20' height='20' style='float:right' onclick='expandBox2()' /> </div>\r\n  <label>Start: </label><label id='strtlbl2'></label><br> \r\n  <label>End: </label><label id='endlbl2'></label><br> \r\n  <label>Date: </label><label id='datelbl2'></label><br>\r\n <label id='directionslbl2'></label><br>\r\n <img src='images/startTripbtn.png' width='25%' height='auto' style='margin:3px; float: right;' onclick='startTrip2();'>\r\n  <form style='display:none'>\r\n     <label class='inlinechk' ><input type='checkbox' name='poi2' id='poichk2' checked>POI\r\n  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='trackingchk2' id='trackingchk2' value='' checked>\r\n Tracking </label>\r\n   <label class='inlinechk'> <input type='checkbox' name='trafficchk2' id='trafficchk2' value=''checked>\r\n Traffic   </label>\r\n  <label class='inlinechk'>  <input type='checkbox' name='alertschk2' id='alertschk2' value=''checked>\r\nAlerts  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='directionschk2' id='directionschk2' value='' onclick='dirShow();' checked>\r\nDirections  </label>\r\n   </form>\r\n <br>\r\n   <label id='infolbl2'></label>\r\n    <label style='font-weight: bold'>Directions</label><hr size='1'>\r\n  <div id='poiHold2' class='tt-route-control-instructions'>Points of Interest on route </div> \r\n  <hr size='1'>\r\n  <label id='costlbl2' class='dirShow'></label><br>\r\n <hr size='1'><br> <div class='tt-control-buttons'>\r\n <input type='button' id='delete2' class='tt-control-btn' value='Delete Trip' style='background-color: #E62020; width: 50%;' onclick='deleteTrip2();'>\r\n </div>  </div>\r\n";
+
+                    document.getElementById("tripsave").innerHTML += trip2Info;
+
+                    var mystring = localStorage.getItem("trip2");
+
+                    var splits = mystring.split(";");
+
+                    document.getElementById("strtlbl2").innerHTML=(splits[0]);
+                    document.getElementById("endlbl2").innerHTML=(splits[1]);
+                    document.getElementById("datelbl2").innerHTML=(splits[2]);
+                    document.getElementById("infolbl2").innerHTML=(splits[3]);
+                    document.getElementById("costlbl2").innerHTML=poiTemp;
+                    document.getElementById("directionslbl2").innerHTML=(splits[5]);
+
+                }
+
+                storageId = localStorage.getItem("trip3");
+                if ( storageId != null){
+                    trip3Info = "<br><br>\r\n <div id='savedtrip3' class='tripbox'>\r\n  <label>Start: </label><label id='strtlbl3'></label><br> \r\n  <label>End: </label><label id='endlbl3'></label><br> \r\n  <label>Date: </label><label id='datelbl3'></label><br><br>\r\n <label id='infolbl3'></label><br><br>\r\n  <label>Cost:</label><label id='costlbl3'></label><br>\r\n <label>Directions:</label><label id='directionslbl3'></label><br>\r\n <form>\r\n     <label class='inlinechk' ><input type='checkbox' name='poi3' id='poichk3' checked>POI\r\n  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='trackingchk3' id='trackingchk3' value='' checked>\r\n Tracking </label>\r\n   <label class='inlinechk'> <input type='checkbox' name='trafficchk3' id='trafficchk3' value=''checked>\r\n Traffic   </label>\r\n  <label class='inlinechk'>  <input type='checkbox' name='alertschk3' id='alertschk3' value=''>\r\nAlerts  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='directionschk3' id='directionschk3' value='' onclick='dirShow();'>\r\nDirections  </label>\r\n   </form>\r\n <div class='tt-control-buttons'>\r\n <input type='button' id='tripgo3' class='tt-control-btn' value='Start Trip' style='background-color: #34CC21;' onclick='startTrip3();'>\r\n </div> \r\n <div class='tt-control-buttons'>\r\n <input type='button' id='delete3' class='tt-control-btn' value='Delete Trip' style='background-color: #E62020;' onclick='deleteTrip3();'>\r\n </div>  </div>\r\n ";
+
+                    document.getElementById("tripsave").innerHTML += trip3Info;
+
+                    var mystring = localStorage.getItem("trip3");
+
+                    var splits = mystring.split(";");
+
+                    document.getElementById("strtlbl3").innerHTML=(splits[0]);
+                    document.getElementById("endlbl3").innerHTML=(splits[1]);
+                    document.getElementById("datelbl3").innerHTML=(splits[2]);
+                    document.getElementById("infolbl3").innerHTML=(splits[3]);
+                    document.getElementById("costlbl3").innerHTML=(splits[4]);
+                    document.getElementById("directionslbl3").innerHTML=(splits[5]);
+
+                }
+            }
+        }
+        </script>
+
+        <script>
+        function miConvert() {
+            var str = document.getElementById("incidentList").innerHTML;
+            var res = str.replace(/mi/g, "Kms");
+            document.getElementById("incidentList").innerHTML = res;
+            //document.getElementById("message").innerHTML = res;
+        }
+            
+        function miConvertIncidents() {
+            var str = $(".length").innerHTML;
+            var res = str.replace(/mi/g, "Kms");
+            $(".length").innerHTML = res;
+            //document.getElementById("message").innerHTML = res;
+        }
+        </script>
+
+        <script>
+        function trafficList() {
+            //document.getElementById("message").innerHTML ="<div id='tabs'></div>";
+            route();
+            map.setView([mylat,mylon], 12);
+        }
+        </script>
+        <script>
+
+
+        function dragMarker(){
+
+            var marker = new tomtom.Marker([mylat, mylon], null, { draggable: true });
+            //mm2 = new tomtom.MarkerManager({ map: map, animation: { effect: "drop", duration: 1000, delay: 50 } });
+            //mm2.addMarker(new tomtom.Marker([mylat, mylon]), "marker_me_drag", { draggable: true });
+            marker.on("dragend", function(e) {
+
+                // create the geocoding service
+                var geocoder = new tomtom.services.GeocodingService();
+
+                // execute the reverse geocoding call
+                geocoder.reverseGeocode(marker.getLatLng(), function(response) {
+
+                    var content = "No address found.";
+
+                    if (response && response.reverseGeoResponse && response.reverseGeoResponse.reverseGeoResult
+                            && response.reverseGeoResponse.reverseGeoResult[0]
+                            && response.reverseGeoResponse.reverseGeoResult[0].formattedAddress)
+                        content = response.reverseGeoResponse.reverseGeoResult[0].formattedAddress;
+
+                    // bind the popup content and open the popup on the marker
+                    tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "dragMarker.png",
+                        iconSize: [40, 40],
+                        iconAnchor: [ 0, 0 ]};
+                    marker.bindPopup("<span id='add'>" + content + "</span>" + "<br>" + "<img src='images/startBtn.png' width='50' height='50' style='display:inline-block; padding-top:10px;     margin-right: 25%;' onclick='setStart()' /><img src='images/endBtn.png' width='50' height='50' style='display:inline-block; padding-top:10px; ' onclick='setEnd()' /><div id='ltlng'></div>", { showOnClick: true });
+                    marker.openPopup();
+                    //alert (marker.getLatLng());
+
+                    var obj1 = JSON.stringify(response);
+                    var json = JSON.parse(obj1);
+                    dropLat = (json["reverseGeoResponse"].reverseGeoResult[0].latitude);
+                    dropLon = (json["reverseGeoResponse"].reverseGeoResult[0].longitude);
+
+                    document.getElementById("ltlng").innerHTML = (dropLat + " " + dropLon);
+
+
+
+                });
+
+            });
+
+
+            map.addLayer(marker);
+            //mm2.update();
+
+        }
+        </script>
+
+        <script>
+        function deleteTrip1(){
+            localStorage.removeItem("trip1");
+            document.getElementById("savedtrip1").innerHTML = "";
+        }
+
+        function deleteTrip2(){
+            localStorage.removeItem("trip2");
+        }
+
+        function deleteTrip3(){
+            localStorage.removeItem("trip3");
+        }
+        function expandBox(){
+            var boxstate = document.getElementById("savedtrip1").className;
+            if(boxstate == "tripbox tb240"){
+                document.getElementById("savedtrip1").className = "tripbox";
+            }
+            else
+                document.getElementById("savedtrip1").className = "tripbox tb240";
+
+            //map.destroy();
+            $("#extraInfo").css("display", "none");
+            $("#poiHold").css("display", "none");
+        }
+
+        function expandBox2(){
+            var boxstate = document.getElementById("savedtrip2").className;
+            if(boxstate == "tripbox tb240"){
+                document.getElementById("savedtrip2").className = "tripbox";
+            }
+            else
+                document.getElementById("savedtrip2").className = "tripbox tb240";
+
+            //map.destroy();
+
+        }
+        function convertKm(){
+            //CONVERT MILES TO KMS
+            var mystring = document.getElementById("routesumary").innerHTML;
+            //split route summary box info
+            var splits = mystring.split(" mi ");
+            var aa = (splits[0]);
+            var bb = (splits[1]);
+            //clean and convert
+            var res = aa.replace(/<p>/g, "");
+            var km = res * 1.609;
+            tripDist = (km.toFixed(2));
+            var routsum = (km.toFixed(2)) + " Km" + bb;
+            document.getElementById("routesumary").innerHTML=routsum;
+
+
+            //convert and replave directions divs
+            var aa = document.getElementById("distanceList").innerHTML;
+            var res = aa.replace(/mi/g, "");
+            var res = aa.replace(/yds/g, "");
+            var km = res * 1.609;
+            var routsum = (km.toFixed(2)) + " Km";
+            document.getElementById("distanceList").innerHTML=routsum;
+
+            //convert and replave directions divs
+            var isend = "no";
+            var count = 1;
+            while (isend == "no") {
+                try {
+
+                    var aa = document.getElementById("distanceList").innerHTML;
+                    var res = aa.replace(/mi/g, "");
+
+                    var km = res * 1.609;
+                    var routsum = (km.toFixed(2)) + " Km";
+
+                    if(routsum == "NaN Km"){
+                        res = aa.replace(/yds/g, "");
+                        km = res * 0.9144;
+                        routsum = (km.toFixed(2)) + " met";}
+
+                    document.getElementById("distanceList").innerHTML=routsum;
+                    document.getElementById("distanceList").id = "distanceList" + count;
+
+                    count++;
+                    km = 0;
+
+                }
+                catch(err) {
+                    isend = err.message;}
+            }
+
+
+        }
+        </script>
+
+        <script>
+        function setStart(){document.getElementById("point1").value= document.getElementById("add").innerHTML;}
+
+        function setEnd(){document.getElementById("point2").value=document.getElementById("add").innerHTML;}
+        </script>
+        <script>
+
+        function Assist() {
+
+            document.getElementById("acc").className ="boxroute";
+            //document.getElementById("closebtn").className ="dispNorm";
+            document.getElementById("care").className ="dispNorm";
+            document.getElementById("rest").innerHTML = "<input type='button' value='CANCEL' onclick='closeBox1()' height='100' width='200' style='color: red;'/><br />";
+
+            document.getElementById("shortcuts").innerHTML="<div id='addr' style='display: inline-block; margin-top:5px;'>CLICK SOS TO SEND YOUR DETAILS TO THE ROADSIDE ASSIST TEAM</div>" + "<div id='mapr' style='height:150px; margin: 5px; color:#000;'></div>";
+
+            pointIndex = 0;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, errorGettingPosition);
+
+
+            } else {
+                document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+                alert("Please enable your GPS on your device");
+            }
+
+            function showPosition(position) {
+
+                mylat = position.coords.latitude;
+                mylon = position.coords.longitude;
+
+                //mylat = -29.538502;
+                //mylon = 30.278805;
+                hideAll();
+                var prox = 0.02;
+
+                //map.destroy();
+                // set the base image path used by tomtom.Marker
+                tomtom.setImagePath("images/");
+
+                // get points is defined in points.js
+                // due to security restrictions in Chrome, AJAX requests cannot be made against local files
+                // which is why the data is being loaded as a JavaScript file
+                points = getRoutes();
+                //alert(points);
+                // create the map
+                window.map = new tomtom.Map({
+                    domNode: "mapr",
+                    cookie: false,
+
+                    scale: false,
+                    center: [mylat, mylon],
+                    zoom: 18
+
+                });
+
+
+
+                // add a new marker for each address
+
+                for (pointIndex = 0; pointIndex < points.length && pointIndex < 6000; pointIndex++) {
+                    point = points[pointIndex];
+                    var marker = new tomtom.Marker([point.lat, point.lon], null, { draggable: true });
+                    var MyMarker = new tomtom.Marker([point.lat, point.lon]);
+                    //var markup = point.lat + ", " + point.lon;
+                    var mrk =  point.Route;
+                    var morebtn ="<img style='text-align:center' src='images/more-icons.png' width='60' height='18' onclick='listToggle()' >";
+                    //alert(pointIndex);
+                    //alert("dist" + dist);
+                    var pnlside = "<div style='border-bottom:1px dashed #b0aeae; display:block;'><br>" + " Route Marker: " + desc + "<br></div>";
+                    if (prox > dist){
+                        document.getElementById("sidePnl").innerHTML += pnlside;}
+                    //alert("dist" + dist);
+
+
+                    //Distance calc
+                    var lat1 = mylat;
+                    var lon1 = mylon;
+                    var lat2 = point.lat;
+                    var lon2 = point.lon;
+                    //alert("distXXX");
+                    var radlat1 = Math.PI * lat1/180;
+                    var radlat2 = Math.PI * lat2/180;
+                    var radlon1 = Math.PI * lon1/180;
+                    var radlon2 = Math.PI * lon2/180;
+                    var theta = lon1-lon2;
+                    var radtheta = Math.PI * theta/180;
+                    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                    dist = Math.acos(dist);
+                    dist = dist * 180/Math.PI;
+                    dist = dist * 60 * 1.1515;
+                    dist = dist * 1.609344
+                    var resultcalc = prox - dist;
+
+                    var desc = "<strong>Chainge: " + point.Chainge + "</strong>" + "<br> Route Name: "+ mrk + "<br>"+ "Distance: "  + dist.toFixed(2) + "kms"  + "<br>"  ;
+                    document.getElementById("assistbtn").src ="images/sendbigBtn.png";
+
+                    if (mrk == "My Location"){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "assistmark.png",
+                        iconSize: [40, 72],
+                        iconAnchor: [ 0, 0 ]}; MyMarker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+
+                        map.addLayer(MyMarker);
+                        //geo>>>>
+                        var geocoder = new tomtom.services.GeocodingService();
+
+                        // execute the reverse geocoding call
+                        geocoder.reverseGeocode(marker.getLatLng(), function(response) {
+
+                            var contentAdd = "No address found.";
+
+                            if (response && response.reverseGeoResponse && response.reverseGeoResponse.reverseGeoResult
+                                    && response.reverseGeoResponse.reverseGeoResult[0]
+                                    && response.reverseGeoResponse.reverseGeoResult[0].formattedAddress)
+                                contentAdd = response.reverseGeoResponse.reverseGeoResult[0].formattedAddress;
+
+                            document.getElementById("rest").innerHTML+= "Address: " + contentAdd + "<br>YOUR Co-Ords: " + "<br>Latitude: " +  mylat + "<br> Longitude: " + mylon ;
+
+                        });
+
+
+                        //geo>>>>
+                    } //else{ iconUrl: "accomodationxxx.png";
+
+
+                    if (mrk == "N0304" && prox > dist){tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "routemark.png",
+                        iconSize: [30, 54],
+                        iconAnchor: [ 20, 20 ]}; markerCnt = markerCnt + 1; marker.bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
+
+                        map.addLayer(marker);
+                        document.getElementById("rest").innerHTML = "<div>CLOSEST ROUTE MARKER</div>" + desc +"<br>"   ;  } //else{ iconUrl: "accomodationxxx.png";
+
+                    //document.getElementById("acc").innerHTML = markerCnt + " " +  "Route Markers"  ;
+
+                }
+            }
+
+
+        };
+
+        </script>
+
+        <script>
+
+        function calTolls() {
+
+            //vClass = document.getElementById("vclass").value;
+            if (vClass == 1) {
+                var DeHoekM = 40;
+                var TugelaM = 51;
+                var WilgeM = 55;
+                var BergvilleR = 18;
+                var MooiM = 41;
+                var MarianM = 9.5;
+            }
+
+
+            if (vClass == 2) {
+                var DeHoekM = 62;
+                var TugelaM = 98;
+                var WilgeM = 95;
+                var BergvilleR = 18;
+                var MooiM = 30;
+                var MarianM = 18;
+            }
+
+            if (vClass == 3) {
+                var DeHoekM = 95;
+                var TugelaM = 154;
+                var WilgeM = 127;
+                var BergvilleR = 38;
+                var MooiM = 142;
+                var MarianM = 22;
+            }
+
+            if (vClass == 4) {
+                var DeHoekM = 136;
+                var TugelaM = 213;
+                var WilgeM = 180;
+                var BergvilleR = 18;
+                var MooiM = 192;
+                var MarianM = 34;
+            }
+
+            //alert("start lat:" + startLat);
+            //alert("End lat:" + endLat);
+
+
+            var plaza1 = -26.66397;
+            var plaza2 = -27.04038;
+            var plaza3 = -28.4625;
+            var plaza4 = -28.58687;
+            var plaza5 = -29.2;
+            var plaza6 = -29.823006;
+
+            var PlazaName ="None ";
+            var TollCount = 0;
+
+            if (startLat > endLat){
+                //	alert("south");
+                if (plaza1 < startLat && plaza1 > endLat) {
+                    PlazaName = "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Dehoek Mainline";
+                    TollCount = TollCount + DeHoekM;
+                }
+                if (plaza2 < startLat && plaza2 > endLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Wilge Mainline"; TollCount = TollCount + WilgeM ; }
+                if (plaza3 < startLat && plaza3 > endLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Tugela Mainline"; TollCount = TollCount + TugelaM ;}
+                if (plaza4 < startLat && plaza4 > endLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Bergville Ramp"; TollCount = TollCount + BergvilleR ; }
+                if (plaza5 < startLat && plaza5 > endLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Mooi Mainline"; TollCount = TollCount + MooiM ; }
+                if (plaza6 < startLat && plaza6 > endLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Mariannhill Mainline"; TollCount = TollCount + MarianM ; }
+
+
+            }else{
+                //alert("north");
+                if (plaza6 < endLat && plaza6 > startLat) {PlazaName = "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" +  "Mariannhill Mainline"; TollCount = TollCount + MarianM ; }
+                if (plaza5 < endLat && plaza5 > startLat) {PlazaName = PlazaName +"<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' > <br><hr size='1'> " + "Mooi Mainline"; TollCount = TollCount + MooiM ; }
+                if (plaza4 < endLat && plaza4 > startLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Bergville Ramp"; TollCount = TollCount + BergvilleR ; }
+                if (plaza3 < endLat && plaza3 > startLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Tugela Mainline"; TollCount = TollCount + TugelaM ;}
+                if (plaza2 < endLat && plaza2 > startLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Wilge Mainline"; TollCount = TollCount + WilgeM ; }
+                if (plaza1 < endLat && plaza1 > startLat) {PlazaName = PlazaName +" <br><hr size='1'> " + "<img  src='images/tollicn.png' width='25' height='25' onclick='hideTabs()' >" + "Dehoek Mainline"; TollCount = TollCount + DeHoekM;}
+            }
+
+
+            var lat1 = startLat;
+            var lon1 = startLon;
+            var lat2 = endLat;
+            var lon2 = endLon;
+
+            var radlat1 = Math.PI * lat1/180;
+            var radlat2 = Math.PI * lat2/180;
+            var radlon1 = Math.PI * lon1/180;
+            var radlon2 = Math.PI * lon2/180;
+            var theta = lon1-lon2;
+            var radtheta = Math.PI * theta/180;
+            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+            dist = Math.acos(dist);
+            dist = dist * 180/Math.PI;
+            dist = dist * 60 * 1.1515;
+            dist = dist * 1.609344
+            //if (unit=="N") { dist = dist * 0.8684 }
+            //return dist;
+            //alert(dist);
+
+            document.getElementById('distHolder').innerHTML = "<div><p class='tt-route-control-instructionText' id='dist' ></p></div>"  ;
+
+            document.getElementById('dist').innerHTML = "<hr size='1'>" + "<strong><span id='cost'>Total Cost: R " + TollCount  +"</span></strong><br /><div id='extraInfo' >" + "Toll Points - " + address1 + " to " + address2 + "<br>" + PlazaName + "<br>" + "<img src='images/dircBtn.png' width='25%' height='auto' style='margin:8px' onclick='direcShow();'> <img src='images/savetrip.png' width='25%' height='auto' style='margin:8px' onclick='routeShow();'> <img src='images/viewmap.png' width='25%' height='auto' style='margin:8px' onclick='hideTabs();'><div style='height:50px'>...</div>" ;
+
+            ///+ "Distance: " + dist.toFixed(2) + " Km"
+            setTimeout(function(){
+                convertKm();
+            }, 2000);
+
+
+
+        }
+        </script>
+
+        
+        <body>
+
+        <script>
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            // Great success! All the File APIs are supported.
+        } else {
+  alert('The File APIs are not fully supported in this browser.');
+        }
+</script>
+
+ 
+
+        <div class="topheadOn" id="as" >
+      <div class="srch-box" id="srbx" hidden><iframe id="frm1" src="http://sandbox1.co.za/n3tc/1/fastfilter.html" frameborder="0" allowtransparency="" width="100%" height="100%" scrolling="auto"></iframe>
+       
+     <div  style=" color: #fff; display:none;  background-color: rgba(255, 255, 255, 0.72); max-height: 400px;  margin-top: 5px;" id="listPnl">
+       </div>
+       </div>
+       <div style=" text-align: right;padding: 5px;background-color: rgba(22, 106, 180, 0.78);" id="ggX" ><img src="images/maps_hmt.png" width="40" height="40" onClick="hideAll()"></div>
+    
+        <div style="display: none;
+            width:100%;
+            border: none;
+            padding: 0.3rem;
+            color: white;
+            z-index:501;
+            position: absolute;
+            // border-bottom: thin solid rgba(0, 0, 0, 0.43);
+            //background-color: rgba(0, 0, 0, 0.37);
+            font-size: 0.7rem;" id="longlat"></div>
+        <!--<div class="box" id="poihead" style="    background-color: rgba(2, 2, 2, 0.36);
+            border-radius: 5px; height: 80%; margin-left: 5px; "></div>-->
+            <div class="box" id="tourbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiTour()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="petbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiPet()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="evebtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiEve()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="activebtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiAct()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="accbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiAcc()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="restbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiRest()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div></div>
+
+        <div style=" font-family: arial, helvetica, sans-serif; font-size: 0.8rem; background-color: #fff;  width:100%; min-width:200px; margin-left: 0px; margin-right: 0px;   position: absolute;overflow-y: auto;  height: 100%;" id="sidePnlHolder">
+           <div id="sidePnl" style="color:#464242;">
+
+
+
+           </div>
+        </div>
+        
+
+
+        <div  id="poptabs"  class="PopupTabs tabsHide"><div id="minmax" class="topBtns" style="border-right: 1px solid rgba(255, 255, 255, 0.43);" onClick="tabsHide()"><img id="expand" src="images/bckarrow.png" width="30%" height="auto" style="max-width:85px; padding-top:0px"><div class="label">BACK</div></div>
+        <div id="myAcc" class="accHide"></div>
+
+        <div id="mapbig" style="background-color:rgba(0, 0, 0, 0.0); height: 25px; color: white; border-radius: 4px; float: right; position: absolute; z-index:5;" onClick="maptoggle()">
+        <img id="expandimg" src="images/expandmap.png" style="max-width:30px; height:auto; padding: 5px 5px 5px 5px;   "></div>
+        <div id="map2Holder" class="map2Split"><div id="map2"  style="height:100%; width:100%; border-top: 1px solid #fff;"></div></div> <div id="tabs2"></div></div>
+
+        <div class="boxroute" id="acc" ><div id="care" style="background-color: rgba(4, 4, 4, 0.0); padding-bottom: 10px; border-bottom: 0px solid #000; margin-top: 20px; "><span style="font-size:1.1rem; ">24/7 Careline</span><br><span style="font-size:1.6rem;">
+        0800 63 4357</span><br><a href="tel:0800634357"><img src="images/callbtn2.png" style="max-width:30%; margin-right: 25px; margin-bottom: 0px;  height:auto; padding-top:3px; display:inline-block;"></a><img id="assistbtn" src="images/assistbigBtn.png" style="max-width:30%; margin-left: 25px;     margin-bottom: 0px; height:auto; padding-top:3px; display:inline-block;" onClick="Assist()"></div><div id="message"  ><br>
+
+        </div>
+              <div id="shortcuts" > <div style="border-bottom: 0px solid #000; ">
+                  <img src="images/maps_hm.png" class="hmbtn"width="30%" height="auto" onclick="closeBox1()" />
+                  <img src="images/twitter_hm.png" class="hmbtn"  width="30%" height="auto" onClick="ldUrltwt()" />
+                  <img src="images/poisrch_hm.png" class="hmbtn"width="30%" height="auto" onclick="poiSrch()" />
+                  <img src="images/tripplanner_hm.png" class="hmbtn" width="30%" height="auto" onclick="route()" />
+                  <a href="assets/n3account.html" ><img src="images/myacc_hm.png" class="hmbtn" width="30%" height="auto" /></a>
+                  <br /><div style="background-color: rgba(0, 0, 0, 0.42); border-top: 1px #212020 solid; height: 250px; display: inline-block; width:100%"><br /> <a href="file:///storage/emulated/0/"><img src="images/n3tc_logo.png" width="20%" height="auto" /></a><clobbers target="window.DirectoryReader" /></div></div> </div>
+                      <div class="" id="rest" style="top:220px"></div>
+                      </div>
+                      <div id="tripHold" style="position:absolute;  z-index: 5999; top: -75px; right: 0px;  width:100%;" ></div>
+                
+            <nav id="c-circle-nav" class="c-circle-nav">
+  <button id="c-circle-nav__toggle" class="c-circle-nav__toggle" onClick="showTrips()">
+    <span>Toggle</span>
+  </button>
+  <ul class="c-circle-nav__items">
+    <li class="c-circle-nav__item">
+      <a href="#" class="c-circle-nav__link">
+        <img id="flw" src="img/flw.png" alt="" onclick="toggleFlow()"> 
+      </a>
+    </li>
+    <li class="c-circle-nav__item">
+      <a href="#" class="c-circle-nav__link">
+        <img id="wtr" src="img/wtr.png" alt="" onclick="weatherTw()">
+      </a>
+    </li>
+    <li class="c-circle-nav__item">
+      <a href="#" class="c-circle-nav__link">
+        <img id="tll" src="img/tll.png" alt="" onclick="tollTw()">
+      </a>
+    </li>
+    <li class="c-circle-nav__item">
+      <a href="#" class="c-circle-nav__link">
+        <img id="crsh" src="img/crsh.png" alt="" onclick="crashTw()">
+      </a>
+    </li>
+    <li class="c-circle-nav__item">
+      <a href="#" class="c-circle-nav__link">
+        <img src="img/n3off.png" alt="" onclick="n3()">
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<script src="js/circleMenu.min.js"></script>
+
+            
+            
+                <div class="mapholderoff" id="mapholder">
+
+                  <div id="map" onClick="hideAll()"></div>
+                 
+                </div><div id="tabs"></div>
+                <div id="retailbtnxxX" onClick="proxPlus()" class="trackingBtnHide"><img id="trackBtnimgZ" src="images/pins/trackbtnoff.png" style="max-width:30px; height:auto; padding-top:10px;"  ></div>
+                <div  id="kmBar"  class="kmPnlon">
+                <div id="srch"  class="dispNone">
+                      <div class='column-33' style="padding-top: 0px;" >
+                            <div id=''><img src="images/lessBtn2.png" style="width:30%; padding-bottom: 15px; max-width:35px; height:auto; padding-top:0px;" onClick="proxMinus()" ></div>
+                               <div class='label'></div>
+                      </div
+                      ><div class='column-33' style="padding-top: 0px; " onClick="setProx()">
+                      <div id='kmCnt' class='label' style='font-size: 0.9rem;'>CLICK TO SEARCH</div>
+                      <div id='' style="background-image: url(images/srchBck.png);
+                    background-position: center;
+                    background-size: contain;
+                    background-repeat: no-repeat; padding: 4px;" ><span id="kmCounter" style="font-size:1.6rem; margin-left:8px; margin-right:8px; text-shadow: 1px 1px rgba(0, 0, 0, 0.93);">5</span></div>
+                        <div id='kmCnt' class='label'>Kms Radius</div>
+                </div
+                      ><div class='column-33' style="padding-top: 0px;" >
+                                <div id=''><img src="images/moreBtn2.png" style="width:30%; padding-bottom: 15px; max-width:35px; height:auto; padding-top:0px;" onClick="proxPlus()" ></div>
+                                <div class='label'></div>
+                        </div>
+
+                      </div>
+
+                       <div class='column-20' style="   padding-bottom: 10px;" >
+                             <div id='' style="padding-top: 1.5px;"><img src="images/assistBtn.png" style="max-width:30px; height:auto; padding-top:3px;" onClick="Assist()"></div>
+                               <div class='label'>ASSIST</div>
+                      </div
+                      ><div class='column-20' style="  padding-bottom: 10px;" >
+                             <div id=''><img src="images/twtBtn.png" style="max-width:30px; height:auto; padding-top:3px;" onClick="ldUrltwt()" ></div>
+                               <div class='label'>TWITTER</div>
+                      </div
+                      ><div class='column-20' style="  padding-bottom: 10px;">
+                       <div id='retailbtnxx'><img id="poiSrch1" src="images/poiBtn.png" style="max-width:35px; height:auto; padding-top:0px;" onClick="poiSrch()"></div>
+                       <div class='label' >POI SEARCH</div>
+                </div
+                      ><div class='column-20' style="  padding-bottom: 10px;" >
+                             <div id='' style="padding-top: 1.5px;"><img src="images/routeBtn.png" style="max-width:30px; height:auto; padding-top:3px;" onClick="route()"></div>
+                               <div class='label'>TRIP PLANNER</div>
+                      </div
+                      ><div class='column-20' style="   padding-bottom: 10px;" >
+                                <div id='' ><a href="assets/n3account.html" target="_self"><img src="images/accBtn.png" style="max-width:30px; height:auto; padding-top:3px;" ></a></div>
+                                <div class='label'>MY ACCOUNT</div>
+
+                      </div>
+
+                </div>
+
+
+
+                <p id="demo"></p>
+
+                <script>
+            //poi ul create
+                function createList() {
+
+                pointIndex = 0;
+                points = getPoints();
+
+                prox = document.getElementById("kmCounter").innerHTML;
+
+                for (pointIndex = 0; pointIndex < points.length && pointIndex < 1154; pointIndex++) {
+                                    point = points[pointIndex];
+                                    var mrk =  point.cat;
+                                    var morebtn ="<img style='text-align:center' src='images/more-icons.png' width='60' height='18' onClick='listShow()' >";
+                                    var descName =  point.name;
+                                    var adrpnt = point.adr;
+            // var descClean = descName.replace(/&/g, "n");
+                                    pointlat = point.lat;
+                                    pointlon = point.lon;
+                                    var poiList = "<li class='poiLi' onclick='setProx()'><a href='#'>" + "<strong>" + descName + "</strong>" + " - " + mrk + "<br>" + adrpnt + "  >>" + "</li></a>";
+                                    if (mrk != "Petrol"){
+                                    document.getElementById("search_list").innerHTML += poiList;}
+            //pnlList = "<div></div>";
+
+            //distance calculation
+                var lat1 = mylat;
+                var lon1 = mylon;
+                var lat2 = point.lat;
+                var lon2 = point.lon;
+
+
+                var radlat1 = Math.PI * lat1/180;
+                var radlat2 = Math.PI * lat2/180;
+                var radlon1 = Math.PI * lon1/180;
+                var radlon2 = Math.PI * lon2/180;
+                var theta = lon1-lon2;
+                var radtheta = Math.PI * theta/180;
+                var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                    dist = Math.acos(dist);
+                    dist = dist * 180/Math.PI;
+                    dist = dist * 60 * 1.1515;
+                     dist = dist * 1.609344
+            //if (unit=="N") { dist = dist * 0.8684 }
+            //return dist;
+                    var resultcalc = prox - dist;
+
+            //dist calc end ////////////////////////
+
+            //assign content to desc var//
+                var descExp = "<strong>" + point.name + "</strong>" + " - " + mrk + "<br>" + "Distance: " + dist.toFixed(2) + " kms<br>" + "Tel: " + point.cnt + "<br>"+ "Address: " + point.adr + "<br>" + "Co-ords: " + point.lat + ", " + point.lon + "<br>" + "Website: " + "<a href='" + point.web + "'>" + point.web + "</a>" + "<br>" ;
+
+                var descLtd = point.name + " - " + mrk + " " + "Distance: " + dist.toFixed(2) + " kms" ;
+
+
+            //if (prox > dist){
+            //				document.getElementById("listPnl").innerHTML += poiList;
+            //   }
+        }
+              
+        }
+                </script>
+
+                <script>
+            //function goMap(pointlat, pointlon){
+                    function goMap(){
+                    hideAll();
+                     map.setView([mylat,mylon], 17);
+        }
+                function txtClear(){
+                    //document.getElementById("search_input").value = "";
+                   // document.getElementById("search_list").className = "plistHide";
+                     document.getElementById("srch").className = "dispNorm";
+                     document.getElementById("as").className = "tophead";
+                    
+            //hideAll();
+        }
+
+                function direcShow(){
+                document.getElementById("directionsR").style.display = "block";
+        }
+
+                function getMyloc(){
+                    document.getElementById("point1").value = "Johannesburg, South Africa";
+        }
+
+                function getEndloc(){
+                    hideTabs();
+                    mm.addMarker(new tomtom.Marker([point.lat, point.lon]), "marker_end");
+            //document.getElementById("point2").value = "Johannesburg, South Africa";
+        }
+                </script>
+
+                <script>
+                function listHide(){
+            // if (document.getElementById("map").style.display =="none"){
+                  document.getElementById("mapholder").style.display ="block";
+                  document.getElementById("map").style.display ="block";
+                  document.getElementById("as").className ="topheadOn";
+                  document.getElementById("kmBar").className = "kmPnloff";
+        }
+                function listShow(){
+                  document.getElementById("map").style.display ="none";
+                  document.getElementById("mapholder").style.display ="none";
+                  document.getElementById("as").className ="topheadOn";
+                  document.getElementById("kmBar").className = "kmPnlon";
+                  hideTabs();
+        }
+
+                function hideTP(){
+            //  $(".tophead").to;
+                   // txtClear();
+                    document.getElementById("as").className = 'topheadOn';
+                    //loadTwitterPoint();
+        }
+
+                </script>
+
+                <script>
+                function gpsEnabled(){
+                 document.getElementById("shortcuts").innerHTML="<br>";
+                document.getElementById("message").innerHTML="<br>";
+                document.getElementById("acc").className ="hidebox";
+                location.reload();
+
+        }
+
+                </script>
+
+                
+
+                <script>
+                function gpsIgnore(){
+                 document.getElementById("shortcuts").innerHTML="<br>";
+                document.getElementById("message").innerHTML="<br>";
+                document.getElementById("acc").className ="hidebox";
+            //runpoi();
+
+        }
+
+                </script>
+
+                <script>
+                function closeBox1(){
+            // if (document.getElementById("map").style.display =="none"){
+            //document.getElementById("box1").innerHTML ="xxx";
+                  document.getElementById("acc").className ="hidebox";
+            // document.getElementById("as").className ="topheadOn";
+                  document.getElementById("kmBar").className = "kmPnloff";
+                  document.getElementById("shortcuts").innerHTML="<br>";
+                  document.getElementById("message").innerHTML="<br>";
+                 // document.getElementById("closebtn").className ="dispNone";
+                  document.getElementById("care").className ="dispNone";
+                    //loadTwitterPoint();
+        }
+
+
+                </script>
+
+                <script>
+                function accDirect(){
+            // if (document.getElementById("map").style.display =="none"){
+            //document.getElementById("box1").innerHTML ="xxx";
+                  document.getElementById("acc").className ="hidebox";
+                  document.getElementById("poptabs").className ="PopupTabs";
+                document.getElementById("tabs").className ="tabs";
+                myAccShow();
+        }
+                </script>
+
+                <script>
+                function twtDirect(){
+            // if (document.getElementById("map").style.display =="none"){
+            //document.getElementById("box1").innerHTML ="xxx";
+                  document.getElementById("acc").className ="hidebox";
+                  document.getElementById("poptabs").className ="PopupTabs";
+                document.getElementById("tabs").className ="tabs";
+                route();
+
+        }
+                    
+                   
+                </script>
+
+
+
+                <script>
+                function myAccShow(){
+
+
+                    var accstate = document.getElementById("myAcc").className;
+                    if (accstate == "accShow"){
+                    document.getElementById("myAcc").className ="accHide";
+            //document.getElementById("tripsave").className ="accHide";
+                    document.getElementById("tabs").className ="tabs";
+
+        }
+        else {
+                    document.getElementById("myAcc").className ="accShow";
+            //document.getElementById("twt").className ="accHide";
+            //document.getElementById("tripsave").className ="accHide";
+                    document.getElementById("assist").className ="accHide";
+                    document.getElementById("tabs").className ="hideTabs";
+
+
+        }
+
+        }
+                </script>
+
+
+
+
+                <script>
+                function routeShow(){
+            //document.getElementById("twt").className ="accHide";
+                    document.getElementById("myAcc").className ="accHide";
+            //document.getElementById("assist").className ="accHide";
+            //document.getElementById("poptabs").className ="PopupTabs"; //slider
+            //document.getElementById("tripsave").className ="accShow";
+                    var starttrip = document.getElementById("point1").value;
+                            var endtrip = document.getElementById("point2").value;
+            //var datetrip = document.getElementsByName("routeLeaveAt").item(0);
+                            document.getElementById("directionsR").id = "directionsTmp";
+                            var infotrip = document.getElementById("tripdetails").innerHTML;
+                            var costtrip = document.getElementById("cost").innerHTML;
+
+                            var directionstrip = document.getElementById("directionsTmp").innerHTML;
+                            document.getElementById("directionsTmp").id = "directionsR";
+            //document.cookie= starttrip + ":" + endtrip + ":" + datetrip + ":" + infotrip  ;
+            // Store
+                        var d = new Date();
+                var e = d.toString();
+                var splitsdate = e.split("2");
+                var datetrip = (splitsdate[0]);
+
+
+                var storageId = localStorage.getItem("trip1");
+            //alert("sid2 " + storageId);
+                var storageId2 = localStorage.getItem("trip2");
+                var storageId3 = localStorage.getItem("trip3");
+
+                if ( storageId == null){
+                    localStorage.setItem("trip1", starttrip + ";" + endtrip + ";" + datetrip + ";" + infotrip + ";" + costtrip + ";" + directionstrip  + ";" + tripDist );
+
+                    trip1Info = "<div id='savedtrip1' class='tripbox tb240'><div id='cntbar1' class='tripbar'><div id='tdst1' style='color:#000'> </div>km<img src='images/moreBtn.png' width='20' height='20' style='float:right' onclick='expandBox()' /> </div>\r\n <img src='images/startTripbtn.png' width='25%' height='auto' style='margin:3px; float: left;' onclick='startTrip1();'>\r\n  <label>Start: </label><label id='strtlbl'></label><br> \r\n  <label>End: </label><label id='endlbl'></label><br> \r\n  <label>Date: </label><label id='datelbl'></label><br>\r\n <br>\r\n   <form style='display:none'>\r\n     <label class='inlinechk' ><input type='checkbox' name='poi' id='poichk' checked>POI\r\n  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='trackingchk' id='trackingchk' value='' checked>\r\n Tracking </label>\r\n   <label class='inlinechk'> <input type='checkbox' name='trafficchk' id='trafficchk' value=''checked>\r\n Traffic   </label>\r\n  <label class='inlinechk'>  <input type='checkbox' name='alertschk' id='alertschk' value='' checked>\r\nAlerts  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='directionschk' id='directionschk' value='' onclick='dirShow();' checked>\r\nDirections  </label>\r\n   </form>\r\n <br>\r\n  <div > <img src='images/dircBtn.png' width='55px' height='auto' style='margin:3px; float: right;' onclick='toggleDirect();'>    </div><br>\r\n <label id='infolbl'></label>\r\n    <label style='font-weight: bold'>Directions</label><hr size='1'>\r\n  <div id='poiHold'  class='tt-route-control-instructions'>Points of Interest on route </div> \r\n  <hr size='1'>\r\n  <label id='costlbl' class='dirShow'></label><br>\r\n <hr size='1'><br> <div class='tt-control-buttons'>\r\n <input type='button' id='delete1' class='tt-control-btn' value='Delete Trip' style='background-color: #E62020; width: 50%;' onclick='deleteTrip1();'>\r\n </div>  </div><br>\r\n";
+
+                    
+                    document.getElementById("tripsave").innerHTML += trip1Info;
+                var poiTemp = document.getElementById("directionsR").innerHTML;
+                document.getElementById("poiHold").innerHTML = poiTemp;
+
+                storageId = "trip1";
+                var mystring = localStorage.getItem(storageId);
+
+                var splits = mystring.split(";");
+
+                 document.getElementById("strtlbl").innerHTML=(splits[0]);
+                document.getElementById("endlbl").innerHTML=(splits[1]);
+
+                document.getElementById("datelbl").innerHTML = (splitsdate[0]);
+            //document.getElementById("datelbl").innerHTML=(splits[2]);
+                document.getElementById("infolbl").innerHTML=(splits[3]);
+                document.getElementById("costlbl").innerHTML=(splits[5]);
+                    //document.getElementById("directionslbl").innerHTML=(splits[5]);
+              //  document.getElementById("tdst1").innerHTML = tripDist;
+                  //  alert
+                document.getElementById("costlbl").className = "dirShow" ;
+                    var tripSaved ="true";
+            //alert("SSSaved as" +  storageId);
+        }
+        else{
+
+                if (storageId2 == null && tripSaved !="true"){
+                    localStorage.setItem("trip2", starttrip + ";" + endtrip + ";" + datetrip + ";" + infotrip + ";" + costtrip + ";" + directionstrip );
+                    trip2Info = "<br><br><div id='savedtrip2' class='tripbox tb240'><div id='cntbar2' class='tripbar'> ... <img src='images/moreBtn.png' width='20' height='20' style='float:right' onclick='expandBox2()' /> </div>\r\n  <label>Start: </label><label id='strtlbl2'></label><br> \r\n  <label>End: </label><label id='endlbl2'></label><br> \r\n  <label>Date: </label><label id='datelbl2'></label><br>\r\n <label id='directionslbl2'></label><br>\r\n  <img src='images/startTripbtn.png' width='25%' height='auto' style='margin:3px; float: right;' onclick='startTrip2();'> \r\n  <form style='display:none'>\r\n     <label class='inlinechk' ><input type='checkbox' name='poi2' id='poichk2' checked>POI\r\n  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='trackingchk2' id='trackingchk2' value='' checked>\r\n Tracking </label>\r\n   <label class='inlinechk'> <input type='checkbox' name='trafficchk2' id='trafficchk2' value=''checked>\r\n Traffic   </label>\r\n  <label class='inlinechk'>  <input type='checkbox' name='alertschk2' id='alertschk2' value='' checked>\r\nAlerts  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='directionschk2' id='directionschk2' value='' onclick='dirShow();' checked>\r\nDirections  </label>\r\n   </form>\r\n <br>\r\n  <label id='infolbl2'></label>\r\n    <label style='font-weight: bold'>Directions</label><hr size='1'>\r\n  <div id='poiHold2' style='display: inline-flex;'>Points of Interest on route </div> \r\n  <hr size='1'>\r\n  <label id='costlbl2' class='dirHide'></label><br>\r\n <hr size='1'><br> <div class='tt-control-buttons'>\r\n <input type='button' id='delete2' class='tt-control-btn' value='Delete Trip' style='background-color: #E62020; width: 50%;' onclick='deleteTrip2();'>\r\n </div>  </div>\r\n";
+
+                document.getElementById("tripsave").innerHTML += trip2Info;
+                    storageId = "trip2";
+                            var mystring = localStorage.getItem(storageId);
+            //alert(see);
+            //var mystring = see;
+                var splits = mystring.split(";");
+            //document.getElementById("tripsave").className="showtrip";
+                 document.getElementById("strtlbl2").innerHTML=(splits[0]);
+                document.getElementById("endlbl2").innerHTML=(splits[1]);
+
+                document.getElementById("datelbl2").innerHTML = (splitsdate[0]);
+            //document.getElementById("datelbl").innerHTML=(splits[2]);
+                document.getElementById("infolbl2").innerHTML=(splits[3]);
+                document.getElementById("costlbl2").innerHTML=(splits[4]);
+                document.getElementById("directionslbl2").innerHTML=(splits[5]);
+                document.getElementById("costlbl2").className = "dirHide" ;
+                tripSaved ="true";
+            //alert("Saved as" +  storageId);
+        }
+
+        else
+        {if (storageId3 == null && tripSaved !="true"){    localStorage.setItem("trip3", starttrip + ";" + endtrip + ";" + datetrip + ";" + infotrip + ";" + costtrip + ";" + directionstrip );
+
+                    trip3Info = "<br><br>\r\n <div id='savedtrip3' class='tripbox'>\r\n  <label>Start: </label><label id='strtlbl3'></label><br> \r\n  <label>End: </label><label id='endlbl3'></label><br> \r\n  <label>Date: </label><label id='datelbl3'></label><br><br>\r\n <label id='infolbl3'></label><br><br>\r\n  <label>Cost:</label><label id='costlbl3'></label><br>\r\n <label>Directions:</label><label id='directionslbl3'></label><br>\r\n <form style='display:none'>\r\n     <label class='inlinechk' ><input type='checkbox' name='poi3' id='poichk3' checked>POI\r\n  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='trackingchk3' id='trackingchk3' value=''>\r\n Tracking </label>\r\n   <label class='inlinechk'> <input type='checkbox' name='trafficchk3' id='trafficchk3' value=''checked>\r\n Traffic   </label>\r\n  <label class='inlinechk'>  <input type='checkbox' name='alertschk3' id='alertschk2' value=''>\r\nAlerts  </label>\r\n <label class='inlinechk'>  <input type='checkbox' name='directionschk3' id='directionschk3' value=''>\r\nDirections  </label>\r\n   </form>\r\n <input type='button' id='delete3' class='tt-control-btn' value='Delete Trip' style='background-color: #E62020;' onclick='deleteTrip3();'>\r\n </div>\r\n <div class='tt-control-buttons'>\r\n <input type='button' id='tripgo3' class='tt-control-btn' value='Start Trip' onclick='startTrip3();'>\r\n </div>   </div>\r\n ";
+
+                document.getElementById("tripsave").innerHTML += trip3Info;
+
+                    storageId = "trip3";
+                            var mystring = localStorage.getItem(storageId);
+            //alert(see);
+            //var mystring = see;
+                var splits = mystring.split(";");
+
+            //document.getElementById("tripsave").className="showtrip";
+                 document.getElementById("strtlbl3").innerHTML=(splits[0]);
+                document.getElementById("endlbl3").innerHTML=(splits[1]);
+
+                document.getElementById("datelbl3").innerHTML = (splitsdate[0]);
+            //document.getElementById("datelbl").innerHTML=(splits[2]);
+                document.getElementById("infolbl3").innerHTML=(splits[3]);
+                document.getElementById("costlbl3").innerHTML=(splits[4]);
+                document.getElementById("directionslbl3").innerHTML=(splits[5]);
+
+                tripSaved ="true";
+
+
+            //alert("Saved as" +  storageId);
+        }
+        }
+        }
+
+            //x.innerHTML = Math.floor((Math.random() * 100) + 1);
+            //document.getElementById("demo").id = "newid";
+
+
+
+        }
+                </script>
+
+                <script>
+                function dirShow(){
+
+
+                    chk = document.getElementById("directionschk").checked;
+                    if(chk == true) {
+                    document.getElementById("costlbl").className = "dirShow" ;
+            //alert("check1");
+        }
+        else document.getElementById("costlbl").className = "dirHide" ;
+        }
+                </script>
+
+                <script>
+                function poiAcc(){
+                        if (accomodation == "false"){
+                            document.getElementById("accbtn").style.backgroundColor = "rgb(94, 49, 15)";
+                            accomodation = "true";
+                            pinHolder = "accomodationpin.png";
+                            localStorage.poiAcc = "on";
+                            poiState =1;
+
+        }
+        else{
+                            document.getElementById("accbtn").style.backgroundColor = "rgba(0, 0, 0, 0.0)";
+                            accomodation = "false";
+                            pinHolder = "activitypin.png";
+                            localStorage.poiAcc = "off";
+                           // document.getElementById("search_input").value = "";
+        }
+        }
+
+                function poiPet(){
+                        if (petrol == "false"){
+                            document.getElementById("petbtn").style.backgroundColor = "rgb(255, 194, 15)";
+                            petrol = "true";
+                            pinHolder = "petrolpin.png";
+                            localStorage.poiPetrol = "on";
+                            poiState =1;
+        }
+        else{
+                            document.getElementById("petbtn").style.backgroundColor = "rgba(0, 0, 0, 0.0)";
+                            petrol = "false";
+                            pinHolder = "activitypin.png";
+                            localStorage.poiPetrol = "off";
+        }
+        }
+
+                function poiEve(){
+                        if (events == "false"){
+                            document.getElementById("evebtn").style.backgroundColor = "rgb(134, 85, 164)";
+                            events = "true";
+                            pinHolder = "eventspin.png";
+                            localStorage.poiEvents = "on";
+                            poiState =1;
+
+        }
+
+        else{
+                            document.getElementById("evebtn").style.backgroundColor = "rgba(0, 0, 0, 0.0)";
+                            events = "false";
+                            pinHolder = "accomodationpin.png";
+                            localStorage.poiEvents = "off";
+
+        }
+        }
+
+                function poiTour(){
+                        if (tour == "false"){
+                            document.getElementById("tourbtn").style.backgroundColor = "rgb(40, 168, 233)";
+                            tour = "true";
+                            pinHolder = "tollpin.png";
+                            localStorage.poiToll = "on";
+                            poiState =1;
+
+
+        }
+        else{
+                            document.getElementById("tourbtn").style.backgroundColor = "rgba(0, 0, 0, 0.0)";
+                            tour = "false";
+                            pinHolder = "accomodationpin.png";
+                            localStorage.poiToll = "off";
+
+        }
+        }
+
+                function poiAct(){
+                            if (activities == "false"){
+                            document.getElementById("activebtn").style.backgroundColor = "rgb(66, 189, 161)";
+                            activities = "true";
+                            localStorage.poiAct = "on";
+                            poiState =1;
+
+        }
+        else{
+                            document.getElementById("activebtn").style.backgroundColor = "rgba(0, 0, 0, 0.0)";
+                            activities = "false";
+                            localStorage.poiAct = "off";
+
+
+        }
+        }
+
+                function poiRest(){
+                            if (restaurant == "false"){
+                            document.getElementById("restbtn").style.backgroundColor = "rgb(229, 173, 38)";
+                            restaurant = "true";
+                            localStorage.poiRest = "on";
+                            poiState =1;
+
+        }
+        else{
+                            document.getElementById("restbtn").style.backgroundColor = "rgba(0, 0, 0, 0.0)";
+                            restaurant = "false";
+                            localStorage.poiRest = "off";
+
+        }
+        }
+
+                function poiRet(){
+                    tabsHide();
+                    hideTabs();
+                            if (retail == "false"){
+            //document.getElementById("retailbtnxx").style.backgroundColor = "rgba(0, 160, 247, 0.2)";
+                            retail = "true";
+                            trackingState = "ON";
+            //alert(trackingState);
+                            setTracking();
+            //document.getElementById("retailbtnxx").className ="trackingBtnShow";
+        }
+        else{
+            //document.getElementById("retailbtnxx").style.backgroundColor = "rgb(53, 152, 234, 0.0)";
+                            retail = "false";
+                            trackingState = "OFF";
+            //alert(trackingState);
+            //document.getElementById("retailbtnxx").className ="trackingBtnHide";
+            //document.getElementById("retails").innerHTML="OFF";
+                            document.getElementById("kmCnt").innerHTML = "Kms Radius";
+                            document.getElementById("kmCounter").innerHTML = 5;
+                            document.getElementById("kmBar").className = "kmPnloff";
+                            document.getElementById("mapholder").className = "mapholderoff";
+                            document.getElementById("as").className = "tophead";
+                            document.getElementById("poipop1").className = "poiPopOff";
+
+                            setProx();
+                            clearInterval(myVar);
+
+        }
+
+        }
+        
+
+
+
+
+        function startTrip1(){
+            tripShow = 1;
+            document.getElementById("cntbar1").style.backgroundColor = "#34CC21";
+            StartPoint1 = document.getElementById("strtlbl").innerHTML;
+            EndPoint1 = document.getElementById("endlbl").innerHTML;
+            //document.getElementById("tripgo").style.backgroundColor = "#CCC";
+          //  expandBox();
+            var trck = document.getElementById("trackingchk").checked;
+			tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                        iconUrl: "mymarker/markerme.png",
+                        iconSize: [70, 70],
+                        iconAnchor: [ 40, 15 ]};
+           // map.routeStyle: { color: "#4ce616", weight: 5}
+            map.displayRoute([StartPoint1, EndPoint1]);
+           // document.getElementById("search_input").value = EndPoint1; 
+                hideTabs();
+            
+            //if (trck == true){ trackingState = "ON";
+        //  var distTmp = document.getElementById("tdst1").innerHTML;
+       //     document.getElementById("kmCounter").innerHTML = distTmp;
+            poiRet();
+            ClosestPoint();
+            //alert("tracking");
+      //  }
+
+            var poi = document.getElementById("poichk").checked;
+            if (poi == true){ //setProx();
+        }
+
+        }
+
+        function endTrip(){
+            tripShow = 0;
+            expandBox();
+            document.getElementById("tabsBar").style.backgroundImage = "url(images/hideIcon.png)";
+            document.getElementById("cntbar1").style.backgroundColor = "#4B80AC";
+            //document.getElementById("tripgo").style.backgroundColor = "#34CC21";
+            document.getElementById("tabsBar").innerHTML = " ";
+            trackingState = "OFF";
+            clearInterval(myVarClose);
+            clearInterval(myVar);
+
+        }
+
+
+        function startTrip2(){
+            tripShow = 2;
+            var trck = document.getElementById("trackingchk2").checked;
+
+            if (trck == true){ trackingState = "ON";
+            setTracking();
+            ClosestPoint();
+
+        }
+
+            var poi = document.getElementById("poichk").checked;
+            if (poi == true){ //setProx();
+        }
+        }
+
+        function startTrip3(){
+            tripShow = 3;
+            var trck = document.getElementById("trackingchk3").checked;
+
+            if (trck == true){ trackingState = "ON";
+            setTracking();
+            ClosestPoint();
+
+        }
+
+            var poi = document.getElementById("poichk").checked;
+            if (poi == true){ //setProx();
+        }
+        }
+    </script>
+
+    <script>
+                          function proxMinus(){
+                              proxCount = document.getElementById("kmCounter").innerHTML;
+                              if(proxCount <= 5 && proxCount >= 1){ proxCount = proxCount - 1;}else
+                              {proxCount = proxCount - 5;}
+                              document.getElementById("kmCounter").innerHTML= proxCount;
+                              //document.getElementById("as").className = "tophead";
+                          }
+
+    </script>
+
+    <script>
+                          function proxPlus(){
+                              proxCountup = parseInt(document.getElementById("kmCounter").innerHTML);
+                              if(proxCountup >= 20){ proxCountup = proxCountup + 20;}else
+                              {proxCountup = proxCountup + 5;}
+                              document.getElementById("kmCounter").innerHTML= proxCountup;
+
+
+                          }
+
+                          function poiSrch(){
+							  $("#c-circle-nav").css("z-index", "100");
+                              if(poiLoaded=="no"){
+                                  runpoi();
+                                  poiLoaded ="yes";
+                                  //poiSrch();
+                              }
+                              document.getElementById("as").className = "tophead";
+                              document.getElementById("srch").className = "dispNorm";
+                              document.getElementById("acc").className ="hidebox";
+                              document.getElementById("kmBar").className = "kmPnloff";
+
+
+                              var txtval = document.getElementById("search_input").value;
+                              if (txtval != ""){
+                                  document.getElementById("as").className = "tophead tHide";
+                                  document.getElementById("srch").className = "dispNone";
+                              } else document.getElementById("as").className = "tophead";
+
+                              //poi check and set
+                              checkStor = localStorage.poiAcc;
+                              if (checkStor == "on"){ document.getElementById("accbtn").style.backgroundColor = "rgb(93, 47, 10)";
+                                  accomodation= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiEvents;
+                              if (checkStor == "on"){ document.getElementById("evebtn").style.backgroundColor = "rgb(131, 81, 161)";
+                                  events= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiPetrol;
+                              if (checkStor == "on"){ document.getElementById("petbtn").style.backgroundColor = "rgb(255, 194, 15)";
+                                  petrol= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiToll;
+                              if (checkStor == "on"){ document.getElementById("tourbtn").style.backgroundColor = "rgb(40, 145, 195)";
+                                  tour= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiAct;
+                              if (checkStor == "on"){ document.getElementById("activebtn").style.backgroundColor = "rgb(66, 189, 161)";
+                                  activities= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiRest;
+                              if (checkStor == "on"){ document.getElementById("restbtn").style.backgroundColor = "rgb(230, 177, 47)";
+                                  restaurant= "true";
+                                  poiState =1;}
+
+
+
+                          }
+    </script>
+
+    <script>
+                          function setProx(){
+                              if (accomodation == "false" && activities == "false" && restaurant == "false" && events == "false" && retail == "false" && petrol == "false" && tour == "false" ){
+                                  pointIndex = 1155;
+                                  // alert("Please select a point of interest category from the menu above and then click the search button below");
+
+                                  // hideAll();
+                                  poiState = 0;
+                              }
+
+
+                              /*var parent = document.getElementById("mapholder");
+                              var child = document.getElementById("map");
+                              parent.removeChild(child);
+                              var para = "<div id='map' onClick='hideAll()'>";
+                              document.getElementById("mapholder").innerHTML = para;
+
+                              var parentx = document.getElementById("sidePnlHolder");
+                              var childx = document.getElementById("sidePnl");
+                              parentx.removeChild(childx);
+                              var parax = "<div id='sidePnl'>";
+                              document.getElementById("sidePnlHolder").innerHTML = parax; */
+
+                              /*tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                                                  iconUrl: pinHolder,
+                                                  iconSize: [70, 70],
+                                                  iconAnchor: [ 35, 35 ]}; */
+
+                              if (tripDist == 0){prox = document.getElementById("kmCounter").innerHTML;
+                              }else{ prox = tripDist;
+                                  tripDist = 0; 
+                              }
+                              
+                              if(poiState==0){ document.getElementById("kmCnt").innerHTML ="Select a POI category from the list above!";}
+                              else
+                                  document.getElementById("kmCnt").innerHTML ="Searching...";
+
+                              if (prox > 50){zoomMap = 8;}
+                              if (prox > 100){zoomMap = 7;}
+                              if (prox > 400){zoomMap = 6;}
+                              if (prox < 40){zoomMap = 10;}
+                              if (prox < 20){zoomMap = 11;}
+
+                              document.getElementById("sidePnl").innerHTML = "<br><p style='text-align:center; color:#4C4949;'>Search Results for " + prox + " Km Radius </p>";
+
+                              pointIndex = 0;
+                              eventsCnt = 0;
+                              accomodationCnt = 0;
+                              petrolCnt = 0;
+                              tourCnt = 0;
+                              activitiesCnt = 0;
+                              restaurantCnt = 0;
+                              retailCnt = 0;
+
+                              pnlside = "<div></div>";
+
+                              if(poiState==1){
+                                  runpoi();}
+                              document.getElementById("as").className = "tophead";
+
+                              document.getElementById("tabs").className ="#tabs hideTabs";
+                          }
+    </script>
+
+    <script>
+                          function setTracking(){
+
+                              tomtom.Marker.DEFAULT_MARKER_OPTIONS = {
+                                  iconUrl: "mymarker/startmark.png",
+                                  iconSize: [65, 86],
+                                  iconAnchor: [ 17, 12 ]};
+
+
+                              prox = 10;
+                              zoomMap = 16;
+
+
+                              document.getElementById("sidePnl").innerHTML = "<br><br><br><br>" + "<p style='color:#fff'>Active Tracking for " + prox + " Km Proximity Radius </p>";
+
+                              pointIndex = 0;
+                              eventsCnt = 0;
+                              accomodationCnt = 0;
+                              petrolCnt = 0;
+                              tourCnt = 0;
+                              activitiesCnt = 0;
+                              restaurantCnt = 0;
+                              retailCnt = 0;
+
+                              pnlside = "<div></div>";
+
+                              checkStor = localStorage.poiAcc;
+                              if (checkStor == "on"){ document.getElementById("accbtn").style.backgroundColor = "rgb(93, 47, 10)";
+                                  accomodation= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiEvents;
+                              if (checkStor == "on"){ document.getElementById("evebtn").style.backgroundColor = "rgb(131, 81, 161)";
+                                  events= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiPetrol;
+                              if (checkStor == "on"){ document.getElementById("petbtn").style.backgroundColor = "rgb(255, 194, 15)";
+                                  petrol= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiToll;
+                              if (checkStor == "on"){ document.getElementById("tourbtn").style.backgroundColor = "rgb(40, 145, 195)";
+                                  tour= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiAct;
+                              if (checkStor == "on"){ document.getElementById("activebtn").style.backgroundColor = "rgb(66, 189, 161)";
+                                  activities= "true";
+                                  poiState =1;}
+
+                              checkStor = localStorage.poiRest;
+                              if (checkStor == "on"){ document.getElementById("restbtn").style.backgroundColor = "rgb(230, 177, 47)";
+                                  restaurant= "true";
+                                  poiState =1;}
+
+                              runTrack();
+
+                          }
+
+    </script>
+
+    <script>
+
+                          function errorGettingPosition(err){
+
+                              if(err.code==1)
+                              {
+                                  //alert("User denied geolocation.");
+                                  document.getElementById("message").innerHTML+= "Cannot detect GPS. Please enable your GPS location feature" + "<br><div onClick='gpsEnabled()' style=' background-color: #4b80ac; display:inline-block; padding: 5px;  border-radius: 50px; margin: 15px; border: solid 1px #fff;'>MY GPS IS NOW ENABLED</div><div onClick='gpsIgnore()' style=' background-color: #4b80ac; display:inline-block; padding: 5px;  border-radius: 50px; margin: 15px; border: solid 1px #fff;'>IGNORE GPS</div>" ;
+                              }
+                              else if(err.code==2)
+                              {
+                                  //alert("Position unavailable.");
+                                  document.getElementById("message").innerHTML+= "<br>"+"Position unavailable";
+                              }
+                              else if(err.code==3)
+                              {
+                                  alert("Timeout expired.");
+                              }
+                              else
+                              {
+                                  alert("ERROR:"+ err.message);
+                              }
+                          }
+    </script>
+
+    <script>
+
+                          var mapview = "inset";
+
+                          function hideAll(){
+							  $("#c-circle-nav").css("z-index", "1000");
+                              if (mapview =="inset"){
+                                  document.getElementById("mapholder").className = "mapholderon";
+                                  //document.getElementById("kmBar").className = "kmPnlon";
+                                  document.getElementById("srch").className = "dispNone";
+                                  document.getElementById("as").className = "topheadOn";
+                                  mapview = "showall";
+                              }
+                              else{
+                                  // document.getElementById("mapholder").className = "mapholderoff";
+                                  document.getElementById("kmBar").className = "kmPnloff";
+                                  document.getElementById("as").className = "topheadOn";
+                                  mapview = "inset";
+                              }
+                              document.getElementById("srch").className = "dispNone";
+                              if(flowOn == "yes"){
+                                  //getImgDetails();
+                              }
+                          }
+
+    </script>
+
+    <script>
+
+                              function hideTabs(){
+								  $("#c-circle-nav").css("z-index", "1000");
+                                  document.getElementById("tabs").className ="hideTabs";
+                                  document.getElementById("kmBar").className = "kmPnloff";
+
+                              }
+
+                              function toggleDirect(){
+                                  $("#poiHold").css("display", "block");
+                                  //$("#poiHold").css("overflow", "hidden");
+                                  $("#extraInfo").css("display", "block");
+                                  $("#extraInfo").css("overflow", "hidden");
+                                  // overflow: hidden;
+                              }
+    </script>
+
+    <script>
+
+                              var mapview = "inset";
+                              function hideAllTrack(){
+                                  if (mapview =="inset"){
+                                      document.getElementById("mapholder").className = "mapholderon";
+                                      document.getElementById("as").className = "topheadOn";
+                                      document.getElementById("kmBar").className = "kmPnloff";
+                                      document.getElementById("poipop1").className = "poiPopHide";
+                                      mapview = "showall";
+                                  }
+                                  else{
+                                      document.getElementById("mapholder").className = "mapholderoff";
+                                      document.getElementById("as").className = "tophead";
+                                      document.getElementById("kmBar").className = "kmPnloff";
+                                      document.getElementById("poipop1").className = "poiPopOff";
+                                      mapview = "inset";
+                                  }
+                              }
+
+    </script>
+    
+
+            
+                <script>
+function activateList(){}
+function showTrips(){
+	// alert("sadsa");
+	 // var listHtml = document.getElementById("srbx").innerHTML;
+	  var holdState = $("#tripHold").css("top");
+	  if(holdState == "-75px"){$("#tripHold").css("top", "0px");}else{
+		 $("#tripHold").css("top", "-75px"); }
+	    
+	  
+	 // $(".c-mask").attr("width","500");
+	 var trip1InfoX = "<div id='savedtrip1x' class='tripboxMask'>\r\n <img id='tripBtn' src='images/startTripbtnHomeP.png' width='13%' height='auto' style=' float: right; margin: 5px; ' onclick='expandTrip1()'>\r\n  <label>Start: </label><label id='strtlblx'></label><br> \r\n  <label>End: </label><label id='endlblx'></label><label id='infolblx' ></label>\r\n  <label>Date: </label><label id='datelblx'></label></div>";
+	 	// $(".c-mask").html(listHtml);
+		  $("#tripHold").html(trip1InfoX);
+		  $("#tripHold").attr("display", "block");
+		  var mystring = localStorage.getItem("trip1");
+
+                    var splits = mystring.split(";");
+
+                   			
+					document.getElementById("strtlblx").innerHTML=(splits[0]);
+                    document.getElementById("endlblx").innerHTML=(splits[1]);
+                    document.getElementById("datelblx").innerHTML=(splits[2]);
+                    document.getElementById("infolblx").innerHTML=(splits[3]);
+					//document.getElementById("costlblx").innerHTML= poiTemp;
+	  //document.getElementById("msk").innerHTML = "sdfsfsf";
+//$(".xxx").attr("class", "c-circle-nav__toggle is-active");
+//$("#c-circle-nav").removeClass( "c-circle-nav is-active" ).addClass( "c-circle-nav" );
+	 // toggle.classList.remove(activeClass);
+	  // menu.classList.remove(activeClass);
+	  
+	  }
+	  
+function expandTrip1(){
+	
+	if(btState == 'closed'){document.getElementById("savedtrip1x").className ="tripboxMask tripboxMaskExpand";
+		document.getElementById("tripBtn").src="images/startTripbtnHome.png";
+        btState = 'open';
+		loadTwitterPointTripSave();
+    }else{
+            document.getElementById("savedtrip1x").className ="tripboxMask";
+		document.getElementById("tripBtn").src="images/startTripbtnHomeP.png";
+           btState = 'closed' ;
+       //hideAll();    
+        }
+    
+	
+	
+		
+		
+
+//$(".c-mask").removeClass( "c-mask" ).addClass( "c-mask is-active" );
+	}	
+	
+ 
+	  
+function ldUrltwt(){navigator.app.loadUrl("https://mobile.twitter.com/search?q=%23N3Weather%20OR%20%23CrashUpdate%20OR%20%23N3TollRoute%20from%3AN3Route", {wait:2000, loadingDialog:"Wait,Loading App", loadUrlTimeoutValue: 60000});
+
+}</script>
+    <script src="js/scrolling.js"></script>
+   
+    <script type="text/javascript" src='http://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.0/TweenMax.min.js'></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+   
+app.initialize();
+    </body>
 </html>

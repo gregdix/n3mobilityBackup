@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<meta name="author" content="v001" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+   <script type="text/javascript" src="../js/acc.js"></script>
+    <link rel="stylesheet" href="./Multi-page_files/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./Multi-page_files/jqm-demos.css" />
+	
+	<script src="./Multi-page_files/jquery.js"></script>
+	<script src="./Multi-page_files/index.js"></script>
+	<script src="./Multi-page_files/jquery.mobile-1.4.5.min.js"></script>
+    <script src="../js/val-min.js"></script>       
+	<script src="../js/jquery.scrollTo-1.4.2-min.js"></script>
+    <script src="../js/getjsondata.js"></script>
+   
+    <style type="text/css">
+	/* Swipe works with mouse as well but often causes text selection. */
+/* We'll deny text selecton on everything but INPUTs and TEXTAREAs. */
+#main-page :not(INPUT):not(TEXTAREA) {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+</style>
+</head>
+<body class="ui-mobile-viewport ui-overlay-b">
+<div data-role="page" class="ui-page ui-page-theme-b">
+        <div data-role="header" data-theme="b" style="background-color: #2976b8;">
+            <h1>Applications</h1>
+            <a href="#" data-icon="carat-l" data-rel="back" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        </div><!-- /header -->
+        <div role="main" class="ui-content">
+        
+       
+<script type="text/javascript">
+$(document).ready(function (e){
+$("#frmContact").on('submit',(function(e){
+	e.preventDefault();
+	$('#loader-icon').show();
+	var valid;
+	valid = validateContact();
+	if(valid) {
+		$.ajax({
+		url: "http://sandbox1.co.za/n3tc/myacc/contact_mail.php",
+		type: "POST",
+		data:  new FormData(this),
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data){
+		$("#mail-status").html(data);
+		$('#loader-icon').hide();
+		},
+		error: function(){}
+
+		});
+	}
+}));
+
+function validateContact() {
+	var valid = true;
+
+
+	return valid;
+}
+
+});
+</script>
+
+<script>
+var urID = localStorage.getItem("myUserID");
+document.getElementById("userid").value = urID;
+</script>
+
+ <p>Please complete the form below. Note: Required documentation may include all or some of the following: Proof of Identity, Motor Vehicle License Certificate, current Municipal Account. NB: All copies must be certified or accompanied by the original document.</p>
+ <hr />
+ 
+ <img src="images/emailApplication.png" width="70%" height="auto" onclick="sendMymail()" />
+ <p>If you would prefer to recieve a digital application form by email to complete and return click below.</p>
+ <a href="sendmeapplication.html" class="ui-btn ui-btn-icon-right ui-icon-mail" data-rel="dialog" data-transition="pop" >Email Me</a>
+ <hr />
+
+<form id="frmContact" action="" method="post">
+
+<div>
+<input type="hidden" style="border:none" name="subject" readonly="readonly"   id="subject" class="" value="CDA From Website" /> 
+</div>
+<div>
+<input type="hidden" style="border:none" name="userid" placeholder="1234"   id="userid" class="" value="" /> 
+</div>
+<div>
+<label style="padding-top:20px;">Application Type</label>
+<select name="apptype" size="1" id="apptype" onchange="showhide()" >
+<option value="Select">Select Type</option>
+  <option value="Individual">Individual</option>
+  <option value="Business">Business</option>
+</select>
+</div>
+<div>
+<label style="padding-top:20px;">Individual applicant or Company representative</label>
+<label style="padding-top:0px;">Full Name</label>
+<input type="text" name="userName" id="userName" placeholder="Name and Surname"  class="demoInputBox" value="" />
+</div>
+<div>
+<label id="conamel"  style="padding-top:0px;">Company Name</label>
+<input type="text" name="coName" id="coName" placeholder="Company Name.." class="demoInputBox" />
+</div>
+<div>
+
+<label id="coregl" style="padding-top:0px;">Company Reg No.</label>
+<input type="text" name="coReg" id="coReg" placeholder="Company Reg No.." class="demoInputBox" />
+</div>
+<div>
+<label style="padding-top:0px;">Identity Type</label>
+<select name="idtype" size="1" id="idtype" onchange="" >
+<option value="Select">Select Type</option>
+  <option value="Individual">SA Identity</option>
+  <option value="Business">Passport</option>
+</select>
+    
+<label style="padding-top:0px;">Identity/Passport Number</label>
+<input type="text" name="idNo" data-validation="length alphanumeric" data-validation-length="min12" id="idNo" placeholder="Identity Number" class="demoInputBox" />
+</div>
+<div>
+
+<label style="padding-top:0px;">Email</label>
+<input type="text" name="userEmail" id="userEmail" data-validation="email" placeholder="Email" class="demoInputBox" value="" />
+</div>
+<div>
+
+<label style="padding-top:0px;">Contact-Home</label>
+<input type="text" name="cntHome" id="cntHome" placeholder="Contact Home" class="demoInputBox" value="" />
+</div>
+<div>
+
+<label style="padding-top:0px;">Contact-Work</label>
+<input type="text" name="cntWrk" data-validation="length alphanumeric" data-validation-length="min10" id="cntWrk" placeholder="Contact Work" class="demoInputBox" />
+</div>
+<div>
+
+<label style="padding-top:0px;">Contact-Mobile (27.......)</label>
+<input type="text" name="cntCell" id="cntCell" data-validation="length alphanumeric" data-validation-length="min11" class="demoInputBox" value="27" />
+</div>
+<div>
+
+<label style="padding-top:0px;">Contact Number - Fax</label>
+<input type="text" name="cntFax" id="cntFax"  placeholder="Contact Fax" class="demoInputBox" />
+</div>
+<div>
+
+<label style="padding-top:0px;">Physical Address</label>
+<textarea name="Physical" id="Physical" class="demoInputBox" placeholder="Physical Address.." cols="60" rows="6"></textarea>
+</div>
+<div>
+
+<label style="padding-top:0px;">Posal Address</label>
+<textarea name="Postal" id="Postal" class="demoInputBox" placeholder="Postal Address.." cols="60" rows="6"></textarea>
+</div>
+<div>
+
+<label style="padding-top:0px;">Magisterial District</label>
+<input type="text" name="Magisterial" id="Magisterial" placeholder="Magisterial District" class="demoInputBox" value="" />
+</div>
+
+<p>&nbsp;</p>   
+<div class="ui-corner-all custom-corners" hidden>
+<div class="ui-bar ui-bar-b">
+<h4>Vehicle Details</h4>
+</div>
+<div class="ui-body ui-body-b">
+
+
+<input type="text" name="v1Registration" id="v1Registration" placeholder="Vehicle Registration Number" class="demoInputBox" value="" />
+
+<div>
+
+
+<input type="text" name="v1make" id="v1make" placeholder="Make/Model" class="demoInputBox" value="" />
+</div>
+<div>
+
+
+<input type="text" name="v1col" id="v1col" placeholder="Vehicle Colour" class="demoInputBox" value="" />
+</div>
+<div>
+
+
+<select name="v1class" size="1" id="v1class" value="" onchange="linkBind()" >
+<option value="c">Vehicle Class</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+</select>
+</div>
+
+
+<div>
+
+
+<input type="hidden" name="v1link" id="v1linkid" placeholder="Tag ID Number" class="demoInputBox" value="" />
+</div>
+
+</div>
+<p>&nbsp;</p>
+<p><strong>NOTE:</strong>Vehicles can be added once this application has been submitted by clicking the 'Add Vehicles to Application' button on the main menu.</p>
+</div>
+<hr />
+<label><strong>Documentation</strong></label>
+<div>
+  <p>The following documentation is required for the application  (NB: All copies must be certified or accompanied by the original document)</p> </div>
+<p>&nbsp;</p>
+<div style="border:#666 dashed thin; border-radius:9px; padding:7px;">
+<p><strong>NOTE:</strong> You may submit your information on this form and then upload the required documents at another time by clicking the 'Upload Application Documents' button on the main menu.
+</p></div>
+<p>&nbsp;</p>
+<div><br/>
+<label><strong>Proof of Identity</strong></label>
+<div><p><strong>Individual Applicant:</strong> A copy of the individuals Identity Document<br />
+    <strong>Business Application: </strong>A copy of the companies Registration Certificate</p>
+</div>
+<input type="file" name="attachmentFile" id="attachmentFile" class="demoBrowseBox" />
+</div><hr />
+<div><br/>
+    
+<div hidden>
+<label><strong>Vehicle Reg</strong></label>
+<p>A copy of the current Motor Vehicle Licence Certificate for each vehicle specified above, in the name of the applicant</p>
+<input type="file" name="attachmentFile2" id="attachmentFile2" class="demoBrowseBox" />
+</div><hr />
+<div><br/>
+    </div>
+    
+<label><strong>Proof of Residence</strong></label>
+<p><strong>Individual Application:</strong> A copy of Applicant current municipal account indicating the physical address specified above OR an affidavit from the SAPA Station in the Magisterial District.
+<strong>Business Application:</strong> An affidavit from the company auditor certifying that the principal place of business, including operations, is located in the Magisterial district AND a copy of the current municupal account indicating the physical address.</p>
+<input type="file" name="attachmentFile3" id="attachmentFile3" class="demoBrowseBox" />
+</div><hr />
+<div>
+<label style="padding-top:20px;">Documentation Status</label>
+<select name="docConfirm" size="1" id="docConfirm" onchange="docStatus()" >
+<option value="Select">Select</option>
+  <option value="Complete">I have Attached ALL Required Docs</option>
+  <option value="Incomplete">I have Attached only some Required Docs</option>
+  <option value="None">I will add docs later</option>
+</select>
+</div>
+<div>
+<input type="hidden" style="border:none" name="docStat" id="docStat" class="demoInputBox" value="" /> 
+</div>
+<div><br/>
+
+
+<textarea  name="content" style="display:none"  id="content" class="demoInputBox" value="" cols="60" rows="6">XX</textarea>
+</div>
+
+
+<div><br/>
+<input type="submit" value="Submit" class="btnAction" />
+</div><br/>
+</form>
+            <script src="../js/jquery.form-validator.min.js"></script>
+<script>
+    $.validate({
+        modules : 'length, security'
+    });
+</script>
+
+
+<div id="loader-icon" style="display:none; text-align:center;"><img src="sending.gif" /></div><br/>
+<div id="mail-status"></div>
+
+                  
+
+        </div> 
+<a id='addveh' href='#' style='display:none;'  data-shadow='false' data-iconshadow='false' class='ui-btn ui-btn-icon-left ui-icon-check' onclick='addveh()'>Add a Vehicle?</a>
+ 
+<a href="applications.html"  data-shadow="false" data-iconshadow="false" class="ui-btn ui-btn-icon-left ui-icon-arrow-l">Back to Menu</a>
+            
+        </div><!-- /content -->
+    </div><!-- /page -->
+</body>
+</html>

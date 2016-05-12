@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>My Account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    
+<script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/cda3025d3f53c7ce737507c31dce3cad3676f316b56a4925a628fd29cf6324df.js"></script>
+    <script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/vehAppXc4g3f53c486737507c31dce3cad3676f316b56a4925a628fd29cflk89m1.js"></script>
+<script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/usr3025d3f53c7ce737507c31dce3cad3676f316b56a4925a628fd29cf56841x5.js"></script>
+<script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/acc3025d3f53c7ce737507c31dce3cad3676f316b56a4925a628fd29cf2548df.js"></script>
+<script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/crd3025d3f53c7ce737507c31d1473ad3676f316b56a4925a628fd29cf2548df.js"></script>
+<script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/veh3025d3f53c486737507c31dce3cad3676f316b56a4925a628fd29cf6324df.js"></script>
+<script type="text/javascript" src="http://zipar.co.za/uploads/upload/js/trans3025d3f53c7ce737507c31dce3cad3676f316b56a4925a628fd24572548df.js"></script>
+
+<script type="text/javascript" src="../js/acc.js"></script>
+<link rel="stylesheet" href="./Multi-page_files/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./Multi-page_files/jqm-demos.css" />
+	
+	<script src="./Multi-page_files/jquery.js"></script>
+	<script src="./Multi-page_files/index.js"></script>
+	<script src="./Multi-page_files/jquery.mobile-1.4.5.min.js"></script>
+     <script type="text/javascript">
+	 var loadType = 0;
+	 window.onload = function() {
+	 
+	 getUserDetails();
+	 AccFeed();
+	// PopulateProfile();
+	  CdaFeed();
+		if (document.getElementById("usridHead").innerHTML == "id"){location.reload()};
+	 }
+	
+</script>
+<style type="text/css">
+	/* Swipe works with mouse as well but often causes text selection. */
+/* We'll deny text selecton on everything but INPUTs and TEXTAREAs. */
+#main-page :not(INPUT):not(TEXTAREA) {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+
+.userIDbox{
+color: #B3B2B2;
+    font-size: 10px;
+    float: right;
+    margin-bottom: 15px;
+    width: 88%;
+    padding: 8px;
+    padding-right: 30px;
+    border-radius: 4px;
+    text-align: right;
+    background-color: #333333;
+    box-shadow: inset 1px 1px 1px rgba(8, 8, 8, 0.15);
+    border: 1px rgb(28, 28, 28) solid;
+    background-image: url('images/checked_user.png');
+    background-position: right;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.tickerBox{
+color: #ECEAEA;
+    font-size: 12px;
+    
+    width: 96%;
+    padding: 5px;
+    /* padding-right: 10px; */
+    border-radius: 5px;
+    text-align: right;
+   background-color: #2A2A2A;
+    /* box-shadow: inset 1px 1px 1px #080808; */
+    border: 1px rgba(25, 24, 24, 0.79) solid;	
+}
+.tickerBox2{
+        color: #000;
+    font-size: 12px;
+    width: 84%;
+    margin-left: -25px;
+       text-shadow: 0 1px 0 #FFF;
+}
+
+.srchAppLi {
+font-weight: 200;
+    font-size: small;
+    text-align: left;	
+}
+
+</style>
+    
+</head>
+<body class="ui-mobile-viewport ui-overlay-b" >
+
+<div data-role="page" id="main-page" data-url="main-page" tabindex="0" class="ui-page ui-page-theme-b ui-page-active">
+    <div data-role="header" data-theme="b" style="background-color: #2976b8;">
+        <h1 id="accHead" >Account</h1>
+        <a href="#left-panel" data-icon="carat-r" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        <a href="#" data-icon="refresh" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon" onclick="locReload()">Open right panel</a>
+    </div><!-- /header -->
+    <div role="main" class="ui-content">
+            
+       <!--  <p>Right push panel.</p>-->
+         <div class="userIDbox" id="usridHead" onclick="getUrsDetailsTest()"></div> <br /> 
+        
+      
+        <!-- INBOX-->
+      <a href="#right-panel" data-rel="close" class="ui-btn ui-btn-icon-left ui-icon-mail" style="margin-bottom: 15px; background-color: #ffbb10;">INBOX<span id="inbCnt" class="ui-li-count">1</span></a>
+      
+
+
+
+<!-- ACC2 collabsible
+<a href="#dlg-acc-details" data-rel="popup" data-transition="pop" data-position-to="window" id="btn-submits" class="ui-btn ui-btn-b ui-corner-all mc-top-margin-1-5" onclick="">Submit</a>-->
+
+ <div data-role="popup" id="dlg-acc-details" data-dismissible="false" style="max-width:400px;">
+                <div role="main" class="ui-content" style=" background-color: #454646;">
+                    <h3 id="msgHead1" class="mc-text-danger">Login Failed</h3>
+                    <p id="msgBdy1">Did you enter the right credentials?</p>
+                    <div class="mc-text-center"><a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-b mc-top-margin-1-5">OK</a></div>
+                </div>
+            </div>
+
+
+ <!-- Acc search form-->    
+
+<div data-role="collapsibleset" data-content-theme="b" data-iconpos="right" id="set">
+<div data-role="collapsible" id="setx" data-collapsed="true">
+<h3 onclick="clearAllSet()"><span id="accH1">Accounts</span></h3>
+<div id="setAcc" >  </div>
+<!--<div id="setAllAcc" ><a href="#" class="ui-btn ui-btn-icon-left ui-icon-search" onclick="searchAllAcc()">Search By All </a>  </div>--> 
+</div>
+<div data-role="collapsible" id="set2" hidden data-collapsed="true"  >
+<h3 onclick="TransactionFeed()"><span id="CardNo"></span></h3>
+<div id="setTag"  > </div>
+</div>
+ 
+<div data-role="collapsible" id="set4" hidden data-collapsed="true" >
+<h3 onclick="TransactionFeedbyTag()"><span id="TransNo"></span></h3>
+<div id="setTrans" > </div>
+</div>
+<!--<div data-role="collapsible" id="set3" data-collapsed="true">
+<h3 onclick="VehicleFeed()"><span id="VehicleNo">Vehicles</span></h3>
+<div id="setVehicle" > </div>
+</div>--> 
+<!--<div data-role="collapsible" id="set5" data-collapsed="true">
+<h3 onclick="CdaFeed()">Applications</h3>
+<div id="setApps" > </div>
+</div>-->  
+
+</div>
+<div data-role="collapsible" id="set5" data-collapsed="true" data-iconpos="right">
+<h3 onclick="CdaFeed()">My Applications</h3>
+<div id="setApps" > </div>
+</div>
+
+<!-- Acc search form-->
+<div  style="display:none" id="accHolList">
+<select name="selectac" id="selectAccH" onchange="setCurrentAcc()">
+<option value="none">Account</option>
+</select> 
+</div>      
+
+  </div><!-- /content -->
+    <div data-role="panel" id="left-panel" data-theme="b">
+       
+       <ul data-role="listview" data-inset="true" class="ui-listview">
+            <li data-icon="delete" class="ui-first-child"><a href="#" data-rel="close" class="ui-btn ui-btn" style="background-color: #2976b8;">Menu</a></li>
+            
+                <li><a href="../index.html" rel="external" class="ui-btn ui-btn-icon-right ui-icon-home">Home</a></li>
+               <!-- <li><a href="signin.html" class="ui-btn ui-btn-icon-right ui-icon-user" data-rel="dialog" data-transition="pop">Login</a></li>-->
+           <li><a href="profile.html" class="ui-btn ui-btn-icon-right ui-icon-user" data-rel="dialog" data-transition="pop" onclick="populateDelay();">Profile</a></li>
+                <li><a href="applications.html" class="ui-btn ui-btn-icon-right ui-icon-edit" data-transition="slide">Account Management</a></li>
+              <!--   <li><a href="settings.html" class="ui-btn ui-btn-icon-right ui-icon-gear">Settings</a></li>-->
+                <!--  <li><a href="framemap.html" class="ui-btn ui-btn-icon-right ui-icon-navigation" data-transition="slide">Maps Navigation</a></li>-->
+                <li><a href="contact.html" class="ui-btn ui-btn-icon-right ui-icon-phone" data-transition="slide">Contact</a></li>
+                              
+                <li data-role="list-divider" style="background-color: #2976b8;"></li>
+                <li class="ui-last-child" onclick="logOut()"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-delete">Log Out</a></li>
+		</ul>
+        <br />
+        <div class="ui-body ui-body-b ui-corner-all">
+            <a href="media.html" data-transition="slide"><img src='images/assistBtn.png' width='90%' height='auto' style="float:left" /></a>
+        </div><br />
+        <div class="ui-body ui-body-b ui-corner-all">
+            <a href="tel:0800634357" data-transition="slide"><img src='images/callBbtn.png' width='90%' height='auto' style="float:left" /></a>
+        </div><br />
+        
+        <div class="ui-body ui-body-b ui-corner-all">
+            <a href="https://mobile.twitter.com/search?q=%23N3Weather%20OR%20%23CrashUpdate%20OR%20%23N3TollRoute%20from%3AN3Route" data-transition="slide"><img src='images/twtbtn.png' width='90%' height='auto' style="float:left" /></a>
+        </div><br />
+          
+        </div><!-- /panel -->
+    
+    <div data-role="panel" id="right-panel" data-display="push" data-position="right" data-theme="b">
+    
+    <!-- INBOX collabsible--> 
+<div data-role="collapsible" id="inboxHolder" data-collapsed="false" class="ui-icon-mail ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-themed-content ">
+    <h2 id="inbxHead">Messages</h2>
+        <ul data-role="listview" data-theme="b" data-divider-theme="b" id="inbox" style="padding: 10px; background-color: #464545;">
+           
+           </ul>
+    </div>
+    <hr />
+        <div class="ui-body ui-body-b ui-corner-all">
+            <p>24/7 Customer Careline: <br /> 0800 N3 HELP | 0800 63 4357</p>
+            <img src="images/n3tc_logo.png" width="30%" style="margin-bottom:15px" height="auto" /><br />
+        </div>
+     
+<a href="#" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-delete ui-btn-icon-right">Close</a>
+        
+    </div><!-- /panel -->
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="two" data-theme="b" data-url="two" tabindex="0" class="ui-page ui-page-theme-b" style="min-height: 643px;">
+
+	<div data-role="header" role="banner" class="ui-header ui-bar-inherit">
+		<h1 class="ui-title" role="heading" aria-level="1">Two</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<h2>Two</h2>
+		<p>I have an id of "two" on my page container. I'm the second page container in this multi-page template.</p>
+		<p>Notice that the theme is different for this page because we've added a few <code>data-theme</code> swatch assigments here to show off how flexible it is. You can add any content or widget to these pages, but we're keeping these simple.</p>
+		<p><a href="main-page" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back to page "one"</a></p>
+
+	</div><!-- /content -->
+
+	<div data-role="footer" role="contentinfo" class="ui-footer ui-bar-inherit">
+		<h4 class="ui-title" role="heading" aria-level="1">Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page two -->
+    
+</div>
+<script>
+///swipe>>>>>
+$( document ).on( "pagecreate", "#main-page", function() {
+    $( document ).on( "swipeleft swiperight", "#main-page", function( e ) {
+        // We check if there is no open panel on the page because otherwise
+        // a swipe to close the left panel would also open the right panel (and v.v.).
+        // We do this by checking the data that the framework stores on the page element (panel: open).
+        if ( $( ".ui-page-active" ).jqmData( "panel" ) !== "open" ) {
+            if ( e.type === "swipeleft" ) {
+                $( "#right-panel" ).panel( "open" );
+            } else if ( e.type === "swiperight" ) {
+                $( "#left-panel" ).panel( "open" );
+            }
+        }
+    });
+});
+
+//nested list requires this plugin
+(function( $, window, undefined ) {
+	
+		$.widget( "mobile.listview", $.mobile.listview, {
+		options: {
+			childPages: true,
+			page: "<div data-role='page' class='ui-page ui-page-theme-b ui-page-active'></div>",
+			header: "<div data-role='header'><a href='#' data-rel='back'>Back</a><h1></h1></div>",
+			content: "<div class='ui-content'></div>"
+		},
+		_create: function(){
+			this._super();
+			if( this.options.childPages ) {
+				this._setupChildren();
+			}
+		},
+		_setupChildren: function() {
+			this._attachBindings();
+			this.element.find( "ul" )
+				.css( "display","none" )
+				.parent()
+				.addClass("ui-btn ui-btn-icon-right ui-icon-carat-r");
+		},
+		_attachBindings: function() {
+			this._on({
+				"click": "_handleSubpageClick"
+			});
+			this._on( "body", {
+				"pagechange": function(){
+					if ( this.opening === true ) {
+						this.open = true;
+						this.opening = false;
+					} else if ( this.open === true ) {
+						this.newPage.remove();
+						this.open = false;
+					}
+				}
+			});
+		},
+		_handleSubpageClick: function( event ) {
+			if( $(event.target).closest( "li" ).children( "ul" ).length == 0 ) {
+				return;
+			}
+			this.opening = true;
+			this.newPage = $( this.options.page ).uniqueId();
+			this.nestedList  = $( event.target ).children( "ul" )
+				.clone().attr( "data-" + $.mobile.ns + "role", "listview" )
+				.css( "display", "block" );
+			this.pageName = (
+				$( event.target.childNodes[0] ).text().replace(/^\s+|\s+$/g, '').length > 0 )?
+				$( event.target.childNodes[0] ).text() : $( event.target.childNodes[1] ).text();
+			this.pageID = this.newPage.attr( "id" );
+
+			// Build new page
+			this.newPage.append(
+				$( this.options.header ).find( "h1" ).text( this.pageName ).end()
+			).append(
+				$( this.options.content )
+			).find( "div.ui-content" ).append( this.nestedList );
+
+			$( "body" ).append( this.newPage );
+
+			$( "body" ).pagecontainer( "change", "#" + this.pageID );
+			
+		}
+		
+		
+		
+	});
+})( jQuery, this );
+</script>
+
+<script>
+///dynamic collapsible set
+
+$( document ).on( "pagecreate", function() {
+    var nextId = 1;
+    $("#add").click(function() {
+        nextId++;
+        var content = "<div data-role='collapsible'  id='set" + nextId + "'><h3>Section " + nextId + "</h3><p>I am the collapsible content in a set so this feels like an accordion. I am hidden by default because I have the 'collapsed' state; you need to expand the header to see me.</p></div>";
+        $( "#set" ).append( content ).collapsibleset( "refresh" );
+    });
+    $( "#expand" ).click(function() {
+        $("#set").children(":last").collapsible( "expand" );
+    });
+    $( "#collapse" ).click(function() {
+        $( "#set" ).children( ":last" ).collapsible( "collapse" );
+    });
+});
+</script>
+
+
+</body>
+</html>

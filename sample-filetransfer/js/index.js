@@ -78,6 +78,8 @@ downloadApp.prototype = {
 				image.style.display = "block";
 				image.display = targetPath;
 				document.getElementById("result").innerHTML = "File saved to: " + targetPath;
+                var glocal = targetPath;
+                document.getElementById("text-1").value = glocal;
 			},
 			function(error) {
 				document.getElementById("result").innerHTML = "An error has occurred: Code = " + error.code;
