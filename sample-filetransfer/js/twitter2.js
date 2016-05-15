@@ -9,7 +9,7 @@ var idInc=1;
 var checkLastLocation = '';
 var LastLocation = '';
 var listHolder ='';
-
+var getTwtInterval ='';
 var TraffVolumeState = "on";
 var TraffFlowState = "on";
 var CrashState = "on";
@@ -20,6 +20,9 @@ var twtLocation = 'no';
 var twtType = '';
 var crashCounter = 1;
 var weatherCounter = 1;
+var twtTime = '';
+
+/////////functions
 
 function twtTrafficVolumes(){
 	pinType = "pins/tollpinTraffic.png";
@@ -36,7 +39,7 @@ for(i = 0; i < 6; i++){
 	//twtProcessed1 += hashTags[i];
 var str1 = hashTags[i];
 var str2 = "N3Traffic";
-morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='hideTabs()' >";
+morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='showtabs()' >";
 if(str1.indexOf(str2) != -1){
    // alert(str2 + " found YES ###");
 	var str3 = "MooiPlaza";
@@ -105,7 +108,9 @@ if(str1.indexOf(str2) != -1){
 ////////////////////////
 
 function twtTrafficVolumesTrips(){
-var tripTolls = document.getElementById("extraInfo").innerHTML;	
+var tripTolls = document.getElementById("extraInfo").innerHTML;
+
+
 //alert(tripTolls);
 var hashTags = twtContent.split("#");
 var hashTags1 = hashTags[2];
@@ -122,6 +127,8 @@ if(str1.indexOf(str2) != -1){
 	var str4 = "TugelaPlaza";
 	var str5 = "WilgePlaza";
 	var str6 = "DeHoekPlaza";
+    var str7 = "MariannhillPlaza";
+    var str8 = "BergvillePlaza";
 	ii = 0;
 	for(ii = 0; ii < 6; ii++){
 	
@@ -129,8 +136,8 @@ if(str1.indexOf(str2) != -1){
 		var t1 = hashTags[ii];
 		 twtLat = -29.21795; 
 		  twtLon = 30.00389;
-		    var desc ="<div id='" + str3 + "'>" + "<img src='images/pins/tollpinTrfTrip.png' style='margin-bottom: -10px; margin-right:3px;' onclick='hideTabs()' height='25' width='25'>" + "Traffic Volume-" + t1 + "</div>";
-			var rep1 = tripTolls.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Mooi Mainline ', desc);
+		    var desc ="<div id='" + str3 + "' class='trpList'>" + t1 + "</div>";
+			var rep1 = tripTolls.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Mooi Mainline <br><hr size="1">', desc);
 			
 			}
 			
@@ -138,34 +145,41 @@ if(str1.indexOf(str2) != -1){
 		var t2 = hashTags[ii];
 		 twtLat = -28.458096;
 		  twtLon = 29.569956;
-		   var desc ="<div id='" + str4 + "'>" + "<img src='images/pins/tollpinTrfTrip.png' style='margin-bottom: -10px; margin-right:3px;' onclick='hideTabs()' height='25' width='25'>" + "Traffic Volume-" + t2 + "</div>";
-			var rep2 = rep1.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Tugela Mainline ', desc);
+		   var desc ="<div id='" + str4 + "' class='trpList'>" + t2 + "</div>";
+			var rep2 = rep1.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Tugela Mainline <br><hr size="1">', desc);
 					}
 		   
 	if(hashTags[ii].indexOf(str5) != -1){
 		var t3 = hashTags[ii];
 		 twtLat = -27.04038; 
 		  twtLon = 28.62628; 
-		   var desc ="<div id='" + str5 + "'>" + "<img src='images/pins/tollpinTrfTrip.png' style='margin-bottom: -10px; margin-right:3px;' onclick='hideTabs()' height='25' width='25'>" + "Traffic Volume-" + t3 + "</div>";
-			var rep3 = rep2.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Wilge Mainline ', desc);
+		   var desc ="<div id='" + str5 + "' class='trpList'>" + t3 + "</div>";
+			var rep3 = rep2.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Wilge Mainline <br><hr size="1">', desc);
 					}
 		  
 	if(hashTags[ii].indexOf(str6) != -1){
 		var t4 = hashTags[ii]; 
 		twtLat = -26.66397;
 			twtLon = 28.38988;
-			  var desc ="<div id='" + str6 + "'>" + "<img src='images/pins/tollpinTrfTrip.png' style='margin-bottom: -10px; margin-right:3px;' onclick='hideTabs()' height='25' width='25'>" + "Traffic Volume-" + t4 + "</div>";
-			var rep4 = rep3.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Dehoek Mainline ', desc);
-					}                
-			 
-	                 }
+			  var desc ="<div id='" + str6 + "' class='trpList'>" + t4 + "</div>";
+			var rep4 = rep3.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Dehoek Mainline <br><hr size="1">', desc);
+					} 
+            
+         
+        
+        
+	           }
+           
 	     }
 
  }
-	//alert("ii" + ii);
-	 document.getElementById("extraInfo").innerHTML= rep4;	
+	var desc ="<div id='" + str7 + "' class='trpList noVol'> " + str7 + " </div>";
+    var rep5 = rep4.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Bergville Ramp <br><hr size="1">', desc);
+		
+    var desc ="<div id='" + str8 + "' class='trpList noVol'> " + str8 + " </div>";
+    var rep6 = rep5.replace('<img src="images/tollicn.png" width="25" height="25" onclick="hideTabs()">Mariannhill Mainline', desc);
+	 document.getElementById("extraInfo").innerHTML= rep6;	
 }
-
 
 
 
@@ -189,7 +203,7 @@ tomtom.Marker.DEFAULT_MARKER_OPTIONS= {
 
 var pointIndexC = 0;
 var pointsC = '';
-morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='hideTabs()' >";	
+morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='showtabs()' >";	
 var n = twtContent.indexOf(".");
 //alert(n);
 var startPoint = n-2;
@@ -226,10 +240,10 @@ var routeChainge = ChaingeClean3;
 						twtLat = point.lat;
 					twtLon = point.lon;
 					
-					 var desc = twtContent + "<br>" + " Lat: " + twtLat + " Lon: " + twtLon;
+					 var desc = twtContent + "<br>" + " Lat: " + twtLat + " Lon: " + twtLon + twtTime;
 			 
 			mm2.addMarker(new tomtom.Marker([twtLat, twtLon]), "Crash" + crashCounter);
-					mm2.getMarkerById("Crash" + crashCounter).bindPopup( desc + "<br>" + "Crash" + crashCounter + morebtn,{ showOnMouseOver: true });
+					mm2.getMarkerById("Crash" + crashCounter).bindPopup( desc + "<br>" + morebtn,{ showOnMouseOver: true });
 					mm2.update();
 					crashCounter++;
 						//alert(twtContent + "lat: " + LAT + "Lon: " + LON + "Marker: " + chainge);
@@ -251,11 +265,8 @@ var routeChainge = ChaingeClean3;
 ///////////////////////////////////
 
 function twtWeatherUpdate(){
-
-
-pinType = "pins/weatherpin.png";
-
-						
+	
+pinType = "pins/weatherpin.png";		
 						
 	
  var strCheck2 = "MooiPlaza";
@@ -373,7 +384,7 @@ tomtom.Marker.DEFAULT_MARKER_OPTIONS= {
 	 var desc = twtContent + "<br>" + " Lat: " + twtLat + " Lon: " + twtLon;
 			//alert("weather ADD"); 
 			mm2.addMarker(new tomtom.Marker([twtLat, twtLon]), "N3Weather" + weatherCounter);
-					mm2.getMarkerById("N3Weather" + weatherCounter).bindPopup( desc + "<br>" + "N3Weather" + weatherCounter + morebtn,{ showOnMouseOver: true });
+					mm2.getMarkerById("N3Weather" + weatherCounter).bindPopup( desc + "<br>" + morebtn + "  " + twtTime,{ showOnMouseOver: true });
 					mm2.update();
 					weatherCounter++;
    //}
@@ -528,10 +539,7 @@ function loadTwitterPointTripSave() {
         		var pointsT = getTolls();
                 
                 //map.setDisplayTraffic(false);
-     
-   // var stPnt = document.getElementById("strtlblx").innerHTML;
-   // var endPnt = document.getElementById("endlblx").innerHTML;
-              //  map.displayRoute([stPnt, endPnt]);
+               // map.displayRoute([StartPoint1, EndPoint1]);
 				
         		//mm2 = new tomtom.MarkerManager({ map: map });
 	    		// add a new marker for each address
@@ -542,7 +550,7 @@ function loadTwitterPointTripSave() {
         			//var markup = point.lat + ", " + point.lon;
 					var mrk =  point.name;
 					
-					morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='hideTabs()' >";
+					morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='showtabs()' >";
 					var desc = "<strong>" + point.name + "</strong>"  ;
 									
 					//var pnlside = "<div style='border-bottom:1px dashed #b0aeae; display:block;'><br>" + desc + "<br>" + "<br>" + morebtn + "</div>";
@@ -577,7 +585,8 @@ function loadTwitterPointTripSave() {
 
 function getTwtTripSave(){
 crashCounter = 1;
-weatherCounter = 1;	
+weatherCounter = 1;
+$("#incidentListTwt").html("<a href='#' onclick='getTwt()'>Refresh Tweets....<a>");	
 var pointsTwt = getTweets();
 var pointIndexTwt = 0;
 
@@ -592,7 +601,7 @@ var pointIndexTwt = 0;
 					var stringCrash = "Crash"; 
 					var stringObstruction = "Obstruction"; 
 					var stringWeather = "N3Weather";
-					if(tBody.indexOf(stringTraffic) !== -1 && TraffVolumeState === "on"){
+					if(tBody.indexOf(stringTraffic) != -1 && TraffVolumeState === "on"){
 						//alert("N3Traffic found");
 						 twtCategory = "N3Traffic";
                          twtTrafficVolumesTrips();}
@@ -601,9 +610,9 @@ var pointIndexTwt = 0;
 
 					
         	             }
-                       var twtHead = "<div style='border-bottom:1px dashed #b0aeae; display:block;'><br>" + "@N3Route Updates" + "<br>" + "</div>";
-						 $("#incidentList").prepend(listHolder);
-                         $("#incidentList").prepend(twtHead);
+                       var twtHead = "<div style='border-bottom:1px solid #b0aeae; text-align:left; display:block;'>" + "<img style='width:70%; height: auto;' src='images/twtListHead.png'>" + "<br>" + "</div>";
+						 $("#incidentListTwt").prepend(listHolder);
+                         $("#incidentListTwt").prepend(twtHead);
 						 listHolder = '';
 						// crashCounter = 1;
 //weatherCounter = 1;
@@ -611,13 +620,15 @@ var pointIndexTwt = 0;
 
 
 ////////////////////////
-
+function showtabs(){
+	document.getElementById("tabs").className ="#tabs showtbs";
+	}
 
 
 /////tollpoint2html/////extract///////////
 
 function loadTwitterPoint() {
-        		
+        clearInterval(getTwtInterval);		
         		// set the base image path used by tomtom.Marker
 				tomtom.setImagePath("images/");
 				
@@ -645,7 +656,7 @@ function loadTwitterPoint() {
         			//var markup = point.lat + ", " + point.lon;
 					var mrk =  point.name;
 					
-					morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='hideTabs()' >";
+					morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='showtabs()' >";
 					var desc = "<strong>" + point.name + "</strong>"  ;
 									
 					//var pnlside = "<div style='border-bottom:1px dashed #b0aeae; display:block;'><br>" + desc + "<br>" + "<br>" + morebtn + "</div>";
@@ -679,14 +690,25 @@ function loadTwitterPoint() {
 					
         		}
 				getTwt();
+				loadListTwtrepeat();
+				//alert("twtrepeat");
 	    	};
 			
-			
-			//////////////////
+	//////////////////
+	
+function loadListTwtrepeat(){
+	    getTwtInterval = setInterval(getTwtListLoad, 10000);
+	      }
+//////////////////
 			
 function getTwt(){
 crashCounter = 1;
 weatherCounter = 1;	
+$("#incidentListTwt").html("...");
+$(".tt-traffic-list-paging").html("<img src='images/twtlogo.png' style='max-width:55px;  height:auto; padding:3px;' onclick='hideTabs()'>");
+$(".tt-traffic-list-paging").css("margin-bottom", "50px");
+$(".tt-traffic-list-paging").css("text-align", "center");
+
 var pointsTwt = getTweets();
 var pointIndexTwt = 0;
 
@@ -697,11 +719,13 @@ var pointIndexTwt = 0;
 					var tBody =  point.twtBody;
 					//alert(tBody);
 					twtContent = tBody;
+					//twtTime = point.time;
+					twtTime = "<label style='color:#6a6b6c; float:right;' >" + point.time + "</label>";
 					var stringTraffic = "N3Traffic";
 					var stringCrash = "Crash"; 
 					var stringObstruction = "Obstruction"; 
 					var stringWeather = "N3Weather";
-					if(tBody.indexOf(stringTraffic) != -1 && TraffVolumeState === "on"){
+					if(tBody.indexOf(stringTraffic) != -1){
 						//alert("N3Traffic found");
 						 twtCategory = "N3Traffic";
                          twtTrafficVolumes();}
@@ -727,10 +751,10 @@ var pointIndexTwt = 0;
 					
 					//twtCategory = ''; 
 					
-					morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='hideTabs()' >";
+					morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='showtabs()' >";
 					var desc =  point.twtBody   ;
-									
-					var pnlside = "<div style='border-bottom:1px dashed #b0aeae; display:block;'><br>" + desc + "<br>" + morebtn + "</div>";
+					twtTime = "<label style='color:#6a6b6c; float:right;' >" + point.time + "</label>";				
+					var pnlside = "<div style='border-bottom:1px dashed #b0aeae; display:block;'><br>" + desc + "<br>" + morebtn + "  " + twtTime + "</div>";
 					//document.getElementById("incidentList").innerHTML += pnlside;
 					listHolder += pnlside;
 					//$("#incidentList").prepend(listHolder);
@@ -742,15 +766,70 @@ var pointIndexTwt = 0;
 
 					
         	             }
-                       var twtHead = "<div style='border-bottom:1px dashed #b0aeae; display:block;'><br>" + "@N3Route Updates" + "<br>" + "</div>";
-						 $("#incidentList").prepend(listHolder);
-                         $("#incidentList").prepend(twtHead);
+                        var twtHead = "<div style='border-bottom:1px solid #b0aeae; text-align:left;  display:block;'>" + "<img style='width:70%; height: auto;' src='images/twtListHead.png'>" + "<br>" + "</div>";
+						 $("#incidentListTwt").prepend(listHolder);
+                         $("#incidentListTwt").prepend(twtHead);
 						 listHolder = '';
+   // getTwtListLoad();
+						 //$("#incidentListTwt").append("<a href='#' onclick='getTwt()' >Refresh Tweets....<a>");
+						 //alert("getTwt");
 						// crashCounter = 1;
 //weatherCounter = 1;
                 };
 				
 /////	endtollpointextrace			////////////////////////////////////////////////
+
+
+////////////////////////////////////// TWT panel load
+function getTwtListLoad(){
+crashCounter = 1;
+weatherCounter = 1;	
+$("#incidentListTwt").html("...");
+$(".tt-traffic-list-paging").html("<img src='images/twtlogo.png' style='max-width:55px;  height:auto; padding:3px;' onclick='hideTabs()'>");
+$(".tt-traffic-list-paging").css("margin-bottom", "50px");
+$(".tt-traffic-list-paging").css("text-align", "center");
+
+var pointsTwtLis = getTweets();
+var pointIndexTwtList = 0;
+var iconBind = '';
+	for (var pointIndexTwtList = 0; pointIndexTwtList < pointsTwtLis.length && pointIndexTwtList < 24; pointIndexTwtList++) {
+        			var point = pointsTwtLis[pointIndexTwtList];
+        			var twtTimeList = "<label style='color:#6a6b6c; float:right;' >" + point.time + "</label>";			
+        			var desc =  point.twtBody;
+					
+					if(desc.indexOf("N3Traffic") != -1){ iconBind = "<img src='images/pins/tollFlow.png' style='max-width:30px;  height:auto; padding-right:5px;'>"  };
+					if(desc.indexOf("Crash") != -1 || desc.indexOf("CrashUpdate") != -1){ iconBind = "<img src='images/pins/crashpinTwt.png' style='max-width:30px;  height:auto; padding-right:5px;'>"  };
+					if(desc.indexOf("N3Weather") != -1){ iconBind = "<img src='images/pins/weatherpinTwt.png' style='max-width:30px;  height:auto; padding-right:5px;'>"  };
+					if(desc.indexOf("Obstruction") != -1 || desc.indexOf("Alert") != -1){ iconBind = "<img src='images/pins/obstructTwt.png' style='max-width:30px;  height:auto; padding-right:5px;'>"  };
+					
+					
+					
+					//twtCategory = ''; 
+					
+					var morebtnList ="<img style='margin-top:3px' src='images/more-iconsTwt.png' width='60' height='14' onclick='hideTabs()' >";
+					var mapList ="<img src='images/back-pin.png' style='max-width:25px;  height:auto; float:right; ' onclick='hideTabs()'>";
+					
+									
+					var pnlside = "<div style='border-bottom:1px dashed #b0aeae; display:block;'><br>" + iconBind + twtTimeList + "<br>" + desc + "<br>" + morebtnList + mapList + "</div>";
+					//document.getElementById("incidentList").innerHTML += pnlside;
+					listHolder += pnlside;
+					//$("#incidentList").prepend(listHolder);
+					
+		
+
+					
+        	             }
+                        var twtHead = "<div style='border-bottom:1px solid #b0aeae; text-align:left;  display:block;'>" + "<img style='width:70%; height: auto;' src='images/twtListHead.png'>" + "<br>" + "</div>";
+						 $("#incidentListTwt").prepend(listHolder);
+                         $("#incidentListTwt").prepend(twtHead);
+						 listHolder = '';
+						// $("#incidentListTwt").append("<a href='#' onclick='getTwt()' >Refresh Tweets....<a>");
+						 //alert("getTwt");
+						// crashCounter = 1;
+//weatherCounter = 1;
+                };
+
+///////////////////////////////////twt panl load END
 
 function weatherTw(){
      if(WeatherState === "on") {

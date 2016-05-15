@@ -68,7 +68,7 @@ var actnBtn = "";
 //	if (filterCda == UserID && loadType != 0){	
     if (filterCda == UserID){
 	if (Status == "Complete"){ actnBtn = " <div class='ui-btn ui-btn-icon-right ui-mini ui-icon-edit'><a href='#'" + "id='" + ApplicationIDClean + "'" + ">Pending</a></div> "; 
-                                var setBckColorAplication = "rgb(72, 183, 75)";}else {setBckColorAplication = "rgba(236, 0, 44, 0.82)";}
+                                var setBckColorAplication = "rgba(72, 183, 75, 0.6)";}else {setBckColorAplication = "rgba(236, 0, 44, 0.52)";}
 	if (DocStatus != "Complete"){ actnBtn = "<div class='ui-btn ui-btn-icon-right ui-mini ui-icon-edit'onclick='populateAppDelay()'><a href='doc_upload.html'" + "id='" + ApplicationIDClean + "'" + ">Add Docs</a></div> ";}		
 						
 	var lstTemp =  "<li class='ui-li-static ui-text-left ui-body-inherit ui-last-child ui-btn ui-btn-icon-none ui-icon-none' style='background-color:" + setBckColorAplication + ";text-align: left;' id='" + ItemID + "' onclick='cdaFunc(this.id);'>" + "# " + ItemID + " - " + Status +  "<ul data-divider-theme='a' class='srchAppLi' style='display: none;' id='" + "ul" + ItemID + "'><li>" + "Ref No." + ItemID + "</li><li>" + "Date Submitted " + DateCreatedApp + "</li>" + "<li data-role='list-divider' class='ui-li-divider ui-bar-b' >Profile</li>" + "<li>" + "Email: " + Email + "</li><li>" + "Company: " + CompanyName + "</li><li>" + "Reg No: " + CompanyRegNo + "</li><li>" + "Cell: " + ContactCell + "</li><li>" + "Home: " + ContactHome + "</li><li>"+ "Work: " + ContactWork + "</li><li>" + "Fax: " + Fax + "</li><li>"  + "Id No: " + IdentityNumber + "</li><li>" + "District: " + MagisterialDistrict + "</li>" + "<hr />" + actnBtn + "</ul></li>" ;

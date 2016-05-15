@@ -173,7 +173,7 @@ function n3(){
                 map.displayRoute(["Johannesburg, South Africa", "Durban, South Africa"]);
 				 weatherCounter = 1;
 		         crashCounter = 1;
-                loadTwitterPoint();
+               // loadTwitterPoint();
                 //map.displayRoute(["Johannesburg, South Africa", "Oos Street, Heidelberg Suburbs, ZA"]);
                 isStart = 1;
             }
@@ -543,6 +543,7 @@ function n3(){
             points = getPoints();
 
             for (pointIndex = 0; pointIndex < points.length && pointIndex < 1154; pointIndex++) {
+
                 point = points[pointIndex];
                 //MyMarker = new tomtom.Marker([point.lat, point.lon], null, { draggable: true });
                 //marker = new tomtom.Marker([point.lat, point.lon]);
@@ -615,6 +616,7 @@ function n3(){
         function meDelete(){
             mm.removeMarker("marker_me");
             mm.update();
+
         }
         </script>
 
@@ -672,7 +674,7 @@ function n3(){
 			    font-family: arial, helvetica, sans-serif;
 			    font-size: 14px;
 			    //color:#333;
-			    z-index: 5;
+			    z-index: 50;
 			    position: absolute;
 			    top: 0px;
 			    left: -400px;
@@ -710,9 +712,9 @@ function n3(){
             font-family: Muli, sans-serif;
             font-size: 0.6rem;
             right: 0px;
-            //background-color: rgba(22, 106, 180, 0.50);
-            background-color: rgba(12, 12, 12, 0.65);
-            bottom: -270px;
+            
+            background-color: rgba(0,0,0,.8);
+            bottom: -380px;
             width: 100%;
             transition: -webkit-transform 0.3s ease-out 0s;
             transition: transform 0.3s ease-out 0s;
@@ -726,7 +728,7 @@ function n3(){
 
         .tophead{
             position: fixed;
-            //top: 0px;
+            top: -2px;
             height: 100%;
             z-index: 500;
             font-family: Muli, sans-serif;
@@ -736,7 +738,7 @@ function n3(){
             right: 0px;
             width: 100%;
 
-            background-color: rgba(41, 142, 199, 0.72);
+            background-color: rgba(0,0,0,.8);
             bottom: 0px;
             transition: -webkit-transform 0.3s ease-out 0s;
             transition: transform 0.3s ease-out 0s;
@@ -751,15 +753,15 @@ function n3(){
         }
 		
 		.tripboxMask{
-			border-bottom: 1px dashed rgba(255, 255, 255, 0.49);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.49);
     margin-bottom: 10px;
     padding: 5px;
     overflow: hidden;
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0);
     /* border-radius: 10px; */
-    height: 60px;
-    font-size: x-small;
+    height: 55px;
+    font-size: small;
 	
    }
 		
@@ -811,6 +813,27 @@ function n3(){
             width:85%;
 
         }
+            
+    .trpList { 
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("images/pins/tollFlow.png");
+    
+    background-clip: border-box;
+    background-size: auto 80%;
+    background-repeat: no-repeat;
+    background-position-x: 2px;
+    background-position-y: 50%;
+    padding: 0 0 0 40px;
+    margin: 0px;
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px #5D5F5F dashed;}
+            
+     .noVol{
+       background-image: url("images/pins/tolIcon.png");  
+     }
+            
         .poiIcons{
             max-width: 40px;
             height: auto;
@@ -852,7 +875,7 @@ function n3(){
             text-align: center;
             font-family: Muli, sans-serif;
             color: white;
-           //background-color: rgba(22, 106, 180, 0.78);
+           background-color: rgba(22, 106, 180, 0.78);
             padding-top: 5px;
         }
 
@@ -930,7 +953,7 @@ function n3(){
             //background-image: url(images/barbck2.png);
             position: fixed;
             z-index: 500;
-			background-color: rgba(22, 106, 180, 0.78);
+			//background-color: rgba(22, 106, 180, 0.78);
           //height: 10%;
             padding-top: 3px;
             transition: -webkit-transform 0.3s ease-out 0s;
@@ -948,7 +971,7 @@ function n3(){
 
             //background-color: rgba(22, 106, 180, 0.8);
             position: fixed;
-           background-color: rgba(22, 106, 180, 0.78);
+          // background-color: rgba(22, 106, 180, 0.78);
 height: 10%;
 padding-top: 3px;
             transition: -webkit-transform 0.3s ease-out 0s;
@@ -1078,6 +1101,18 @@ padding-top: 3px;
             display:block;
         }
 
+  .poiBx{
+//line-height: 1.5;
+float: left;
+width: 65%;
+border-radius: 30px;
+color: rgb(255, 255, 255);
+//padding-left: 15px;
+border: 0px solid rgba(255, 255, 255, 0);
+margin: 10px;
+background-color: RGBA(0, 0, 0, 0.0);
+font-size: 1.6em;
+}
 
         .boxroute {
             top: 0px;
@@ -1088,8 +1123,8 @@ padding-top: 3px;
             font-size: 1.1rem;
             z-index: 5999;
             position: fixed;
-            //background-image: url(images/bch.png);
-            //background-size: contain;
+            background-image: url(images/homeBck.png);
+            background-size: cover;
 
         }
 
@@ -1123,8 +1158,7 @@ padding-top: 3px;
 
         .hmbtn{
             max-width: 20%;
-
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             height: auto;
             padding: 10px;
             display: inline-block;
@@ -1140,6 +1174,7 @@ padding-top: 3px;
         }
         .dispNorm{
             display:block;
+            border-bottom: 1px solid #F5F3F3;
         }
 
         .trackingBtnShow{
@@ -1357,10 +1392,10 @@ function toggleFlow(){
         $('.tfTile').remove();
         flowOn = "no";
        // $('#togflow').css("-webkit-transform", "rotateZ(130deg)"); 
-        $('#togflow').attr('src', 'img/flwOff.png'); 
+        $('#flw').attr('src', 'img/flwOff.png'); 
     }    else
     {flowOn = "yes";
-    $('#togflow').attr('src', 'img/flw.png');
+    $('#flw').attr('src', 'img/flw.png');
         getImgDetails();
      //   $('#togflow').css("-webkit-transform", "rotateZ(-130deg)");
    //  alert("Traffic Flow On");  
@@ -1385,6 +1420,7 @@ $("#c-circle-nav").css("z-index", "-1");
             document.getElementById("as").className ="topheadOn";
             document.getElementById("srch").className = "dispNone";
             //document.getElementById("kmBar").className = "kmPnlon";
+			getTwtListLoad();
             document.getElementById("acc").className ="hidebox";
             document.getElementById("tabs").className ="#tabs showtbs";
             if(tabsState == 0){
@@ -2045,15 +2081,13 @@ $("#c-circle-nav").css("z-index", "-1");
         }
 </script>
 
- 
-
         <div class="topheadOn" id="as" >
-      <div class="srch-box" id="srbx" hidden><iframe id="frm1" src="http://sandbox1.co.za/n3tc/1/fastfilter.html" frameborder="0" allowtransparency="" width="100%" height="100%" scrolling="auto"></iframe>
+      
        
      <div  style=" color: #fff; display:none;  background-color: rgba(255, 255, 255, 0.72); max-height: 400px;  margin-top: 5px;" id="listPnl">
        </div>
-       </div>
-       <div style=" text-align: right;padding: 5px;background-color: rgba(22, 106, 180, 0.78);" id="ggX" ><img src="images/maps_hmt.png" width="40" height="40" onClick="hideAll()"></div>
+       
+       <div style=" text-align: right;background-color: #4B80AC;  height: 45px; background-image: url(images/poisrchhead.png); background-size: contain; background-repeat: no-repeat;" id="ggX" ><img src="images/maps_hmt.png" width="35" height="35" style="padding: 5px;" onClick="hideAll()"></div>
     
         <div style="display: none;
             width:100%;
@@ -2063,13 +2097,23 @@ $("#c-circle-nav").css("z-index", "-1");
             z-index:501;
             position: absolute;
             // border-bottom: thin solid rgba(0, 0, 0, 0.43);
-            //background-color: rgba(0, 0, 0, 0.37);
+            background-color: rgba(0, 0, 0, 0.37);
             font-size: 0.7rem;" id="longlat"></div>
         <!--<div class="box" id="poihead" style="    background-color: rgba(2, 2, 2, 0.36);
             border-radius: 5px; height: 80%; margin-left: 5px; "></div>-->
-            <div class="box" id="tourbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiTour()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="petbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiPet()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="evebtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiEve()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="activebtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiAct()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="accbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiAcc()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div><div class="box" id="restbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiRest()"><img src="images/loadpoi.png" style="max-width:50%; margin-top:5px; height:auto;"></div></div>
-
-        <div style=" font-family: arial, helvetica, sans-serif; font-size: 0.8rem; background-color: #fff;  width:100%; min-width:200px; margin-left: 0px; margin-right: 0px;   position: absolute;overflow-y: auto;  height: 100%;" id="sidePnlHolder">
+            <div id="poicntrl" style="min-height: 48px;background-color: rgba(0, 0, 0, 0.44);border-bottom: 1px solid rgba(0, 0, 0, 0.8);"><input class="poiBx" placeholder="Search..." type="text" name="search" id="searchbx" style="display:block" /><img id="srchImg" src="images/srch_view.png" style="padding: 5px; float:right;" onclick="showSrch()" height="40" width="40"></div>
+            
+            <div class="box" id="tourbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiTour()"><img src="images/loadpoi.gif" style="max-width:10%; margin-top:5px; height:auto;"></div><div class="box" id="petbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiPet()"><img src="images/loadpoi.gif" style="max-width:10%; margin-top:5px; height:auto;"></div><div class="box" id="evebtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiEve()"><img src="images/loadpoi.gif" style="max-width:10%; margin-top:5px; height:auto;"></div><div class="box" id="activebtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiAct()"><img src="images/loadpoi.gif" style="max-width:10%; margin-top:5px; height:auto;"></div><div class="box" id="accbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiAcc()"><img src="images/loadpoi.gif" style="max-width:10%; margin-top:5px; height:auto;"></div><div class="box" id="restbtn" style="background-color:rgb(165, 162, 157, 0);" onClick="poiRest()"><img src="images/loadpoi.gif" style="max-width:10%; margin-top:5px; height:auto;"></div>
+            <div><img src="images/go.png" style="margin-left: 42%; " onclick="setProx()" height="50" width="50"></div>
+            
+            </div>
+<script>
+function showSrch(){
+	document.getElementById("searchbx").style.display("block");
+	document.getElementById("srchImg").style.cssFloat("right");
+	}
+</script>
+        <div style=" font-family: arial, helvetica, sans-serif; font-size: 0.8rem; background-color: #fff;  width:100%; min-width:200px; margin-left: 0px; margin-right: 0px;   position: absolute;overflow-y: auto;  height: 10%;" id="sidePnlHolder">
            <div id="sidePnl" style="color:#464242;">
 
 
@@ -2087,7 +2131,7 @@ $("#c-circle-nav").css("z-index", "-1");
         <div id="map2Holder" class="map2Split"><div id="map2"  style="height:100%; width:100%; border-top: 1px solid #fff;"></div></div> <div id="tabs2"></div></div>
 
         <div class="boxroute" id="acc" ><div id="care" style="background-color: rgba(4, 4, 4, 0.0); padding-bottom: 10px; border-bottom: 0px solid #000; margin-top: 20px; "><span style="font-size:1.1rem; ">24/7 Careline</span><br><span style="font-size:1.6rem;">
-        0800 63 4357</span><br><a href="tel:0800634357"><img src="images/callbtn2.png" style="max-width:30%; margin-right: 25px; margin-bottom: 0px;  height:auto; padding-top:3px; display:inline-block;"></a><img id="assistbtn" src="images/assistbigBtn.png" style="max-width:30%; margin-left: 25px;     margin-bottom: 0px; height:auto; padding-top:3px; display:inline-block;" onClick="Assist()"></div><div id="message"  ><br>
+        0800 63 4357</span><br><a href="tel:0800634357"><img src="images/callbtn2.png" style="max-width:30%; margin-right: 25px; margin-bottom: 0px;  height:auto; padding-top:15px; display:inline-block;"></a><img id="assistbtn" src="images/assistbigBtn.png" style="max-width:30%; margin-left: 25px;     margin-bottom: 0px; height:auto; padding-top:15px; display:inline-block;" onClick="Assist()"></div><div id="message"  ><br>
 
         </div>
               <div id="shortcuts" > <div style="border-bottom: 0px solid #000; ">
@@ -2096,19 +2140,20 @@ $("#c-circle-nav").css("z-index", "-1");
                   <img src="images/poisrch_hm.png" class="hmbtn"width="30%" height="auto" onclick="poiSrch()" />
                   <img src="images/tripplanner_hm.png" class="hmbtn" width="30%" height="auto" onclick="route()" />
                   <a href="assets/n3account.html" ><img src="images/myacc_hm.png" class="hmbtn" width="30%" height="auto" /></a>
-                  <br /><div style="background-color: rgba(0, 0, 0, 0.42); border-top: 1px #212020 solid; height: 250px; display: inline-block; width:100%"><br /> <a href="file:///storage/emulated/0/"><img src="images/n3tc_logo.png" width="20%" height="auto" /></a><clobbers target="window.DirectoryReader" /></div></div> </div>
+                  <br /><div style="background-color: rgba(0, 0, 0, 0.0); border-top: 0px #212020 solid; height: 250px; display: inline-block; width:100%"><br /> <a href="file:///storage/emulated/0/"><img src="images/n3tc_logo.png" width="100%" height="auto" /></a><clobbers target="window.DirectoryReader" /><label style="font-size: 0.6rem; text-shadow: 1px 1px rgba(0, 0, 0, 0.40);">Version 001.24</label></div></div> </div>
                       <div class="" id="rest" style="top:220px"></div>
                       </div>
                       <div id="tripHold" style="position:absolute;  z-index: 5999; top: -75px; right: 0px;  width:100%;" ></div>
                 
             <nav id="c-circle-nav" class="c-circle-nav">
+                
   <button id="c-circle-nav__toggle" class="c-circle-nav__toggle" onClick="showTrips()">
     <span>Toggle</span>
   </button>
   <ul class="c-circle-nav__items">
     <li class="c-circle-nav__item">
       <a href="#" class="c-circle-nav__link">
-        <img id="flw" src="img/flw.png" alt="" onclick="toggleFlow()"> 
+        <img id="flw" src="img/flwOff.png" alt="" onclick="toggleFlow()"> 
       </a>
     </li>
     <li class="c-circle-nav__item">
@@ -2118,7 +2163,7 @@ $("#c-circle-nav").css("z-index", "-1");
     </li>
     <li class="c-circle-nav__item">
       <a href="#" class="c-circle-nav__link">
-        <img id="tll" src="img/tll.png" alt="" onclick="tollTw()">
+        <img id="tll" src="img/myPos.png" alt="" onclick="myPos()">
       </a>
     </li>
     <li class="c-circle-nav__item">
@@ -2132,6 +2177,7 @@ $("#c-circle-nav").css("z-index", "-1");
       </a>
     </li>
   </ul>
+                
 </nav>
 
 <script src="js/circleMenu.min.js"></script>
@@ -2178,7 +2224,7 @@ $("#c-circle-nav").css("z-index", "-1");
                        <div class='label' >POI SEARCH</div>
                 </div
                       ><div class='column-20' style="  padding-bottom: 10px;" >
-                             <div id='' style="padding-top: 1.5px;"><img src="images/routeBtn.png" style="max-width:30px; height:auto; padding-top:3px;" onClick="route()"></div>
+                             <div id='' style="padding-top: 0"><img src="images/routeBtn.png" style="max-width:32px; height:auto; padding-top:3px;" onClick="route()"></div>
                                <div class='label'>TRIP PLANNER</div>
                       </div
                       ><div class='column-20' style="   padding-bottom: 10px;" >
@@ -2344,7 +2390,7 @@ $("#c-circle-nav").css("z-index", "-1");
                   document.getElementById("message").innerHTML="<br>";
                  // document.getElementById("closebtn").className ="dispNone";
                   document.getElementById("care").className ="dispNone";
-                    //loadTwitterPoint();
+                  loadTwitterPoint();
         }
 
 
@@ -3056,6 +3102,19 @@ $("#c-circle-nav").css("z-index", "-1");
             
                 <script>
 function activateList(){}
+                    
+function myPos(){
+ zoomMap = 16;
+//$("#c-circle-nav").removeClass( "c-circle-nav is-active" ).addClass( "c-circle-nav" );
+$(".c-mask").removeClass( "c-mask  is-active" ).addClass( "c-mask" );
+
+ // center the map on the current point
+
+   map.setView([mylat,mylon], zoomMap);
+   map.center([mylat, mylon]);
+                    //alert("z");
+  }
+                    
 function showTrips(){
 	// alert("sadsa");
 	 // var listHtml = document.getElementById("srbx").innerHTML;
@@ -3065,7 +3124,7 @@ function showTrips(){
 	    
 	  
 	 // $(".c-mask").attr("width","500");
-	 var trip1InfoX = "<div id='savedtrip1x' class='tripboxMask'>\r\n <img id='tripBtn' src='images/startTripbtnHomeP.png' width='13%' height='auto' style=' float: right; margin: 5px; ' onclick='expandTrip1()'>\r\n  <label>Start: </label><label id='strtlblx'></label><br> \r\n  <label>End: </label><label id='endlblx'></label><label id='infolblx' ></label>\r\n  <label>Date: </label><label id='datelblx'></label></div>";
+	 var trip1InfoX = "<div id='savedtrip1x' class='tripboxMask'>\r\n <img id='tripBtn' src='images/startTripbtnHomeP.png' width='13%' height='auto' style=' float: right; margin: 5px; ' onclick='expandTrip1()'>\r\n  <label>Start: </label><label id='strtlblx'></label><br> \r\n  <label>End: </label><label id='endlblx'></label><label id='infolblx' ></label>\r\n  <label>Date: </label><label id='datelblx'></label><div style='height: 45px;width: 160px; background-image: url(images/startTrpBtn.png); background-size: contain; margin:10px; background-repeat: no-repeat;' onclick='startTrp1()'></div></div>";
 	 	// $(".c-mask").html(listHtml);
 		  $("#tripHold").html(trip1InfoX);
 		  $("#tripHold").attr("display", "block");
@@ -3086,6 +3145,11 @@ function showTrips(){
 	  // menu.classList.remove(activeClass);
 	  
 	  }
+                    
+function startTrp1(){
+    startTrip1();
+    
+}
 	  
 function expandTrip1(){
 	
@@ -3093,10 +3157,12 @@ function expandTrip1(){
 		document.getElementById("tripBtn").src="images/startTripbtnHome.png";
         btState = 'open';
 		loadTwitterPointTripSave();
+        $("#c-circle-nav").removeClass( "c-circle-nav is-active" ).addClass( "c-circle-nav" );
     }else{
             document.getElementById("savedtrip1x").className ="tripboxMask";
 		document.getElementById("tripBtn").src="images/startTripbtnHomeP.png";
            btState = 'closed' ;
+        $("#c-circle-nav").removeClass( "c-circle-nav" ).addClass( "c-circle-nav is-active" );
        //hideAll();    
         }
     
