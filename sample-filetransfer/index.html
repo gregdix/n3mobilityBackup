@@ -658,7 +658,7 @@ function n3(){
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color:#3d3d3c;
+            background-color:#f1f1ef;
             background-image: url(images/loadingmetal5.gif);
             background-size:contain;
             background-repeat:no-repeat;
@@ -2113,7 +2113,7 @@ function showSrch(){
 	document.getElementById("srchImg").style.cssFloat("right");
 	}
 </script>
-        <div style=" font-family: arial, helvetica, sans-serif; font-size: 0.8rem; background-color: #fff;  width:100%; min-width:200px; margin-left: 0px; margin-right: 0px;   position: absolute;overflow-y: auto;  height: 10%;" id="sidePnlHolder">
+        <div style=" font-family: arial, helvetica, sans-serif; font-size: 0.8rem; background-color: #fff;  width:100%; min-width:200px; margin-left: 0px; margin-right: 0px;   position: absolute;overflow-y: auto; " id="sidePnlHolder">
            <div id="sidePnl" style="color:#464242;">
 
 
@@ -2140,7 +2140,7 @@ function showSrch(){
                   <img src="images/poisrch_hm.png" class="hmbtn"width="30%" height="auto" onclick="poiSrch()" />
                   <img src="images/tripplanner_hm.png" class="hmbtn" width="30%" height="auto" onclick="route()" />
                   <a href="assets/n3account.html" ><img src="images/myacc_hm.png" class="hmbtn" width="30%" height="auto" /></a>
-                  <br /><div style="background-color: rgba(0, 0, 0, 0.0); border-top: 0px #212020 solid; height: 250px; display: inline-block; width:100%"><br /> <a href="file:///storage/emulated/0/"><img src="images/n3tc_logo.png" width="100%" height="auto" /></a><clobbers target="window.DirectoryReader" /><label style="font-size: 0.6rem; text-shadow: 1px 1px rgba(0, 0, 0, 0.40);">Version 001.24</label></div></div> </div>
+                  <br /><div style="background-color: rgba(0, 0, 0, 0.0); border-top: 0px #212020 solid; height: 250px; display: inline-block; width:100%"><br /> <a href="file:///storage/emulated/0/"><img src="images/n3tc_logo.png" width="100%" height="auto" /></a><clobbers target="window.DirectoryReader" /><label style="font-size: 0.6rem; text-shadow: 1px 1px rgba(0, 0, 0, 0.40);">Version 001.33</label></div></div> </div>
                       <div class="" id="rest" style="top:220px"></div>
                       </div>
                       <div id="tripHold" style="position:absolute;  z-index: 5999; top: -75px; right: 0px;  width:100%;" ></div>
@@ -2212,7 +2212,7 @@ function showSrch(){
                       </div>
 
                        <div class='column-20' style="   padding-bottom: 10px;" >
-                             <div id='' style="padding-top: 1.5px;"><img src="images/assistBtn.png" style="max-width:30px; height:auto; padding-top:3px;" onClick="Assist()"></div>
+                             <div id='' style="padding-top: 0"><img src="images/assistBtn.png" style="max-width:32px; height:auto; padding-top:3px;" onClick="Assist()"></div>
                                <div class='label'>ASSIST</div>
                       </div
                       ><div class='column-20' style="  padding-bottom: 10px;" >
@@ -2618,8 +2618,26 @@ function showSrch(){
                             petrol = "false";
                             pinHolder = "activitypin.png";
                             localStorage.poiPetrol = "off";
+            ///find and remove petrol img//
+           var elements = document.getElementsByTagName('img');  
+             for(var im=0; im<elements.length; im++) {
+    
+             var input = elements[im];
+             var srcget = input.src;
+             var xx ='images/pins/petrolpin.png';
+             var isxx = srcget.includes(xx);
+
+             if(isxx === true){
+
+              elements[im].remove();
+              im = im-1;
+             }
+                 
+
+  } 
+   ///find and remove end /////          
         }
-        }
+      }
 
                 function poiEve(){
                         if (events == "false"){
@@ -2636,6 +2654,24 @@ function showSrch(){
                             events = "false";
                             pinHolder = "accomodationpin.png";
                             localStorage.poiEvents = "off";
+                        ///find and remove petrol img//
+           var elements = document.getElementsByTagName('img');  
+             for(var im=0; im<elements.length; im++) {
+    
+             var input = elements[im];
+             var srcget = input.src;
+             var xx ='images/pins/eventspin.png';
+             var isxx = srcget.includes(xx);
+
+             if(isxx === true){
+
+              elements[im].remove();
+              im = im-1;
+             }
+                 
+
+  } 
+   ///find and remove end ///// 
 
         }
         }
@@ -2655,6 +2691,24 @@ function showSrch(){
                             tour = "false";
                             pinHolder = "accomodationpin.png";
                             localStorage.poiToll = "off";
+         ///find and remove petrol img//
+           var elements = document.getElementsByTagName('img');  
+             for(var im=0; im<elements.length; im++) {
+    
+             var input = elements[im];
+             var srcget = input.src;
+             var xx ='images/pins/tollpin.png';
+             var isxx = srcget.includes(xx);
+
+             if(isxx === true){
+
+              elements[im].remove();
+              im = im-1;
+             }
+                 
+
+  } 
+   ///find and remove end ///// 
 
         }
         }
@@ -3176,7 +3230,9 @@ function expandTrip1(){
 	
  
 	  
-function ldUrltwt(){navigator.app.loadUrl("https://mobile.twitter.com/search?q=%23N3Weather%20OR%20%23CrashUpdate%20OR%20%23N3TollRoute%20from%3AN3Route", {wait:2000, loadingDialog:"Wait,Loading App", loadUrlTimeoutValue: 60000});
+function ldUrltwt(){
+    window.open('https://mobile.twitter.com/search?q=%23N3Weather%20OR%20%23CrashUpdate%20OR%20%23Crash%20OR%20%23N3TrafficVolumes%20OR%20%23N3TollRoute%20from%3AN3Route', '_self');
+    //navigator.app.loadUrl("https://mobile.twitter.com/search?q=%23N3Weather%20OR%20%23CrashUpdate%20OR%20%23Crash%20OR%20%23N3TollRoute%20from%3AN3Route", {wait:2000, loadingDialog:"Wait,Loading App", loadUrlTimeoutValue: 60000});
 
 }</script>
     <script src="js/scrolling.js"></script>
@@ -3185,7 +3241,8 @@ function ldUrltwt(){navigator.app.loadUrl("https://mobile.twitter.com/search?q=%
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-   
-app.initialize();
+ <script>
+  app.initialize();
+ </script>
     </body>
 </html>

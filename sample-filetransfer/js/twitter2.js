@@ -194,6 +194,7 @@ function twtCrashUpdate(){
 //twtContent = "12h26 #Crash N3 6 1.89 S (DBN bound) near Bergville I/C, LMV involved off the road. Please approach with caution.";
 //var str2 = "#Crash";
 //if(twtContent.indexOf(str2) != -1){
+   // if(twtCategory == "Obstruction"){ pinType = "pins/obstructionpin.png";}else
 pinType = "pins/crashpin.png";
 tomtom.Marker.DEFAULT_MARKER_OPTIONS= {
        				iconUrl: pinType, 
@@ -205,18 +206,18 @@ var pointIndexC = 0;
 var pointsC = '';
 morebtn ="<img style='text-align:center' src='images/more-iconsTwt.png' width='60' height='14' onclick='showtabs()' >";	
 var n = twtContent.indexOf(".");
-//alert(n);
-var startPoint = n-2;
+//alert("n: " + n);
+var startPoint = n-5;
 //alert(startPoint);
-var lenth = 5;
+var lenth = 8;
 //alert(endPoint);
 var ChaingeGet = twtContent.substr(startPoint, lenth);
-var ChaingeClean1 = ChaingeGet.replace(" ", "");
+var ChaingeClean1 = ChaingeGet.replace(/\s/g, '');
 var ChaingeClean2 = ChaingeClean1.replace("S", "");
 var ChaingeClean3 = ChaingeClean2.replace("N", ""); 
 var routeChainge = ChaingeClean3;
 
-//alert("rtchange" + routeChainge);	
+//alert("rtchange: - " + routeChainge);	
 //var start2 = startPoint + lenth + 2;
 //var lenth2 = twtContent.length - start2;
 //var CrashDetail = twtContent.substr(start2, lenth2);
@@ -224,7 +225,7 @@ var routeChainge = ChaingeClean3;
  pointsC = getRoutes();
  //var PIDCount=0;
 //alert(points);	 
- for (pointIndexC = 0; pointIndexC < pointsC.length && pointIndexC < 6000; pointIndexC++) {
+ for (pointIndexC = 0; pointIndexC < pointsC.length && pointIndexC < 41600; pointIndexC++) {
                     point = pointsC[pointIndexC];
                    // var marker = new tomtom.Marker([point.lat, point.lon], null, { draggable: true });
                    // var MyMarker = new tomtom.Marker([point.lat, point.lon]);
@@ -232,10 +233,11 @@ var routeChainge = ChaingeClean3;
 					//var twtMarker = new tomtom.Marker(twtLat, twtLon);
                     var routeName =  point.Route;
 					var chainge = point.Chainge;
+                    var markerMerge = "" + routeName + chainge;
 					//alert(chainge);
 					
 					
-					if(chainge === routeChainge){
+					if(markerMerge === routeChainge){
 						pinType = "pins/crashpin.png";
 						twtLat = point.lat;
 					twtLon = point.lon;
@@ -247,7 +249,7 @@ var routeChainge = ChaingeClean3;
 					mm2.update();
 					crashCounter++;
 						//alert(twtContent + "lat: " + LAT + "Lon: " + LON + "Marker: " + chainge);
-							}
+						break;	}
 							
 					 //}
                    // var morebtn ="<img style='text-align:center' src='images/more-icons.png' width='60' height='18' onclick='listToggle()' >";
@@ -257,7 +259,7 @@ var routeChainge = ChaingeClean3;
                   //  if (prox > dist){
                      //   document.getElementById("sidePnl").innerHTML += pnlside;}
                       }
- 
+ //alert("merge: " + markerMerge);
   // }
    // crashCounter = 1;
 }

@@ -36,38 +36,31 @@ dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px
 </style>
 </head>
 <body class="ui-mobile-viewport ui-overlay-b">
-<div data-role="page" class="ui-page ui-page-theme-b" style="background-color: #2976b8;">
+<div data-role="page" class="ui-page ui-page-theme-b" style="background-color: rgb(17, 18, 18);min-height: 659px;background-image: url('../images/homeBck.png');background-size: contain; background-repeat: no-repeat;">
         <div data-role="header" data-theme="b">
                     <h1>Accounts</h1>
                     <a href="../index.html" rel="external" class="ui-link ui-btn-right ui-btn ui-icon-navigation ui-btn-icon-left ui-shadow ui-corner-all" >Home</a>
-        </div><!-- /header -->
+            </div><!-- /header -->
         <div role="main" class="ui-content">
             <a href="signin.html" class="ui-btn ui-btn-icon-right ui-icon-user ui-corner-all ui-shadow" data-rel="dialog" data-transition="pop">Login</a>
-           <a href="register.html" class="ui-btn ui-btn-icon-right ui-icon-check ui-corner-all ui-shadow" data-rel="dialog" data-transition="pop">Register</a><br />
-                     <hr />
+           <a href="user_registration.html" class="ui-btn ui-btn-icon-right ui-icon-check ui-corner-all ui-shadow" data-rel="dialog" data-transition="pop">Register</a><br />
+                    
                 
-<div class="ui-corner-all custom-corners">
-<div class="ui-bar ui-bar-b">
-<h3>Contact - N3TC</h3>
-</div>
-<div class="ui-body ui-body-b">
+
+
+<div class="ui-body ui-body-b ui-corner-all">  
+<div style="text-align: center;"><h3>N3 Toll Concession</h3></div>
+
 <p style="text-align:center">24/7 Customer Careline: <br /> 0800 N3 HELP | 0800 63 4357</p>
-<form action="http://sandbox1.co.za/n3tc/myacc/mail/mail_handler_feedback.php" method="post">
-<input type="text" name="first_name" placeholder="Name"/>
-<input type="text" name="last_name" placeholder="Contact"/>
-<input type="text" name="email" placeholder="Email"/>
-<textarea rows="4" name="message" cols="30" placeholder="Message"></textarea>
-<input type="submit" name="submit" value="Send"/>
-<br />
-</form>
-</div>
-</div>
+<div style="text-align: center;"><a href="tel:0800634357"><img src="../images/callbtn2.png" style="max-width:30%; height:auto; padding:10px;"></img></a></div>
+<a href="contactn3.html" class="ui-btn ui-btn-icon-right ui-icon-mail" data-rel="dialog" data-transition="pop">Send us an Email</a>
+</div><br/><br/>
+<div style="text-align: center;">MOBILITY - N3TC © 2016</div>
+
                 
             
         </div><!-- /content -->
     </div><!-- /page -->
-    <script>
-function ldurlMaps(){navigator.app.loadUrl("index.php", {wait:2000, loadingDialog:"Wait,Loading App", loadUrlTimeoutValue: 60000});}
-</script>
+
 </body>
 </html>

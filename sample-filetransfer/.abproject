@@ -1,7 +1,7 @@
 {
   "ProjectGuid": "8e41db67-fdfa-4ee8-8bf8-62100c2dd8b7",
   "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
-  "AppIdentifier": "com.telerik.samplefiletransfer",
+  "AppIdentifier": "co.za.n3tc.mobility",
   "ProjectName": "sample-filetransfer",
   "AndroidPermissions": [
     "android.permission.ACCESS_COARSE_LOCATION",
@@ -55,7 +55,7 @@
     "location"
   ],
   "WP8Requirements": [],
-  "Description": "sample-filetransfer",
+  "Description": "N3 Navigator and trip planner",
   "Framework": "Cordova",
   "projectVersion": 1,
   "WP8PublisherID": "{a82d8f9a-1733-4d7f-8e7e-47c3c4c3180e}",

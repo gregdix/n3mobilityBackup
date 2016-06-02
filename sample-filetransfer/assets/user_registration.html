@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>New User</title>
+<meta name="author" content="v001" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+   
+    <link rel="stylesheet" href="./Multi-page_files/jquery.mobile-1.4.5.min.css" />
+	<link rel="stylesheet" href="./Multi-page_files/jqm-demos.css" />
+	
+	<script src="./Multi-page_files/jquery.js"></script>
+	<script src="./Multi-page_files/index.js"></script>
+	<script src="./Multi-page_files/jquery.mobile-1.4.5.min.js"></script>
+    <script src="../js/val-min.js"></script>       
+	<script src="../js/jquery.scrollTo-1.4.2-min.js"></script>
+    <script src="../js/getjsondata.js"></script>
+   
+    <style type="text/css">
+	/* Swipe works with mouse as well but often causes text selection. */
+/* We'll deny text selecton on everything but INPUTs and TEXTAREAs. */
+#main-page :not(INPUT):not(TEXTAREA) {
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
+dt { font-size: 2em; font-weight: bold; }
+dt span { font-size: .5em; color: #777; margin-left: .5em; }
+dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+.back-btn { float: right; margin: 0 2em 1em 0; }
+</style>
+</head>
+<body class="ui-mobile-viewport ui-overlay-b">
+<div data-role="page" class="ui-page ui-page-theme-b">
+        <div data-role="header" data-theme="b" style="background-color: #2976b8;">
+            <h1>New User Registration</h1>
+            <a href="#" data-icon="carat-l" data-rel="back" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        </div><!-- /header -->
+        <div role="main" class="ui-content">
+        
+       
+<script type="text/javascript">
+$(document).ready(function (e){
+$("#frmnewaccount").on('submit',(function(e){
+	e.preventDefault();
+	$('#loader-icon').show();
+	var valid;
+	valid = validateContact();
+	if(valid) {
+		$.ajax({
+		url: "http://sandbox1.co.za/n3tc/myacc/registernewuser_mail.php",
+		type: "POST",
+		data:  new FormData(this),
+		contentType: false,
+		cache: false,
+		processData:false,
+		success: function(data){
+		$("#mail-status").html(data);
+		$('#loader-icon').hide();
+		},
+		error: function(){}
+
+		});
+	}
+}));
+
+function validateContact() {
+	var valid = true;
+
+
+	return valid;
+}
+
+});
+</script>
+
+<script>
+//var urID = localStorage.getItem("myUserID");
+//document.getElementById("userid").value = urID;
+</script>
+
+ <p>Please complete the form below to register a new user account.</p>
+
+<form id="frmnewaccount" action="" method="post">
+
+<div>
+<input type="hidden" style="border:none" name="subject" readonly="readonly"   id="subject" class="" value="New User Reg From App" /> 
+</div>
+
+<div>
+<label style="padding-top:0px;">Full Name</label>
+<input type="text" name="userName" id="userName" placeholder="First Name"  class="demoInputBox" value="" />
+</div>
+<div>
+<label style="padding-top:0px;">Surname</label>
+<input type="text" name="surname" id="surname" placeholder="Surname"  class="demoInputBox" value="" />
+</div>
+
+<div>
+<label style="padding-top:0px;">Email</label>
+<input type="text" name="userEmail" id="userEmail" data-validation="email" placeholder="Email" class="demoInputBox" value="" />
+</div>
+
+<div>
+<label style="padding-top:0px;">Password</label>
+<input type="password" name="password" id="password" placeholder="password"  class="demoInputBox" value="" />
+</div>
+
+<div>
+<label style="padding-top:0px;">Password Confirm</label>
+<input type="password" name="passwordconfirm" id="passwordconfirm" placeholder="Confirm Password"  class="demoInputBox" value="" />
+</div>
+
+<div>
+<input type="hidden" name="tokenid" id="tokenid" class="demoInputBox" value="xchksuej567l" />
+</div>
+
+
+<div><br/>
+<textarea  name="content" style="display:none"  id="content" class="demoInputBox" value="" cols="60" rows="6">XX</textarea>
+</div>
+
+
+<div><br/>
+<input type="submit" value="Submit" class="btnAction" />
+</div><br/>
+</form>
+            <script src="../js/jquery.form-validator.min.js"></script>
+<script>
+    $.validate({
+        modules : 'length, security'
+    });
+</script>
+
+
+<div id="loader-icon" style="display:none; text-align:center;"><img src="sending.gif" /></div><br/>
+<div id="mail-status"></div>
+
+                  
+
+        </div> 
+<!--<a href="applications.html"  data-shadow="false" data-iconshadow="false" class="ui-btn ui-btn-icon-left ui-icon-arrow-l">Cancel</a>-->
+            
+        </div><!-- /content -->
+    </div><!-- /page -->
+</body>
+</html>
