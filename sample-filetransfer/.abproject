@@ -23,7 +23,7 @@
     "Portrait"
   ],
   "iOSStatusBarStyle": "Default",
-  "BundleVersion": "1.0",
+  "BundleVersion": "1.1",
   "iOSDeviceFamily": [
     "1",
     "2"
@@ -47,7 +47,7 @@
     "ID_RESOLUTION_WXGA",
     "ID_RESOLUTION_HD720P"
   ],
-  "Author": "",
+  "Author": "Gregory Dix",
   "WP8Publisher": "",
   "WP8TileTitle": "",
   "WP8Capabilities": [],

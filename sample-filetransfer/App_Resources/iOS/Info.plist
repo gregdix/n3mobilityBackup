@@ -174,14 +174,5 @@
    <false/>
   </dict>
 </dict>
-<dict>
-        <key>aps-environment</key>
-        <string>production</string>
-        <key>get-task-allow</key>
-        <false/>
-        <key>beta-reports-active</key>
-        <true/>
-        <key>application-identifer</key>
-        <string>co.za.n3tc.mobility*</string>
-    </dict>
+  
 </plist>
